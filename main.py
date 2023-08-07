@@ -6,7 +6,6 @@ import plyer as plyer
 from kivmob import KivMob
 from kivymd.uix.label import MDLabel, MDIcon
 from matplotlib import pyplot as plt
-import numpy as np
 from kivy.uix.image import Image, AsyncImage
 from datetime import datetime
 from random import randrange
@@ -44,7 +43,7 @@ from kivymd.uix.textfield import MDTextField
 from kivy.utils import get_color_from_hex as hex_to_rgba
 from kivy import platform
 # from kivy.properties import NumericProperty, ObjectProperty, StringProperty, ListProperty, ColorProperty
-Window.size = (310, 620)
+# Window.size = (310, 620)
 
 
 class Tasksivate(MDApp):
