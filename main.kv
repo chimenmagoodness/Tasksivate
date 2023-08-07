@@ -1,0 +1,4025 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+
+#<ImageViewer>
+##    elevation: 3
+#    Carousel:
+#        id: image_viewer
+#        pos_hint: {"center_x":.5, "center_y":.5}
+#        on_current_slide: root.current_slide(self.index)
+#        MDFloatLayout:
+#            id: image_body
+#            radius: [15]
+#            Image:
+#                id: image
+#                source: ""#"menuimages/morning_menu.png"
+#                height: dp(320)
+#                width: dp(250)
+#                radius: [15]
+#                pos_hint: {"center_x":.5, "center_y":.5}
+#        MDFloatLayout:
+#            radius: [15]
+##            MDCard:
+##                size_hint: None, None
+##                height: dp(350)
+##                width: dp(270)
+##                radius: [15]
+##                pos_hint: {"center_x":.5, "center_y":.5}
+#            Image:
+#                id: image
+#                source: "motivation_images/motivation_image4.jpg"
+#                height: dp(320)
+#                width: dp(250)
+#                radius: [15]
+#    MDIconButton:
+#        icon: "close"
+#        icon_color: app.main_accent_color
+#        pos_hint: {"center_x":.15, "center_y":.95}
+#        icon_size: 18
+#    MDLabel:
+#        id: image_count
+#        text: root.image_count
+#        font_size: 18
+#        bold: True
+#        color: app.main_primary_color
+#        halign: "center"
+#        pos_hint: {"center_x":.5, "center_y":.95}
+#
+<MagicButton@MagicBehavior+MDIconButton>
+<LoadingDialog>
+    orientation: "vertical"
+    spacing: "10dp"
+    size_hint: 1, None
+    height: "30dp"
+    MDFloatLayout:
+        orientation: 'vertical'
+        pos_hint: {"center_x":.5, "center_y":.9}
+        MDSpinner:
+            size_hint: None, None
+            size: dp(25), dp(25)
+            pos_hint: {'center_x': .15, 'center_y': .7}
+            active: True #if check.active else False
+        MDLabel:
+            text: "loading please wait"
+            halign: "center"
+            pos_hint: {"center_x":.58, "center_y":.7}
+            #font_size: 25
+<ErrorDialogContent>:
+    orientation: "vertical"
+    spacing: "10dp"
+    size_hint: 1, None
+    height: "200dp"
+    MDFloatLayout:
+        orientation: "vertical"
+        size_hint: 1, 1
+        pos_hint: {"center_x":.5, "center_y":.5}
+        FitImage:
+            source: "motivation_images/error.jfif"
+            size_hint: None, None
+            size: "190dp", "135dp"
+            radius: [20]
+            pos_hint: {"center_x":.5, "center_y":.78}
+        MDFillRoundFlatButton:
+            text: "refresh"
+            size_hint_x: .6 #None, None
+            #size: "180", "50"
+            pos_hint: {"center_x":.5, "center_y":.33}
+            md_bg_color: "#5D3AB7"
+            on_release:
+                app.refresh()
+        MDFillRoundFlatButton:
+            text: "close"
+            size_hint_x: .5
+            md_bg_color: app.theme_cls.accent_color
+            pos_hint: {"center_x":.5, "center_y":.1}
+            on_release:
+                app.close_error_dialog()
+
+<MostPopularMotivation>
+    size_hint: None, None
+    size: "260dp", "130dp"
+    radius: [20]
+    pos_hint: {'center_x':.5, 'center_y':.5}
+    MDFloatLayout:
+        orientation: "vertical"
+        pos_hint: {'center_x':.5, 'center_y':.5}
+        size_hint: 1, 1
+        md_bg_color: 0, 0, 0, 1
+        padding: "10dp"
+        spacing: "10dp"
+        radius: [20]
+        FitImage:
+            id: most_popular_quote_bg_image
+            source: root.most_popular_quote_bg_image #"motivation_images/motivation_image4.jpg" #root.quote_bg_image #"motivation_images/motivation_image4.jpg"
+            pos_hint: {'center_x':.5, 'center_y':.5}
+            size_hint: 1, 1
+
+            radius: [20]
+        MDFloatLayout:
+            orientation: "vertical"
+            pos_hint: {'center_x':.5, 'center_y':.5}
+            size_hint: 1, 1
+            md_bg_color: 0, 0, 0, .45
+            padding: "10dp"
+            spacing: "10dp"
+            radius: [20]
+        MDLabel:
+            id: most_popular_quotes_text
+            text:  root.most_popular_quotes_text #""" "Life" is hard, but you got to show her that you are "though" """
+            halign: "center"
+            pos_hint: {"center_x":.5, "center_y":.6}
+            font_size: 14
+            color: 1, 1, 1, 1
+            #adaptive_height: True
+            #adaptive_width: True
+        MDLabel:
+            id: most_popular_quotes_author
+            text: root.most_popular_quotes_author #"by Switnex xtra " #
+            halign: "center"
+            pos_hint: {"center_x":.75, "center_y":.18}
+            font_size: 12
+            color: 0, 1, 1, 1
+
+
+# QUOTES OF THE DAY CUSTOM CARDS
+<QuotesOfTheDaycard>
+    id: quotes_of_the_day
+    orientation: "vertical"
+    size_hint: None, None
+    width: "290dp"
+    height: "100dp"
+    md_bg_color: "#FAF4E3"
+    radius: [15]
+    elevation: 3
+#    MDFloatLayout:
+#        orientation: "vertical"
+#        pos_hint: {"center_x":.5, "center_y":.5}
+#        radius: [20]
+#        padding: "10dp"
+#        spacing: "10dp"
+    MDLabel:
+        id: qoute_of_the_day_text
+        text: root.qoute_of_the_day_text #""" "Life" is hard, but you got to show her that you are "though" """
+        halign: "center"
+        pos_hint: {"center_x":.5, "center_y":.58}
+        font_size: 14
+        size_hint_x: .8
+#        color: 1, 1, 1, 1
+
+    MDLabel:
+        id: quote_of_the_day_author
+        text: root.quote_of_the_day_author #"by Switnex xtra "
+        halign: "center"
+        pos_hint: {"center_x":.8, "center_y":.15}
+        font_size: 12
+        size_hint_x: .8
+#        color: 1, 1, 1, 1
+
+
+# QUOTES FOR THE DAY CUSTOM CARDS
+<QuotesForTheDayImageCard>
+    size_hint: None, None
+    size: "305dp", "190dp"
+    pos_hint: {'x':.5, 'y':.5}
+    radius: [20]
+    MDFloatLayout:
+        orientation: "vertical"
+        pos_hint: {'center_x':.5, 'center_y':.5}
+        size_hint: 1, 1
+        radius: [20]
+        FitImage:
+            id: quote_bg_image
+            source: root.quote_bg_image # #"motivation_images/motivation_image4.jpg"
+            pos_hint: {'center_x':.5, 'center_y':.5}
+            size_hint: 1, 1
+            radius: [20]
+        MDFloatLayout:
+            orientation: "vertical"
+            md_bg_color: 0,0,0,.45
+            pos_hint: {'center_x':.5, 'center_y':.5}
+            size_hint: 1, 1
+            radius: [20]
+        MDLabel:
+            id: quotes_for_the_day_text
+            text:  root.quotes_for_the_day_text #""" "Life" is hard, but you got to show her that you are "though" """
+            halign: "center"
+            pos_hint: {"center_x":.5, "center_y":.58}
+            font_size: 18
+            font_style: "Subtitle2"
+            color: 1, 1, 1, 1 #rgba(0, 0, 255, 255)
+            #adaptive_height: True
+            #adaptive_width: True
+        MDLabel:
+            id: quotes_for_the_day_author
+            text: root.quotes_for_the_day_author #"by Switnex xtra " #
+            halign: "center"
+            pos_hint: {"center_x":.75, "center_y":.15}
+            font_size: 12
+            color: 0, 1, 1, 1
+
+<ItemConfirm>
+    on_release: root.set_icon(check)
+
+    CheckboxLeftWidget:
+        id: check
+        group: "check"
+
+<CategoriesLayout>:
+##    md_bg_color: "red"
+#    orientation: "vertical"
+#    spacing: "12dp"
+#    size_hint_y: None
+#    height: "200dp"
+#    MDList:
+#        id: category_layout_manager
+#        spacing: 8
+#        CatPlus:
+    ScrollView:
+        do_scroll_y: True
+        do_scroll_x: False
+        size_hint: 1, 5
+        pos_hint: {"center_x":.5, "center_y":.33}
+        bar_width: 0
+    GridLayout:
+        id: category_layout_manager
+        cols: 1
+        spacing: 15, 10
+        padding: 15, 10
+        size_hint: None, None
+        height: self.minimum_height
+        width: dp(350)
+        pos_hint:{"center_x":.5, "center_y":.1}
+        CatPlus:
+
+<CatPlus>:
+    size_hint_y: None
+    orientation: "horizontal"
+    height: self.minimum_height
+#    md_bg_color: "#7057BB"
+    MDFloatLayout:
+        orientation: "horizontal"
+        size_hint_y: None
+        height: dp(20)
+        MDIconButton:
+            icon: "plus"
+            theme_icon_color: "Custom"
+            icon_color: "#7057BB"
+            pos_hint:{"center_x":.01, "center_y":.5}
+            on_release:
+                app.show_confirmation_dialog()
+        MDTextButton:
+            text: "Add New Category"
+            halign: "center"
+            bold: True
+            theme_text_color: "Custom"
+            text_color: 1, 170 / 255, 23 / 255, 1
+            font_size: "14sp"
+            pos_hint:{"center_x":.25, "center_y":.5}
+            on_release:
+                app.show_confirmation_dialog()
+<Categories>:
+    on_release: root.set_icon(check)
+
+    CheckboxLeftWidget:
+        id: check
+        group: "check"
+
+#    orientation: "vertical"
+
+
+<TodoCard>:
+    id: todo_card
+    orientation: "vertical"
+    size_hint: None, None
+    width: "280dp"
+    height: "50dp"
+    md_bg_color: "#FFFFFF"
+    pos_hint: {"center_x":.5, "center_y":.5}
+    elevation: 2
+    radius: [12]
+    MDFloatLayout:
+        id: bar
+        size_hint: .01, .9
+        md_bg_color: 1, 170/255, 23/255, 1
+        pos_hint: {"center_x":.01, "center_y":.5}
+    MDCheckbox:
+        id: md_check_box
+        size_hint: None, None
+        size: "20dp", "20dp"
+        selected_color: "#5D3AB7"
+        pos_hint: {"center_x":.08, "center_y":.5}
+#        active: root.completed
+        on_active: app.complete(*args, todo_text, bar)
+
+    MDLabel:
+        id: todo_text
+        text: "create Virtual environment for the app"
+        markup: True
+        halign: "left"
+        size_hint_x: .75
+        pos_hint: {"center_x":.52, "center_y":.5}
+        font_name: app.fonts.poppinsregular
+        font_size: "13sp"
+    MDIconButton:
+        icon: 'trash-can-outline'
+        pos_hint: {"center_x":.95, "center_y":.5}
+        icon_size: "16dp"
+        theme_icon_color: "Custom"
+        icon_color: "red"
+#        on_release:
+#            print(root.ids.todo_text.text)
+        on_release:
+            app.show_delete_todo_dialog(root)
+
+<EditTodoCard>:
+    id: todo_card
+    orientation: "vertical"
+    size_hint: None, None
+    width: "280dp"
+    height: "50dp"
+    md_bg_color: "#FFFFFF"
+    pos_hint: {"center_x":.5, "center_y":.5}
+    elevation: 2
+    radius: [12]
+    MDFloatLayout:
+        id: bar
+        size_hint: .01, .9
+        md_bg_color: 1, 170/255, 23/255, 1
+        pos_hint: {"center_x":.01, "center_y":.5}
+    MDCheckbox:
+        id: md_check_box
+        size_hint: None, None
+        size: "20dp", "20dp"
+        selected_color: "#5D3AB7"
+        pos_hint: {"center_x":.08, "center_y":.5}
+        on_release:
+            app.edit_complete(root, root.ids.todo_text)
+#        active: root.completed
+#        on_active: app.complete(*args, todo_text, bar)
+
+    MDLabel:
+        id: todo_text
+        text: "create Virtual environment for the app"
+        markup: True
+        halign: "left"
+        size_hint_x: .75
+        pos_hint: {"center_x":.52, "center_y":.5}
+        font_name: app.fonts.poppinsregular
+        font_size: "13sp"
+    MDIconButton:
+        icon: 'trash-can-outline'
+        pos_hint: {"center_x":.95, "center_y":.5}
+        icon_size: "16dp"
+        theme_icon_color: "Custom"
+        icon_color: "red"
+#        on_release:
+#            print(root.ids.todo_text.text)
+        on_release:
+            app.show_delete_todo_dialog(root)
+
+<NoteImage>:
+    id: note_image_card
+    size_hint: None, None
+    width: "70dp"
+    height: "70dp"
+    radius: [10]
+    on_release: app.open_popup(self)
+    FitImage:
+        id: note_image
+        source: "store/text2.jpeg"
+        size_hint: None, None
+        size: "50dp", "50dp"
+        pos_hint: {"center_x":.5, "center_y":.5}
+        radius: [10]
+
+    MDIconButton:
+        icon: "close"
+        pos_hint: {"center_x":.95, "center_y":.9}
+        icon_size: "15dp"
+        ripple_scale: 0
+        on_release:
+            app.delete_note_image(self.parent)
+            print(app.note_image_list)
+
+<EditNoteImage>:
+    id: edit_note_image_card
+    size_hint: None, None
+    width: "70dp"
+    height: "70dp"
+    radius: [10]
+    on_release: app.open_edit_popup(self)
+
+    FitImage:
+        id: edit_note_image
+        source: "store/text2.jpeg"
+        size_hint: None, None
+        size: "50dp", "50dp"
+        pos_hint: {"center_x":.5, "center_y":.5}
+        radius: [10]
+
+    MDIconButton:
+        icon: "close"
+        pos_hint: {"center_x":.98, "center_y":.95}
+        icon_size: "15dp"
+        ripple_scale: 0
+        on_release:
+            app.delete_edit_note_image(self.parent)
+            print(app.note_image_list)
+
+
+<DropDownItems>:
+    MDFloatLayout:
+        orientation: "vertical"
+        spacing: dp(12)
+        # padding: dp(14)
+        pos_hint: {"center_x":.75, "center_y":.8}
+        md_bg_color: 1, 1, 1, 1 #app.color_primary_bg
+        radius: [self.height*.08]
+        size_hint: [None, .1]
+        width: "180dp"
+
+        MDTextButton:
+            text: "Categories Manager"
+            # color: "red"
+            halign: "center"
+            pos_hint: {"center_x":.5, "center_y":.7}
+            on_release:
+                app.change_screen("category_screen")
+
+        MDTextButton:
+            text: "search"
+            # font_size: dp(30)
+            # md_bg_color: app.theme_cls.primary_color
+            pos_hint: {"center_x":.25, "center_y":.25}
+            # color: rgba("ffffff")
+                # on_release:
+                #     root.complete()
+
+#<Check@MDCheckbox>:
+#    group: 'group'
+#    size_hint: None, None
+#    size: "20dp", "20dp"
+<RoundedCheck>
+    group: 'group'
+    size_hint: None, None
+    size: "20dp", "20dp"
+#<RoundCheck@MDCheckbox>:
+
+<Check>
+    group: 'group'
+    size_hint: None, None
+    size: "20dp", "20dp"
+
+
+<ContentNavigationDrawer>:
+    orientation: "vertical"
+    padding: "8dp"
+    spacing: "8dp"
+
+    MDFloatLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: "150dp"
+        MDCard:
+            orientation: "vertical"
+            size_hint: None, None
+            width: "107dp"
+            height: "35dp"
+            pos_hint: {"center_x":.5, "center_y":.61}
+            radius: [8]
+            elevation: 1
+            MDLabel:
+                text: "Tasksivate"
+                halign: "center"
+                pos_hint: {"center_x":.45, "center_y":.83}
+                color: app.main_primary_color #"#5D3AB7"
+                font_size: "15sp"
+        MDIcon:
+            icon: "dots-circle"
+            halign: "center"
+            pos_hint: {"center_x":.68, "center_y":.61}
+            color: app.main_accent_color #"#5D3AB7"
+            font_size: "18sp"
+
+
+    MDLabel:
+        text: "Tasksivate"
+        font_style: "Button"
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    MDLabel:
+        text: "switnexxtra@gmail.com"
+        font_style: "Caption"
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    ScrollView:
+
+        DrawerList:
+            id: md_list
+            OneLineIconListItem:
+                text: "Bmi Calculator"
+                on_release:
+#                    scrn_mgnr.current = "bmi_screen"
+#                    app.nav_drawer_close()
+                    app.change_screen("bmi_screen")
+                IconLeftWidget:
+                    icon: "gender-male-female"
+            OneLineIconListItem:
+                text: "Themes"
+                on_release:
+                    app.change_screen("themes")
+                IconLeftWidget:
+                    icon: "theme-light-dark"
+            OneLineIconListItem:
+                text: "profile"
+                on_release:
+                    app.change_screen("profile")
+                IconLeftWidget:
+                    icon: "account-badge-outline"
+            OneLineIconListItem:
+                text: "menu"
+                on_release:
+                    app.change_menu_page("menu")
+                IconLeftWidget:
+                    icon: "microsoft-xbox-controller-menu"
+            OneLineIconListItem:
+                text: "about"
+                on_release:
+                    app.change_screen("about")
+                IconLeftWidget:
+                    icon: "unfold-more-vertical"
+
+<NoteCard>
+    id: note_card
+    orientation: "vertical"
+    size_hint: None, None
+    width: "290dp"
+    height: "65dp"
+    md_bg_color: "#FAF4E3"
+    radius: [15]
+    on_release:
+        app.change_screen("edit_note_screen")
+        app.edit_note(self)
+        print(app.note_image_list)
+#        print(self.ids.title.text)
+#        print(self.ids.description_text.text)
+    Text:
+        id: title
+        text: "Task App"
+        size_hint_x: .7
+        font_size: "13sp"
+        font_name: app.fonts.poppinsregular
+        halign: "left"
+        pos_hint: {"center_x":.4, "center_y":.8}
+        theme_text_color: "Custom"
+        color: "#404040" #"#FFFFFF"
+
+    Text:
+        id: description_text
+        text: "this is a meter number"
+        font_size: "14sp"
+        font_name: app.fonts.poppinsregular
+        markup: True
+        size_hint_x: .7
+        color: "#9f9f9f"
+#        [color=#<color>][/color]
+#        theme_text_color: "Custom"
+#        text_color: "#9f9f9f"
+        pos_hint: {"center_x":.4, "center_y":.48}
+
+    MDLabel:
+        id: date_text
+        text: "April 30, 2023 08:50 AM"
+        font_size: "12sp"
+        font_name: "Roboto-Light"
+        theme_text_color: "Custom"
+        text_color: "#9f9f9f"
+        pos_hint: {"center_x":.55, "center_y":.2}
+
+    FitImage:
+        id: note_img
+        size_hint: None, None
+        size: "30dp", "30dp"
+        source: "store/text2.jpeg"
+        radius: [40]
+        pos_hint: {"center_x":.93, "center_y":.38}
+    MDIconButton:
+        icon: "trash-can-outline"
+        pos_hint: {"center_x":.93, "center_y":.8}
+        theme_icon_color: "Custom"
+        icon_color: app.main_accent_color#1, 170/255, 23/255, 1
+        icon_size: "18dp"
+        on_release:
+            app.delete_confirm(title=root.ids.title.text, description=root.ids.description_text.text)
+
+<AllCompletedCard>
+    orientation: "vertical"
+    size_hint: None, None
+    width: "270dp"
+    height: "130dp"
+    md_bg_color: app.main_texture #"#FFFFFF"
+    radius: [15]
+    elevation: 2
+    on_release:
+        app.edit_task(self)
+        app.change_screen("edit_task")
+    MDLabel:
+        id: title
+        text: "Dribble shot"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: app.main_primary_color #"#FFFFFF"
+        pos_hint: {"center_x":.6, "center_y":.85}
+    Text:
+        id: category
+        text: "app"
+        halign: "center"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        color: app.main_texture
+        size_hint_x: .1
+        pos_hint: {"center_x":.9, "center_y":.78}
+    MDIconButton:
+        icon: "trash-can"
+        pos_hint: {"center_x":.9, "center_y":.85}
+        theme_icon_color: "Custom"
+        icon_color: 1, 170/255, 23/255, 1
+        icon_size: "18dp"
+        on_release:
+            app.show_delete_task_dialog(title=root.ids.title.text, description=root.ids.description.text)
+    MDLabel:
+        id: description
+        text: "Task App"
+        size_hint_x: .7
+        halign: "left"
+        bold: True
+        pos_hint: {"center_x":.45, "center_y":.6}
+        theme_text_color: "Custom"
+        text_color: "#1fc3b3" #"#00FF00"
+    MDProgressBar:
+        id: progress
+        orientation: "horizontal"
+        value: 58
+        size_hint: .82, None
+        pos_hint: {"center_x":.51, "center_y":.4}
+        color: "#1fc3b3" #"#00FF00"
+
+    MDLabel:
+#        id: date_range
+        text: "Completed"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#1fc3b3" #"#00FF00"
+        pos_hint: {"center_x":.6, "center_y":.2}
+
+    MDLabel:
+        id: percent
+        text: "58%"
+        halign: "center"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#1fc3b3" #"#00FF00"
+        pos_hint: {"center_x":.9, "center_y":.2}
+
+
+<CompletedCard>
+    orientation: "vertical"
+    size_hint: None, None
+    width: "220dp"
+    height: "100dp"
+    md_bg_color: app.main_texture #"#FFFFFF"
+    radius: [15]
+    elevation: 2
+    on_release:
+        app.edit_task(self)
+        app.change_screen("edit_task")
+    MDLabel:
+        id: title
+        text: "Dribble shot"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: app.main_primary_color #"#FFFFFF"
+        pos_hint: {"center_x":.6, "center_y":.85}
+    Text:
+        id: category
+        text: "app"
+        halign: "center"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        color: app.main_texture
+        size_hint_x: .1
+        pos_hint: {"center_x":.9, "center_y":.78}
+    MDIconButton:
+        icon: "trash-can"
+        pos_hint: {"center_x":.9, "center_y":.85}
+        theme_icon_color: "Custom"
+        icon_color: 1, 170/255, 23/255, 1
+        icon_size: "18dp"
+        on_release:
+            app.show_delete_task_dialog(title=root.ids.title.text, description=root.ids.description.text)
+    MDLabel:
+        id: description
+        text: "Task App"
+        size_hint_x: .7
+        halign: "left"
+        bold: True
+        pos_hint: {"center_x":.45, "center_y":.6}
+        theme_text_color: "Custom"
+        text_color: "#1fc3b3" #"#00FF00"
+    MDProgressBar:
+        id: progress
+        value: 58
+        size_hint_x: .82
+        pos_hint: {"center_x":.51, "center_y":.4}
+        color: "#1fc3b3" #"#00FF00"
+
+    MDLabel:
+#        id: date_range
+        text: "Completed"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#1fc3b3" #"#00FF00"
+        pos_hint: {"center_x":.6, "center_y":.2}
+
+    MDLabel:
+        id: percent
+        text: "58%"
+        halign: "center"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#1fc3b3" #"#00FF00"
+        pos_hint: {"center_x":.9, "center_y":.2}
+
+<AllProgressCard>
+    orientation: "vertical"
+    size_hint: None, None
+    width: "270dp"
+    height: "120dp"
+    md_bg_color: app.main_primary_color #"#7057BB"
+    radius: [15]
+    elevation: 3
+    on_release:
+        app.edit_task(self)
+        app.change_screen("edit_task")
+    MDLabel:
+        id: title
+        text: "Dribble shot"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#DFD7F3"
+        pos_hint: {"center_x":.6, "center_y":.85}
+    Text:
+        id: category
+        text: "app"
+        halign: "center"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        color: app.main_primary_color
+        size_hint_x: .1
+        pos_hint: {"center_x":.9, "center_y":.78}
+    MDIconButton:
+        icon: "trash-can"
+        pos_hint: {"center_x":.9, "center_y":.85}
+        theme_icon_color: "Custom"
+        icon_color: app.main_accent_color #1, 170/255, 23/255, 1
+        icon_size: "18dp"
+        on_release:
+            app.show_delete_task_dialog(title=root.ids.title.text, description=root.ids.description.text)
+    MDLabel:
+        id: description
+        text: "Task App"
+        size_hint_x: .7
+        halign: "left"
+        bold: True
+        pos_hint: {"center_x":.45, "center_y":.6}
+        theme_text_color: "Custom"
+        text_color: "#FFFFFF"
+    MDProgressBar:
+        id: progress
+        orientation: "horizontal"
+        value: 58
+        size_hint: .82, None
+#        height: dp(15)
+        color: app.main_accent_color
+        pos_hint: {"center_x":.51, "center_y":.4}
+
+    MDLabel:
+        id: date_range
+        text: "till fri, 25 May 2023"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#DFD7F3"
+        pos_hint: {"center_x":.6, "center_y":.2}
+
+    MDLabel:
+        id: percent
+        text: "58%"
+        halign: "center"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#DFD7F3"
+        pos_hint: {"center_x":.9, "center_y":.2}
+
+
+<ProgressCard>
+    orientation: "vertical"
+    size_hint: None, None
+    width: "220dp"
+    height: "100dp"
+    md_bg_color: app.main_primary_color #"#7057BB"
+    radius: [15]
+    elevation: 3
+    on_release:
+        app.edit_task(self)
+        app.change_screen("edit_task")
+    MDLabel:
+        id: title
+        text: "Dribble shot"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#DFD7F3"
+        pos_hint: {"center_x":.6, "center_y":.85}
+    Text:
+        id: category
+        text: "app"
+        halign: "center"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        color: app.main_primary_color
+        size_hint_x: .1
+        pos_hint: {"center_x":.9, "center_y":.78}
+    MDIconButton:
+        icon: "trash-can"
+        pos_hint: {"center_x":.9, "center_y":.85}
+        theme_icon_color: "Custom"
+        icon_color: app.main_accent_color #1, 170/255, 23/255, 1
+        icon_size: "18dp"
+        on_release:
+            app.show_delete_task_dialog(title=root.ids.title.text, description=root.ids.description.text)
+    MDLabel:
+        id: description
+        text: "Task App"
+        size_hint_x: .7
+        halign: "left"
+        bold: True
+        pos_hint: {"center_x":.45, "center_y":.6}
+        theme_text_color: "Custom"
+        text_color: "#FFFFFF"
+    MDProgressBar:
+        id: progress
+        value: 58
+        size_hint_x: .82
+        pos_hint: {"center_x":.51, "center_y":.4}
+
+    MDLabel:
+        id: date_range
+        text: "till fri, 25 May 2023"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#DFD7F3"
+        pos_hint: {"center_x":.6, "center_y":.2}
+
+    MDLabel:
+        id: percent
+        text: "58%"
+        halign: "center"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#DFD7F3"
+        pos_hint: {"center_x":.9, "center_y":.2}
+
+
+<AllTasksCard>
+    orientation: "vertical"
+    size_hint: None, None
+    width: "270dp"
+    height: "130dp"
+    md_bg_color: app.main_texture#"#FFFFFF"
+    radius: [11]
+    elevation: 2
+    on_release:
+        app.edit_task(self)
+        app.change_screen("edit_task")
+    MDLabel:
+        id: title
+        text: "Snapchat"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#9f9f9f"
+        pos_hint: {"center_x":.6, "center_y":.85}
+    MDIconButton:
+        icon: "trash-can-outline"
+        pos_hint: {"center_x":.9, "center_y":.85}
+        theme_icon_color: "Custom"
+        icon_color: app.main_accent_color #1, 170/255, 23/255, 1
+        icon_size: "18dp"
+        on_release:
+            app.show_delete_task_dialog(title=root.ids.title.text, description=root.ids.description.text)
+    MDLabel:
+        id: description
+        text: "Redesign App Splash Screen"
+        size_hint_x: .7
+        halign: "left"
+        bold: True
+        pos_hint: {"center_x":.46, "center_y":.6}
+        theme_text_color: "Custom"
+        text_color: app.main_primary_color #"#7057BB"
+    MDLabel:
+        id: end_date
+        text: "till Mon, 27 May"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#9f9f9f"
+        pos_hint: {"center_x":.6, "center_y":.2}
+    Text:
+        id: category
+        text: "app"
+        font_size: "13sp"
+        size_hint_x: .1
+        theme_text_color: "Custom"
+        color: app.main_texture
+        pos_hint: {"center_x":.9, "center_y":.2}
+
+
+<TaskCard>
+    orientation: "vertical"
+    size_hint: None, None
+    width: "170dp"
+    height: "90dp"
+    md_bg_color: app.main_texture#"#FFFFFF"
+    radius: [11]
+    elevation: 2
+    on_release:
+        app.edit_task(self)
+        app.change_screen("edit_task")
+    MDLabel:
+        id: title
+        text: "Snapchat"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#9f9f9f"
+        pos_hint: {"center_x":.6, "center_y":.85}
+    MDIconButton:
+        icon: "trash-can-outline"
+        pos_hint: {"center_x":.9, "center_y":.85}
+        theme_icon_color: "Custom"
+        icon_color: app.main_accent_color #1, 170/255, 23/255, 1
+        icon_size: "18dp"
+        on_release:
+            app.show_delete_task_dialog(title=root.ids.title.text, description=root.ids.description.text)
+    MDLabel:
+        id: description
+        text: "Redesign App Splash Screen"
+        size_hint_x: .7
+        halign: "left"
+        bold: True
+        pos_hint: {"center_x":.46, "center_y":.6}
+        theme_text_color: "Custom"
+        text_color: app.main_primary_color #"#7057BB"
+    MDLabel:
+        id: end_date
+        text: "till Mon, 27 May"
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: "#9f9f9f"
+        pos_hint: {"center_x":.6, "center_y":.2}
+    Text:
+        id: category
+        text: "app"
+        font_size: "13sp"
+        size_hint_x: .1
+        theme_text_color: "Custom"
+        color: app.main_texture
+        pos_hint: {"center_x":.9, "center_y":.2}
+
+<Dates>
+    orientation: "vertical"
+    size_hint: None, None#.11, .3
+    height: "53dp"
+    width: "37dp"
+    md_bg_color: app.main_theme_color #"#FFFFFF" #5D3AB7"
+    elevation: 1
+    radius: [13]
+#
+    MDTextButton:
+        id: day_text
+        text: "16"
+        halign: "center"
+        bold: True
+        pos_hint: {"center_x":.48, "center_y":.5}
+        font_name: "Roboto-bold"
+        font_size: 14
+        theme_text_color: "Custom"
+        text_color: app.main_primary_color#1, 1, 1, 1
+        on_release:
+            app.show_date_task(root)
+    Text:
+        id: main_date
+        text: "2023-06-11"
+        size_hint_x: .1
+        pos_hint: {"center_x":.48, "center_y":.2}
+        theme_text_color: "Custom"
+        text_color: app.main_primary_color
+
+<CategoriesManager>
+    orientation: "vertical"
+    size_hint: .95, .07
+
+    MDIconButton:
+        icon: "circle-small"
+        pos_hint: {"center_x":.08, "center_y":.5}
+        theme_icon_color: "Custom"
+        icon_color: app.main_primary_color #"#5D3AB7"
+        ripple_scale: 0
+        icon_size: 50
+
+    MDTextButton:
+        id: title
+        text: 'Personal'
+        halign: "left"
+        font_size: "14sp"
+        font_name: app.fonts.poppinsregular
+        size_hint_x: .67
+        pos_hint: {"center_x":.5, "center_y":.5}
+        on_release:
+            app.show_cate_edit_dialog(self.text)
+
+    MDLabel:
+        id: task_counts
+        text: '0'
+        halign: "center"
+        pos_hint: {"center_x":.85, "center_y":.5}
+
+    MDIconButton:
+        icon: "trash-can"
+        pos_hint: {"center_x":.97, "center_y":.5}
+        icon_size: 18
+        theme_icon_color: "Custom"
+        icon_color: app.main_accent_color
+        on_release:
+            app.show_delete_cate_dialog(root.ids.title.text)
+#            app.delete_category(root.ids.title.text)
+<TaskCategories>
+    orientation: "horizontal"
+    size_hint: None, None
+    adaptive_width: True
+    height: self.minimum_height
+    md_bg_color: app.main_primary_color #"#5D3AB7"
+    radius: [11]
+    pos_hint: {"center_x":.43, "center_y":.75}
+    MDTextButton:
+        id: title
+        text: "Personal Meeting"
+        halign: "center"
+        padding: 7, 5
+        pos_hint: {"center_x":.5, "center_y":.55}
+        spacing: 8
+        font_size: "13sp"
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
+        on_release:
+#            app.get_all_cate(self)
+            app.get_categories_task(self)
+MDScreen:
+    name: "main"
+    ScreenManager:
+        id: scrn_mgnr
+        transition: NoTransition()
+
+        MDScreen:
+            name: 'home'
+            # this is the main layout more like the parent widget holding the children
+            MDFloatLayout:
+                id: home_page
+                orientation: "vertical"
+                md_bg_color: app.main_texture #"#EBEBEB"
+#               this is the scroll for the category at the top of the app
+                MDIconButton:
+                    icon: "dots-vertical"
+                    pos_hint: {"center_x":.95, "center_y":.948}
+                    theme_icon_color: "Custom"
+                    icon_color: app.main_accent_color
+                    icon_size: 30
+                    on_release:
+                        app.checkout()
+#                        scrn_mgnr.current = "category_screen"
+
+                ScrollView:
+                    do_scroll_y: False
+                    do_scroll_x: True
+                    size_hint: .9, .053
+                    pos_hint: {"center_x":.48, "center_y":.94}
+                    bar_width: 0
+                    GridLayout:
+                        id: cat_layout
+                        rows: 1
+                        spacing: "15dp"
+                        size_hint_x: None
+                        height: self.minimum_height
+                        width: self.minimum_width
+                        pos_hint:{"center_x":.43, "center_y":.7}
+
+#               This is the text that shows up when the layout is empty. when means it only show when there are no tasks
+                Text:
+                    id: notify_text1
+                    markup: True
+                    text: f"You've got Tasks. Today"
+                    font_size: "18sp"
+                    halign: "center"
+                    bold: True
+                    markup: True
+                    font_name: "Roboto-Bold"#app.fonts.body
+                    pos_hint: {"center_x":.4, "center_y":.89}
+                    theme_text_color: "Custom"
+                    color: app.main_primary_color
+
+                # the search bar
+                MDFloatLayout:
+                    orientation: "horizontal"
+                    size_hint: None, None#.93, .5
+                    width: "280dp"
+                    height: "30dp"
+                    md_bg_color: 0, 0, 0, .05 #"#DFD7F3"
+                    pos_hint: {"center_x":.5, "center_y":.84}
+                    radius: [12]
+                    MDIconButton:
+                        icon: "magnify"
+                        pos_hint: {"center_x":.08, "center_y":.5}
+                        theme_icon_color: "Custom"
+                        icon_color: 0, 0, 0, .08
+                    TextInput:
+                        hint_text: "Search notes with  title"
+                        pos_hint: {"center_x":.55, "center_y":.5}
+                        multiline: False
+                        size_hint_x: .85
+                        height: self.minimum_height
+                        line_color: 1, 1, 1, .4
+                        background_color: 0, 0, 0, .0
+                        foreground_color: app.main_accent_color
+                        line_height: 0
+                        line_color_focus: 1, 1, 1, .2
+                        line_color_normal: 1, 1, 1, .4
+                        on_text: app.on_search(self)
+                ScrollView:
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    size_hint: 1, .7
+                    pos_hint: {"center_x":.48, "center_y":.48}
+                    bar_width: 0
+                    GridLayout:
+                        cols: 1
+                        spacing: 15, 15
+                        padding: 15, 10
+#                        row_default_height: 80
+                        size_hint_y: None
+                        height: self.minimum_height
+#                        width: self.minimum_width
+                        pos_hint:{"center_x":.4, "center_y":.5}
+
+        #               This is the Layout that hold all the dates
+                        ScrollView:
+                            do_scroll_y: False
+                            do_scroll_x: True
+                            size_hint: 1, None
+                            height: dp(70)
+                            pos_hint: {"center_x":.48, "center_y":.82}
+                            bar_width: 0
+                            GridLayout:
+                                id: dates_layout
+                                rows: 1
+                                spacing: 20, 30
+                                padding: 10, 10
+        #                           row_default_height: 50
+                                size_hint_x: None
+                                height: self.minimum_height
+                                width: self.minimum_width #dp(200)
+        #
+                        #This is the Layout that hold the Todos task counts
+                        MDFloatLayout:
+                            orientation: "horizontal"
+                            size_hint_y: None #.07
+                            height: .20
+                            pos_hint: {"center_x":.5, "center_y":.74}
+                            MDLabel:
+                                text: "To do"
+                                theme_text_color: "Custom"
+                                text_color: app.main_primary_color#"#7057BB"
+                                halign: "center"
+                                bold: True
+                                pos_hint: {"center_x":.1, "center_y":.5}
+                            MDFloatLayout:
+                                orientation: "horizontal"
+                                md_bg_color: app.main_accent_color #1, 170/255, 23/255, 1
+                                pos_hint: {"center_x":.27, "center_y":.5}
+                                size_hint: None, None #.13, .5
+                                width: dp(40)
+                                height: dp(20)
+                                radius: [6]
+                                MDLabel:
+                                    id: total_task_count
+                                    text: "0"
+                                    halign: "center"
+                                    valign: "middle"
+                                    size_hint_x: .8
+                                    markup: True
+                                    pos_hint: {"center_x":.48, "center_y":.5}
+                                    bold: True
+                                    theme_text_color: "Custom"
+                                    text_color: "#FFFFFF"
+                                    font_size: "15sp"
+                            MDTextButton:
+                                text: "See all"
+                                font_size: "14sp"
+                                pos_hint: {"center_x":.85, "center_y":.5}
+                                theme_text_color: "Custom"
+                                text_color: app.main_accent_color
+                                on_release:
+                                    app.change_screen("all_tasks")
+                                    app.get_all_tasks()
+
+        #               this is the layout that holds the TaskCards for the To Dos
+                        ScrollView:
+                            do_scroll_y: False
+                            do_scroll_x: True
+                            size_hint_y: None
+                            height: dp(130)
+                            pos_hint: {"center_x":.5, "center_y":.62}
+                            bar_width: 0
+                            GridLayout:
+                                id: task_card_layout
+                                rows: 1
+                                spacing: 10, 30
+                                padding: 10, 10
+                                size_hint_x: None
+                                height: self.minimum_height
+                                width: self.minimum_width #dp(200)
+
+
+
+                        MDFloatLayout:
+                            orientation: "horizontal"
+                            size_hint_y: None #.07
+                            height: .20
+                            pos_hint: {"center_x":.58, "center_y":.53}
+                            MDLabel:
+                                text: "In progress"
+                                theme_text_color: "Custom"
+                                text_color: app.main_primary_color #"#7057BB"
+                                bold: True
+                                halign: "center"
+                                pos_hint: {"center_x":.2, "center_y":.5}
+                            MDFloatLayout:
+                                orientation: "horizontal"
+                                md_bg_color: app.main_accent_color #1, 170/255, 23/255, 1
+                                pos_hint: {"center_x":.42, "center_y":.5}
+                                size_hint: None, None #.13, .5
+                                width: dp(40)
+                                height: dp(20)
+                                radius: [6]
+                                MDLabel:
+                                    id: total_task_progress_count
+                                    text: "0"
+                                    halign: "center"
+                                    valign: 'top'
+                                    bold: True
+                                    pos_hint: {"center_x":.48, "center_y":.5}
+                                    theme_text_color: "Custom"
+                                    text_color: "#FFFFFF"
+                                    font_size: "15sp"
+                            MDTextButton:
+                                text: "See all"
+                                font_size: "14sp"
+                                pos_hint: {"center_x":.85, "center_y":.45}
+                                theme_text_color: "Custom"
+                                text_color: app.main_accent_color #"#DFD7F3"
+                                on_release:
+                                    app.change_screen("all_progress")
+                                    app.get_all_progress()
+
+
+        #               this is the layout that holds all the Task in progress holds the progress Card
+                        ScrollView:
+                            do_scroll_y: False
+                            do_scroll_x: True
+                            size_hint_y: None
+                            height: dp(130)
+                            pos_hint: {"center_x":.5, "center_y":.42}
+                            bar_width: 0
+                            GridLayout:
+                                id: progress_card_layout
+                                rows: 1
+                                spacing: 10, 30
+                                padding: 10, 10
+                                size_hint_x: None
+                                height: self.minimum_height
+                                width: self.minimum_width #dp(200)
+
+
+                        MDFloatLayout:
+                            orientation: "horizontal"
+                            size_hint_y: None
+                            height: .20
+                            pos_hint: {"center_x":.58, "center_y":.31}
+                            MDLabel:
+                                text: "Completed"
+                                theme_text_color: "Custom"
+                                text_color: app.main_primary_color #"#7057BB"
+                                bold: True
+                                halign: "center"
+                                pos_hint: {"center_x":.18, "center_y":.5}
+                            MDFloatLayout:
+                                orientation: "horizontal"
+                                md_bg_color: app.main_accent_color #1, 170/255, 23/255, 1
+                                pos_hint: {"center_x":.43, "center_y":.5}
+                                size_hint: None, None #.13, .5
+                                width: dp(40)
+                                height: dp(20)
+                                radius: [6]
+                                MDLabel:
+                                    id: total_completed_task_count
+                                    text: "0"
+                                    halign: "center"
+                                    valign: 'top'
+                                    bold: True
+                                    pos_hint: {"center_x":.48, "center_y":.5}
+                                    theme_text_color: "Custom"
+                                    text_color: "#FFFFFF"
+                                    font_size: "15sp"
+                            MDTextButton:
+                                text: "See all"
+                                font_size: "14sp"
+                                pos_hint: {"center_x":.85, "center_y":.45}
+                                theme_text_color: "Custom"
+                                text_color: app.main_accent_color #"#DFD7F3"
+                                on_release:
+                                    app.change_screen("all_completed")
+                                    app.get_all_completed()
+
+
+        #               this is the layout that holds all the Task in Completed holds the Completed Card
+                        ScrollView:
+                            do_scroll_y: False
+                            do_scroll_x: True
+                            size_hint_y: None
+                            height: dp(130)
+                            pos_hint: {"center_x":.5, "center_y":.2}
+                            bar_width: 0
+                            GridLayout:
+                                id: completed_card_layout
+                                rows: 1
+                                spacing: 10, 30
+                                padding: 10, 10
+                                size_hint_x: None
+                                height: self.minimum_height
+                                width: self.minimum_width
+#
+                        MDFloatLayout:
+                            orientation: "horizontal"
+                            pos_hint: {"center_x":.43, "center_y":.5}
+                            size_hint: None, None #.13, .5
+                            width: dp(40)
+                            height: dp(30)
+                            radius: [6]
+
+#               This is the sweet breathing icon an the right bottom corner of the app used for adding new tasks
+                MagicButton:
+                    id: add_task_btn
+                    icon: "plus"
+                    md_bg_color: app.main_primary_color #"#5D3AB7"
+                    pos_hint: {"center_x": .9, "center_y": .22}
+                    theme_icon_color: "Custom"
+                    elevation_normal: 12
+                    icon_color: 1, 1, 1, 1
+                    magic_speed: .35
+                    icon_size: 25
+                    on_release:
+                        app.change_screen("add_task")
+
+#                MDIconButton:
+#                    id: add_task_
+#                    icon: "plus"
+#                    md_bg_color: app.main_primary_color #"#5D3AB7"
+#                    pos_hint: {"center_x": .9, "center_y": .3}
+#                    theme_icon_color: "Custom"
+#                    elevation_normal: 12
+#                    icon_color: 1, 1, 1, 1
+#                    icon_size: 25
+#                    on_release:
+#                        app.change_screen("add_task")
+
+        MDScreen:
+            name: "all_completed"
+            MDFloatLayout:
+                orientation: "vertical"
+                md_bg_color: app.main_texture#"#EBEBEB"
+                MDLabel:
+                    id: all_completed_greeting
+                    text: "Good evening."
+                    halign: "center"
+                    pos_hint: {"center_x":.4, "center_y":.96}
+                    font_size: 16
+                    color: app.main_accent_color
+                Text:
+                    id: all_completed_text
+                    markup: True
+                    text: f"You've got No Completed Tasks"
+                    font_size: "15sp"
+                    halign: "center"
+                    bold: True
+                    markup: True
+                    font_name: "Roboto-Bold"#app.fonts.body
+                    pos_hint: {"center_x":.5, "center_y":.9}
+                    theme_text_color: "Custom"
+                    color: app.main_primary_color
+
+                ScrollView:
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    size_hint: 1, .75
+                    pos_hint: {"center_x":.5, "center_y":.49}
+                    bar_width: 0
+                    GridLayout:
+                        id: all_completed_layout
+                        cols: 1
+                        spacing: 15, 15
+                        padding: 15, 10
+                        size_hint_y: None
+                        height: self.minimum_height
+                        pos_hint:{"center_x":.4, "center_y":.5}
+
+        MDScreen:
+            name: "all_tasks"
+            MDFloatLayout:
+                orientation: "vertical"
+                md_bg_color: app.main_texture#"#EBEBEB"
+                MDLabel:
+                    id: all_tasks_greeting
+                    text: "Good evening."
+                    halign: "center"
+                    pos_hint: {"center_x":.4, "center_y":.96}
+                    font_size: 16
+                    color: app.main_accent_color
+                Text:
+                    id: all_tasks_text
+                    markup: True
+                    text: f"You've got No pending Tasks"
+                    font_size: "15sp"
+                    halign: "center"
+                    bold: True
+                    markup: True
+                    font_name: "Roboto-Bold"#app.fonts.body
+                    pos_hint: {"center_x":.5, "center_y":.9}
+                    theme_text_color: "Custom"
+                    color: app.main_primary_color
+
+                ScrollView:
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    size_hint: 1, .75
+                    pos_hint: {"center_x":.5, "center_y":.49}
+                    bar_width: 0
+                    GridLayout:
+                        id: all_tasks_layout
+                        cols: 1
+                        spacing: 15, 15
+                        padding: 15, 10
+                        size_hint_y: None
+                        height: self.minimum_height
+                        pos_hint:{"center_x":.4, "center_y":.5}
+
+
+        MDScreen:
+            name: "all_progress"
+            MDFloatLayout:
+                orientation: "vertical"
+                md_bg_color: app.main_texture#"#EBEBEB"
+                MDLabel:
+                    id: all_progress_greeting
+                    text: "Good evening."
+                    halign: "center"
+                    pos_hint: {"center_x":.4, "center_y":.96}
+                    font_size: 16
+                    color: app.main_accent_color
+                Text:
+                    id: all_progress_text
+                    markup: True
+                    text: f"You've got No Tasks tasks in Progress"
+                    font_size: "15sp"
+                    halign: "center"
+                    bold: True
+                    markup: True
+                    font_name: "Roboto-Bold"#app.fonts.body
+                    pos_hint: {"center_x":.5, "center_y":.9}
+                    theme_text_color: "Custom"
+                    color: app.main_primary_color
+
+                ScrollView:
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    size_hint: 1, .75
+                    pos_hint: {"center_x":.5, "center_y":.49}
+                    bar_width: 0
+                    GridLayout:
+                        id: all_progress_layout
+                        cols: 1
+                        spacing: 15, 15
+                        padding: 15, 10
+                        size_hint_y: None
+                        height: self.minimum_height
+                        pos_hint:{"center_x":.4, "center_y":.5}
+
+        MDScreen:
+            name: "insight"
+            MDFloatLayout:
+                id: insight_page
+                orientation: "vertical"
+                md_bg_color: app.main_texture#"#EBEBEB"
+                FitImage:
+                    id: insight_pics
+                    source: "store/profile_pics.png"
+                    pos_hint: {"center_x":.15, "center_y":.93}
+                    size_hint: .19, .1
+                    radius: [40]
+
+                MDLabel:
+                    id: insight_username
+                    text: "Switnex Xtra"
+                    halign: 'center'
+                    pos_hint: {"center_x":.4, "center_y":.94}
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color
+
+                MDTextButton:
+                    id: login_logout_text
+                    text: "login"
+                    font_size: "14dp"
+                    halign: "center"
+                    pos_hint: {"center_x":.35, "center_y":.91}
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color#"#5D3AB7"
+                    on_release:
+                        app.check_logout()
+#                        app.change_screen("home")
+                MDLabel:
+                    text: "Tasks Overview"
+                    halign: 'center'
+                    font_name: app.fonts.poppinsbold
+                    pos_hint: {"center_x":.3, "center_y":.86}
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color
+                ScrollView:
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    size_hint: 1, .65
+                    pos_hint: {"center_x":.5, "center_y":.52}
+                    bar_width: 0
+                    GridLayout:
+                        cols: 1
+                        spacing: 15, 10
+                        padding: 15, 10
+                        row_default_height: 80
+                        size_hint_y: None
+                        height: self.minimum_height
+#                        width: self.minimum_width
+                        pos_hint:{"center_x":.4, "center_y":.5}
+                        MDFloatLayout:
+                            orientation: "vertical"
+
+                            MDFloatLayout:
+                                md_bg_color: "#FFFFFF"
+                                elevation: 2
+                                radius: [10]
+                                size_hint: .43, .85
+                                pos_hint: {"center_x":.24, "center_y":.5}
+                                MDLabel:
+                                    id: completed_task_text
+                                    text: "1"
+                                    halign: 'center'
+                                    font_size: "25sp"
+                                    font_name: app.fonts.poppinsbold
+                                    pos_hint: {"center_x":.5, "center_y":.7}
+                                    theme_text_color: "Custom"
+                                    text_color: app.main_primary_color
+                                MDLabel:
+                                    text: "Completed Tasks"
+                                    font_size: "13sp"
+                                    halign: 'center'
+                                    font_name: app.fonts.poppinslight
+                                    pos_hint: {"center_x":.5, "center_y":.3}
+                                    theme_text_color: "Custom"
+                                    text_color: app.main_primary_color
+
+                            MDFloatLayout:
+                                md_bg_color: "#FFFFFF"
+                                elevation: 2
+                                radius: [10]
+                                size_hint: .43, .85
+                                pos_hint: {"center_x":.72, "center_y":.5}
+                                MDLabel:
+                                    id: pending_task
+                                    text: "4"
+                                    halign: 'center'
+                                    font_size: "25sp"
+                                    font_name: app.fonts.poppinsbold
+                                    pos_hint: {"center_x":.5, "center_y":.7}
+                                    theme_text_color: "Custom"
+                                    text_color: app.main_primary_color
+                                MDLabel:
+                                    text: "Pending Tasks"
+                                    font_size: "13sp"
+                                    halign: 'center'
+                                    font_name: app.fonts.poppinslight
+                                    pos_hint: {"center_x":.5, "center_y":.3}
+                                    theme_text_color: "Custom"
+                                    text_color: app.main_primary_color
+
+                        MDFloatLayout:
+                            md_bg_color: "#FFFFFF"
+                            elevation: 4
+                            radius: [10]
+                            padding: [3, 3, 3, 3]
+                            size_hint_y: None
+                            height: dp(250)
+#                            size_hint: .9, .6
+                            pos_hint: {"center_x":.5, "center_y":.54}
+                            FitImage:
+                                id: graph_image
+                                size_hint: 1, 0.8 #.plot_graph()
+                                pos_hint: {"center_x":.5, "center_y":.5}
+                        MDFloatLayout:
+                            md_bg_color: "#FFFFFF"
+                            elevation: 4
+                            radius: [10]
+                            padding: [3, 3, 3, 3]
+                            size_hint_y: None
+                            height: dp(200)
+#                            size_hint: .9, .5
+                            pos_hint: {"center_x":.5, "center_y":.24}
+                            FitImage:
+                                id: pie_image
+                                size_hint: 1, 0.8
+                                pos_hint: {"center_x":.5, "center_y":.5}
+
+        MDScreen:
+            name: "add_task"
+            MDFloatLayout:
+                id: add_task_page
+                orientation: "vertical"
+                md_bg_color: app.main_texture#"#EBEBEB"
+                MDIconButton:
+                    icon: "arrow-left"
+                    pos_hint: {"center_y":.95}
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color
+                    on_release:
+                        scrn_mgnr.current = "home"
+
+                MDLabel:
+                    text: "ADD TASKS"
+                    halign: 'center'
+                    pos_hint: {"center_x":.5, "center_y":.95}
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color
+
+                MDIconButton:
+                    icon: "check"
+                    icon_size: "25dp"
+                    pos_hint: {"center_x":.9, "center_y":.95}
+                    theme_icon_color: "Custom"
+                    icon_color: app.main_primary_color#"#5D3AB7"
+                    on_release:
+                        app.add_full_todo()
+#                        app.change_screen("home")
+
+#               title textfield
+                MDFloatLayout:
+                    orientation: "vertical"
+                    size_hint: .9, .06
+                    md_bg_color: 0, 0, 0, .07
+                    pos_hint: {"center_x":.5, "center_y":.87}
+                    radius: [10]
+                    TextInput:
+                        id: task_title
+                        hint_text: "Title of task"
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        multiline: False
+                        size_hint: .85, .85
+                        height: self.minimum_height
+                        line_color: 1, 1, 1, .4
+                        background_color: 0, 0, 0, .0
+                        foreground_color: "red"
+                        line_height: 0
+                        line_color_focus: 1, 1, 1, .2
+                        line_color_normal: 1, 1, 1, .4
+
+#               Description textfield
+                MDFloatLayout:
+                    orientation: "vertical"
+                    size_hint: .9, .06
+                    md_bg_color: 0, 0, 0, .07
+                    pos_hint: {"center_x":.5, "center_y":.8}
+                    radius: [10]
+                    TextInput:
+                        id: task_description
+                        hint_text: "Description of task"
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        multiline: False
+                        size_hint: .85, .85
+                        height: self.minimum_height
+                        line_color: 1, 1, 1, .4
+                        background_color: 0, 0, 0, .0
+                        foreground_color: "red"
+                        line_height: 0
+                        line_color_focus: 1, 1, 1, .2
+                        line_color_normal: 1, 1, 1, .4
+                MDFloatLayout:
+                    orientation: "horizontal"
+                    size_hint_y: .06
+                    pos_hint: {"center_x":.5, "center_y":.73}
+                    MDFloatLayout:
+                        size_hint: .43, .7
+                        md_bg_color: app.main_accent_color#1, 170 / 255, 23 / 255, 1
+                        radius: [8]
+                        pos_hint: {"center_x":.27, "center_y":.5}
+                        MDTextButton:
+                            text: "Start & End Date"
+                            font_name: app.fonts.poppinsregular
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            theme_text_color: "Custom"
+                            text_color: "#FFFFFF"
+                            font_size: "14sp"
+                            on_release:
+                                app.show_date_picker()
+                    MDFloatLayout:
+                        size_hint: .15, .7
+                        md_bg_color: app.main_primary_color #"#5D3AB7"
+                        radius: [8]
+                        pos_hint: {"center_x":.57, "center_y":.5}
+                        MDTextButton:
+                            text: "Time"
+                            font_size: "14sp"
+                            font_name: app.fonts.poppinsregular
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            theme_text_color: "Custom"
+                            text_color: "#FFFFFF"
+                            on_release:
+                                app.show_time_picker()
+                    MDFloatLayout:
+                        size_hint: .3, .7
+                        md_bg_color: app.main_accent_color #1, 170 / 255, 23 / 255, 1
+                        radius: [8]
+                        pos_hint: {"center_x":.81, "center_y":.5}
+                        MDTextButton:
+                            id: cate_btn
+                            text: "Categories"
+                            font_size: "14sp"
+                            font_name: app.fonts.poppinsregular
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            theme_text_color: "Custom"
+                            text_color: "#FFFFFF"
+                            on_release:
+                                app.show_categories_dialog()
+                ScrollView:
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    size_hint: 1, .55
+                    pos_hint: {"center_x":.5, "center_y":.43}
+                    bar_width: 0
+                    GridLayout:
+                        cols: 1
+                        spacing: 15, 10
+                        padding: 15, 10
+#                        row_default_height: 50
+                        size_hint: None, None
+                        height: self.minimum_height
+                        width: dp(350)
+                        pos_hint:{"center_x":.5, "center_y":.1}
+
+                        MDBoxLayout:
+#                            md_bg_color: "red"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            orientation: "vertical"
+                            pos_hint:{"center_x":.5, "center_y":.5}
+                            spacing: "15dp"
+                            padding: 15, 10
+                            radius: [15]
+                            GridLayout:
+                                id: todo_card_manager
+                                cols: 1
+                                spacing: 10, 10
+                                padding: 10, 10
+        #                        row_default_height: 50
+                                size_hint: 1.1, None
+                                height: self.minimum_height
+#                                width: dp(500)
+                                pos_hint:{"center_x":.46, "center_y":.1}
+
+                        MDBoxLayout:
+        #                    md_bg_color: "green"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            pos_hint: {"center_x":.6, "center_y":.5}
+                            MDFloatLayout:
+                                orientation: "vertical"
+                                size_hint: None, None#.93, .5
+                                width: "280dp"
+                                height: "35dp"
+                                md_bg_color: 0, 0, 0, .1
+                                pos_hint: {"center_x":.5, "center_y":.5}
+                                radius: [5]
+                                MDIconButton:
+                                    icon: "plus"
+                                    pos_hint: {"center_x":.08,"center_y":.5}
+                                    theme_icon_color: "Custom"
+                                    icon_color: app.main_primary_color #"#5D3AB7"
+                                    on_release:
+                                        app.add_todo()
+                                TextInput:
+                                    id: task_text
+                                    hint_text: "task (eg. meeting with boss)"
+                                    pos_hint: {"center_x":.55, "center_y":.5}
+                                    multiline: False
+                                    size_hint: .85, .85
+                                    height: self.minimum_height
+                                    line_color: 1, 1, 1, .4
+                                    background_color: 0, 0, 0, .0
+                                    foreground_color: "red"
+                                    line_height: 0
+                                    line_color_focus: 1, 1, 1, .2
+                                    line_color_normal: 1, 1, 1, .4
+                                    on_text_validate: app.add_todo()
+
+        MDScreen:
+            name: "edit_task"
+            MDFloatLayout:
+                id: add_task_page
+                orientation: "vertical"
+                md_bg_color: app.main_texture#"#EBEBEB"
+                MDIconButton:
+                    icon: "arrow-left"
+                    pos_hint: {"center_y":.95}
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color
+                    on_release:
+#                        root.ids.note_image_layout.clear_widgets()
+                        scrn_mgnr.current = "home"
+
+                MDLabel:
+                    text: "Edit TASKS"
+                    halign: 'center'
+                    pos_hint: {"center_x":.5, "center_y":.95}
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color
+
+                MDIconButton:
+                    icon: "check"
+                    icon_size: "25dp"
+                    pos_hint: {"center_x":.9, "center_y":.95}
+                    theme_icon_color: "Custom"
+                    icon_color: app.main_accent_color#"#5D3AB7"
+                    on_release:
+                        app.save_edit_task(self)
+                        app.change_screen("home")
+
+#               title textfield
+                MDFloatLayout:
+                    orientation: "vertical"
+                    size_hint: .9, .06
+                    md_bg_color: 0, 0, 0, .07
+                    pos_hint: {"center_x":.5, "center_y":.87}
+                    radius: [10]
+                    TextInput:
+                        id: edit_task_title
+                        hint_text: "Title of task"
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        multiline: False
+                        size_hint: .85, .85
+                        height: self.minimum_height
+                        line_color: 1, 1, 1, .4
+                        background_color: 0, 0, 0, .0
+                        foreground_color: "red"
+                        line_height: 0
+                        line_color_focus: 1, 1, 1, .2
+                        line_color_normal: 1, 1, 1, .4
+
+#               Description textfield
+                MDFloatLayout:
+                    orientation: "vertical"
+                    size_hint: .9, .06
+                    md_bg_color: 0, 0, 0, .07
+                    pos_hint: {"center_x":.5, "center_y":.8}
+                    radius: [10]
+                    TextInput:
+                        id: edit_task_description
+                        hint_text: "Description of task"
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        multiline: False
+                        size_hint: .85, .85
+                        height: self.minimum_height
+                        line_color: 1, 1, 1, .4
+                        background_color: 0, 0, 0, .0
+                        foreground_color: "red"
+                        line_height: 0
+                        line_color_focus: 1, 1, 1, .2
+                        line_color_normal: 1, 1, 1, .4
+                MDFloatLayout:
+                    orientation: "horizontal"
+                    size_hint_y: .06
+                    pos_hint: {"center_x":.5, "center_y":.73}
+                    MDFloatLayout:
+                        size_hint: .43, .7
+                        md_bg_color: app.main_accent_color #1, 170 / 255, 23 / 255, 1
+                        radius: [8]
+                        pos_hint: {"center_x":.27, "center_y":.5}
+                        MDTextButton:
+                            text: "Start & End Date"
+                            font_name: app.fonts.poppinsregular
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            theme_text_color: "Custom"
+                            text_color: "#FFFFFF"
+                            font_size: "14sp"
+                            on_release:
+                                app.show_date_picker()
+                    MDFloatLayout:
+                        size_hint: .15, .7
+                        md_bg_color: app.main_primary_color #"#5D3AB7"
+                        radius: [8]
+                        pos_hint: {"center_x":.57, "center_y":.5}
+                        MDTextButton:
+                            text: "Time"
+                            font_size: "14sp"
+                            font_name: app.fonts.poppinsregular
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            theme_text_color: "Custom"
+                            text_color: "#FFFFFF"
+                            on_release:
+                                app.show_time_picker()
+                    MDFloatLayout:
+                        size_hint: .3, .7
+                        md_bg_color: app.main_accent_color #1, 170 / 255, 23 / 255, 1
+                        radius: [8]
+                        pos_hint: {"center_x":.81, "center_y":.5}
+                        MDTextButton:
+                            id: cate_btn
+                            text: "Categories"
+                            font_size: "14sp"
+                            font_name: app.fonts.poppinsregular
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            theme_text_color: "Custom"
+                            text_color: "#FFFFFF"
+                            on_release:
+                                app.show_categories_dialog()
+                ScrollView:
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    size_hint: 1, .55
+                    pos_hint: {"center_x":.5, "center_y":.43}
+                    bar_width: 0
+                    GridLayout:
+                        cols: 1
+                        spacing: 15, 10
+                        padding: 15, 10
+#                        row_default_height: 50
+                        size_hint: None, None
+                        height: self.minimum_height
+                        width: dp(350)
+                        pos_hint:{"center_x":.5, "center_y":.1}
+
+                        MDBoxLayout:
+#                            md_bg_color: "red"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            orientation: "vertical"
+                            pos_hint:{"center_x":.5, "center_y":.5}
+                            spacing: "15dp"
+                            padding: 15, 10
+                            radius: [15]
+                            GridLayout:
+                                id: edit_todo_card_manager
+                                cols: 1
+                                spacing: 10, 10
+                                padding: 10, 10
+        #                        row_default_height: 50
+                                size_hint: 1.1, None
+                                height: self.minimum_height
+#                                width: dp(500)
+                                pos_hint:{"center_x":.46, "center_y":.1}
+
+                        MDBoxLayout:
+        #                    md_bg_color: "green"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            pos_hint: {"center_x":.6, "center_y":.5}
+                            MDFloatLayout:
+                                orientation: "vertical"
+                                size_hint: None, None#.93, .5
+                                width: "280dp"
+                                height: "35dp"
+                                md_bg_color: 0, 0, 0, .1
+                                pos_hint: {"center_x":.5, "center_y":.5}
+                                radius: [5]
+                                MDIconButton:
+                                    icon: "plus"
+                                    pos_hint: {"center_x":.08,"center_y":.5}
+                                    theme_icon_color: "Custom"
+                                    icon_color: app.main_primary_color #"#5D3AB7"
+                                    on_release:
+                                        app.edit_add_todo()
+                                TextInput:
+                                    id: edit_task_text
+                                    hint_text: "task (eg. meeting with boss)"
+                                    pos_hint: {"center_x":.55, "center_y":.5}
+                                    multiline: False
+                                    size_hint: .85, .85
+                                    height: self.minimum_height
+                                    line_color: 1, 1, 1, .4
+                                    background_color: 0, 0, 0, .0
+                                    foreground_color: "red"
+                                    line_height: 0
+                                    line_color_focus: 1, 1, 1, .2
+                                    line_color_normal: 1, 1, 1, .4
+                                    on_text_validate: app.add_todo()
+
+        MDScreen:
+            name: "edit_note_screen"
+            MDFloatLayout:
+                id: edit_note_page
+                orientation: "vertical"
+                md_bg_color: app.main_texture #"#EBEBEB"
+                MDIconButton:
+                    icon: "arrow-left"
+                    pos_hint: {"center_y":.95}
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color
+                    on_release:
+                        root.ids.edit_note_image_layout.clear_widgets()
+                        scrn_mgnr.current = "note_screen"
+
+                MDLabel:
+                    text: "Take Notes"
+                    halign: 'center'
+                    pos_hint: {"center_x":.4, "center_y":.95}
+                    theme_text_color: "Custom"
+                    text_color: app.main_accent_color
+
+                MDIconButton:
+                    icon: "image-outline"
+                    pos_hint: {"center_x":.75, "center_y":.95}
+                    theme_icon_color: "Custom"
+                    icon_color: app.main_accent_color #"#5D3AB7"
+                    on_release:
+                        app.open_edit_note_file_manger()
+
+                MDIconButton:
+                    icon: "download-outline"
+                    icon_size: "25dp"
+                    pos_hint: {"center_x":.9, "center_y":.95}
+                    theme_icon_color: "Custom"
+                    icon_color: app.main_primary_color #"#5D3AB7"
+                    on_release:
+                        app.save_edit_note(self)
+                        root.ids.note_image_layout.clear_widgets()
+                        app.change_screen("note_screen")
+
+
+#               title textfield
+                TextInput:
+                    id: edit_note_title
+                    hint_text: "Title"
+                    pos_hint: {"center_x":.5, "center_y":.85}
+                    multiline: False
+                    size_hint: .85, .05
+                    height: self.minimum_height
+                    line_color: 1, 1, 1, .4
+                    background_color: 0, 0, 0, .0
+                    foreground_color: "red"
+                    line_height: 0
+                    line_color_focus: 1, 1, 1, .2
+                    line_color_normal: 1, 1, 1, .4
+
+#               Description textfield
+                TextInput:
+                    id: edit_note_description
+                    hint_text: "Description or write note here"
+                    pos_hint: {"center_x":.5, "center_y":.52}
+                    multiline: True
+                    size_hint: .85, .6
+                    height: self.minimum_height
+                    line_color: 1, 1, 1, .4
+                    background_color: 0, 0, 0, .0
+                    foreground_color: "red"#1, 1, 1, .4
+                    line_height: 0
+                    line_color_focus: 1, 1, 1, .2
+                    line_color_normal: 1, 1, 1, .4
+
+#               the Layout for the images in the add Note screen
+                ScrollView:
+                    do_scroll_y: False
+                    do_scroll_x: True
+                    size_hint: .9, .1
+                    pos_hint: {"center_x":.5, "center_y":.18}
+                    bar_width: 0
+                    GridLayout:
+                        id: edit_note_image_layout
+                        rows: 1
+                        spacing: "15dp"
+                        size_hint_x: None
+                        height: self.minimum_height
+                        width: self.minimum_width
+                        pos_hint:{"center_x":.43, "center_y":.7}
+
+#
+        MDScreen:
+            name: "themes"
+            MDFloatLayout:
+                id: theme_page
+                orientation: "vertical"
+                md_bg_color: app.main_texture#"#35424B" #"#EBEBEB"
+#                FitImage:
+#                    source: "store/text2.jpeg"
+##                    size_hint: None, None
+##                    size: "280dp", "300dp"
+#                    keep_ratio: False
+#                    pos_hint: {"center_x":.5, "center_y":.5}
+                MDIconButton:
+                    icon: "arrow-left"
+                    pos_hint: {"center_y":.95}
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color
+                    on_release:
+                        scrn_mgnr.current = "home"
+                MDLabel:
+                    text: "Theme"
+                    bold: True
+                    halign: "center"
+                    pos_hint: {"center_x":.3, "center_y":.95}
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color
+
+                MDTextButton:
+                    text: "reset themes"
+                    pos_hint: {"center_x":.8, "center_y":.95}
+                    theme_text_color: "Custom"
+                    text_color: app.main_accent_color
+                    on_release:
+                        app.show_reset_dialog()
+
+                MDLabel:
+                    text: "Primary Colors"
+                    font_name: "Roboto-Light"
+                    halign: "center"
+                    pos_hint: {"center_x":.2, "center_y":.89}
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color
+                MDFloatLayout:
+                    orientation: "horizontal"
+                    size_hint_y: .08
+                    pos_hint: {"center_x":.5, "center_y":.82}
+                    MDFloatLayout:
+                        id: main_box1
+                        orientation:  "vertical"
+                        size_hint: .15, .9
+                        md_bg_color: "#df4576"
+                        pos_hint: {"center_x":.13, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#df4576"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_primary_color(self)
+                        MDCheckbox:
+                            id: box1
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            width: "70dp"
+                            height: "70dp"
+                            color_inactive: rgba(223, 69, 118, 1)
+                            color_active: "#df4576"
+                            on_release:
+                                app.change_primary_color(self)
+                    MDFloatLayout:
+                        id: main_box2
+                        orientation:  "horizontal"
+                        size_hint: .15, .9
+                        md_bg_color: "#5D3AB7"
+                        pos_hint: {"center_x":.31, "center_y":.49}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#5D3AB7"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_primary_color(self)
+                        MDCheckbox:
+                            id: box2
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            width: "70dp"
+                            height: "70dp"
+                            color_inactive: rgba(93, 58, 183, 1)
+                            color_active: "#5D3AB7"
+                            on_release:
+                                app.change_primary_color(self)
+                    MDFloatLayout:
+                        id: main_box3
+                        orientation:  "horizontal"
+                        size_hint: .15, .9
+                        md_bg_color: "#EF89A9"
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#EF89A9"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_primary_color(self)
+                        MDCheckbox:
+                            id: box3
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            width: "70dp"
+                            height: "70dp"
+                            color_inactive: rgba(239, 137, 169, 1)
+                            color_active: "#EF89A9"
+                            on_release:
+                                app.change_primary_color(self)
+                    MDFloatLayout:
+                        id: main_box4
+                        orientation:  "horizontal"
+                        size_hint: .15, .9
+                        md_bg_color: "#7DABF5"#app.theme_cls.accent_color
+                        pos_hint: {"center_x":.7, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#7DABF5" #app.theme_cls.accent_color
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_primary_color(self)
+                        MDCheckbox:
+                            id: box4
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            width: "70dp"
+                            height: "70dp"
+                            color_inactive: rgba(125, 171, 245, 1)
+                            color_active: "#7DABF5"
+                            on_release:
+                                app.change_primary_color(self)
+
+                    MDFloatLayout:
+                        id: main_box5
+                        orientation:  "horizontal"
+                        size_hint: .15, .9
+                        md_bg_color: "#4DA8A3"
+                        pos_hint: {"center_x":.9, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#4DA8A3"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_primary_color(self)
+                        MDCheckbox:
+                            id: box5
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            width: "70dp"
+                            height: "70dp"
+#                            size: dp(40), dp(40)
+                            color_inactive: rgba(77, 168, 163, 1)
+                            color_active: "#4DA8A3"
+                            on_release:
+                                app.change_primary_color(self)
+
+                MDLabel:
+                    text: "Accent Colors"
+                    font_name: "Roboto-Light"
+                    halign: "center"
+                    pos_hint: {"center_x":.2, "center_y":.72}
+                    theme_text_color: "Custom"
+                    text_color: app.main_accent_color
+                MDFloatLayout:
+                    orientation: "horizontal"
+                    md_bg_color: 0, 0, 0, .08
+                    size_hint: .95, .1
+                    pos_hint: {"center_x":.5, "center_y":.65}
+                    radius: [10]
+                    MDFloatLayout:
+                        orientation:  "vertical"
+                        size_hint: .15, .73
+                        md_bg_color: "#4DA8A3"
+                        pos_hint: {"center_x":.1, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#4DA8A3"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_accent_color(self)
+                        MDCheckbox:
+                            id: mbox1
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_inactive: rgba(77, 168, 163, 1)
+                            color_active: "#4DA8A3"
+                            on_release:
+                                app.change_accent_color(self)
+                    MDFloatLayout:
+                        orientation:  "horizontal"
+                        size_hint: .15, .73
+                        md_bg_color: "#DE6868"
+                        pos_hint: {"center_x":.31, "center_y":.49}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#DE6868"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_accent_color(self)
+                        MDCheckbox:
+                            id: mbox2
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_inactive: rgba(222, 104, 104, 1)
+                            color_active: "#DE6868"
+                            on_release:
+                                app.change_accent_color(self)
+                    MDFloatLayout:
+                        orientation:  "horizontal"
+                        size_hint: .15, .73
+                        md_bg_color: "#57B07C"
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#57B07C"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_accent_color(self)
+                        MDCheckbox:
+                            id: mbox3
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_inactive: rgba(87, 176, 124, 1)
+                            color_active: "#57B07C"
+                            on_release:
+                                app.change_accent_color(self)
+                    MDFloatLayout:
+                        orientation:  "horizontal"
+                        size_hint: .15, .73
+                        md_bg_color: "#F69059"#app.theme_cls.accent_color
+                        pos_hint: {"center_x":.7, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#F69059" #app.theme_cls.accent_color
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_accent_color(self)
+                        MDCheckbox:
+                            id: mbox4
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_inactive: rgba(246, 144, 89, 1)
+                            color_active: "#F69059"
+                            on_release:
+                                app.change_accent_color(self)
+                    MDFloatLayout:
+                        orientation:  "horizontal"
+                        size_hint: .15, .73
+                        md_bg_color: "#F8C93B"
+                        pos_hint: {"center_x":.9, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#F8C93B"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_accent_color(self)
+                        MDCheckbox:
+                            id: mbox5
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_inactive: rgba(248, 201, 59, 1)
+                            color_active: "#F8C93B"
+                            on_release:
+                                app.change_accent_color(self)
+                MDLabel:
+                    text: "Dark Themes"
+                    font_name: "Roboto-Bold"
+                    halign: "center"
+                    pos_hint: {"center_x":.2, "center_y":.57}
+                MDFloatLayout:
+                    orientation: "horizontal"
+                    md_bg_color: 0, 0, 0, .08
+                    size_hint: .95, .1
+                    pos_hint: {"center_x":.5, "center_y":.49}
+                    radius: [10]
+                    MDFloatLayout:
+                        orientation:  "vertical"
+                        size_hint: .15, .73
+                        md_bg_color: "#506477"
+                        pos_hint: {"center_x":.1, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#506477"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_theme_color(self)
+                        Check:
+                            id: check1
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_inactive: rgba(80, 100, 119, 1)
+                            color_active: "#506477"
+                            on_release:
+                                app.change_theme_color(self)
+                    MDFloatLayout:
+                        orientation:  "horizontal"
+                        size_hint: .15, .73
+                        md_bg_color: "#323943"
+                        pos_hint: {"center_x":.31, "center_y":.49}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#323943"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                        Check:
+                            id: check2
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_inactive: rgba(50, 57, 67, 1)
+                            color_active: "#35424B"
+                            on_release:
+                                app.change_theme_color(self)
+                    MDFloatLayout:
+                        orientation:  "horizontal"
+                        size_hint: .15, .73
+                        md_bg_color: "#273037"
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#273037"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_theme_color(self)
+                        Check:
+                            id: check3
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_inactive: rgba(39, 48, 55, 1)
+                            color_active: "#273037"
+                            on_release:
+                                app.change_theme_color(self)
+                    MDFloatLayout:
+                        orientation:  "horizontal"
+                        size_hint: .15, .73
+                        md_bg_color: "#35343D"#app.theme_cls.accent_color
+                        pos_hint: {"center_x":.7, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#35343D"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_theme_color(self)
+                        Check:
+                            id: check4
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_inactive: rgba(53, 52, 61, 1)
+                            color_active: "#35343D"
+                            on_release:
+                                app.change_theme_color(self)
+                    MDFloatLayout:
+                        orientation:  "horizontal"
+                        size_hint: .15, .73
+                        md_bg_color: "#272727"
+                        pos_hint: {"center_x":.9, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#272727"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                        Check:
+                            id: check5
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_inactive: rgba(39, 39, 39, 1)
+                            color_active: "#272727"
+                            on_release:
+                                app.change_theme_color(self)
+
+                MDLabel:
+                    text: "Texture"
+                    font_name: "Roboto-Bold"
+                    halign: "center"
+                    pos_hint: {"center_x":.15, "center_y":.38}
+
+                MDFloatLayout:
+                    orientation: "horizontal"
+                    md_bg_color: 0, 0, 0, .08
+                    size_hint: .95, .1
+                    pos_hint: {"center_x":.5, "center_y":.28}
+                    radius: [10]
+                    MDFloatLayout:
+                        orientation:  "vertical"
+                        size_hint: .15, .73
+                        md_bg_color: "#F6F6F6"
+                        pos_hint: {"center_x":.1, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#F6F6F6"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_theme_color(self)
+                        Check:
+                            id: check6
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_active: "#F6F6F6"
+                            color_inactive: rgba(246, 246, 246, 1)
+                            on_release:
+                                app.change_theme_color(self)
+                    MDFloatLayout:
+                        orientation:  "horizontal"
+                        size_hint: .15, .73
+                        md_bg_color: "#F0EBEB"
+                        pos_hint: {"center_x":.3, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#F0EBEB"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                        Check:
+                            id: check7
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_active: "#F0EBEB"
+                            color_inactive: rgba(240, 235, 235, 1)
+                            on_release:
+                                app.change_theme_color(self)
+                    MDFloatLayout:
+                        orientation:  "horizontal"
+                        size_hint: .15, .73
+                        md_bg_color: "#EBEBEB"
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#EBEBEB"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_theme_color(self)
+                        Check:
+                            id: check8
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_active: "#EBEBEB"
+                            color_inactive: rgba(235, 235, 235, 1)
+                            on_release:
+                                app.change_theme_color(self)
+
+                    MDFloatLayout:
+                        orientation:  "horizontal"
+                        size_hint: .15, .73
+                        md_bg_color: "#e4f0fb"
+                        pos_hint: {"center_x":.7, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#e4f0fb"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                        Check:
+                            id: check9
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_inactive: rgba(228, 240, 251, 1)
+                            color_active: "#e4f0fb"
+                            on_release:
+                                app.change_theme_color(self)
+
+                    MDFloatLayout:
+                        orientation:  "horizontal"
+                        size_hint: .15, .73
+                        md_bg_color: "#dfdad4"
+                        pos_hint: {"center_x":.9, "center_y":.5}
+                        radius: [15]
+                        MDIconButton:
+                            icon: "circle-medium"
+                            theme_icon_color: "Custom"
+                            icon_color: "#dfdad4"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                        Check:
+                            id: check10
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            size_hint: None, None
+                            size: dp(18), dp(18)
+                            color_inactive: rgba(223,218,212,1)
+                            color_active: "#dfdad4"
+                            on_release:
+                                app.change_theme_color(self)
+
+        MDScreen:
+            name: "add_note_screen"
+            MDFloatLayout:
+                id: add_note_page
+                orientation: "vertical"
+                md_bg_color: "#EBEBEB"
+                MDIconButton:
+                    icon: "chevron-left"
+                    icon_size: "25dp"
+                    pos_hint: {"center_x":.08, "center_y":.95}
+                    theme_icon_color: "Custom"
+                    icon_color: app.main_primary_color #"#5D3AB7"
+                    on_release:
+                        app.change_screen("note_screen")
+
+                MDLabel:
+                    text: "Take Notes"
+                    halign: 'center'
+                    pos_hint: {"center_x":.4, "center_y":.95}
+                    theme_text_color: "Custom"
+                    text_color: app.main_accent_color
+
+                MDIconButton:
+                    icon: "image-outline"
+                    pos_hint: {"center_x":.75, "center_y":.95}
+                    theme_icon_color: "Custom"
+                    icon_color: app.main_primary_color#"#5D3AB7"
+                    on_release:
+                        app.open_note_file_manger()
+
+                MDIconButton:
+                    icon: "check"
+                    icon_size: "25dp"
+                    pos_hint: {"center_x":.9, "center_y":.95}
+                    theme_icon_color: "Custom"
+                    icon_color: "#5D3AB7"
+                    on_release:
+                        app.add_note()
+                        app.change_screen("note_screen")
+
+
+#               title textfield
+                TextInput:
+                    id: note_title
+                    hint_text: "Title"
+                    pos_hint: {"center_x":.5, "center_y":.85}
+                    multiline: False
+                    size_hint: .85, .05
+                    height: self.minimum_height
+                    line_color: 1, 1, 1, .4
+                    background_color: 0, 0, 0, .0
+                    foreground_color: "red"
+                    line_height: 0
+                    line_color_focus: 1, 1, 1, .2
+                    line_color_normal: 1, 1, 1, .4
+
+#               Description textfield
+                TextInput:
+                    id: note_description
+                    hint_text: "Description or write note here"
+                    pos_hint: {"center_x":.5, "center_y":.52}
+                    multiline: True
+                    size_hint: .85, .6
+                    height: self.minimum_height
+                    line_color: 1, 1, 1, .4
+                    background_color: 0, 0, 0, .0
+                    foreground_color: "red"#1, 1, 1, .4
+                    line_height: 0
+                    line_color_focus: 1, 1, 1, .2
+                    line_color_normal: 1, 1, 1, .4
+
+#               the Layout for the images in the add Note screen
+                ScrollView:
+                    do_scroll_y: False
+                    do_scroll_x: True
+                    size_hint: .9, .1
+                    pos_hint: {"center_x":.5, "center_y":.18}
+                    bar_width: 0
+                    GridLayout:
+                        id: note_image_layout
+                        rows: 1
+                        spacing: "15dp"
+                        size_hint_x: None
+                        height: self.minimum_height
+                        width: self.minimum_width
+                        pos_hint:{"center_x":.43, "center_y":.7}
+
+        MDScreen:
+            name: "note_screen"
+            # this is the main layout more like the parent widget holding the children
+            MDFloatLayout:
+                id: note_page
+                orientation: "vertical"
+                md_bg_color: app.main_texture #"#EBEBEB"
+                MDLabel:
+                    text: "My Note"
+#                    bold: True
+                    font_name: "Roboto-Medium"
+                    theme_text_color: 'Custom'
+                    text_color: app.main_primary_color #"#7057BB"
+                    halign: "center"
+                    font_size: "25sp"
+                    pos_hint: {"center_x":.5, "center_y":.93}
+
+                # this is the Note layout. that is the scrollview for the notes
+                ScrollView:
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    size_hint: 1, .65
+                    pos_hint: {"center_x":.5, "center_y":.55}
+                    bar_width: 0
+                    GridLayout:
+                        cols: 1
+                        spacing: 15, 10
+                        padding: 15, 10
+#                        row_default_height: 50
+                        size_hint: None, None
+                        height: self.minimum_height
+                        width: dp(350)
+                        pos_hint:{"center_x":.5, "center_y":.1}
+
+#                       this is the text input at the top
+                        MDBoxLayout:
+        #                    md_bg_color: "green"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            pos_hint: {"center_x":.6, "center_y":.5}
+                            MDFloatLayout:
+                                orientation: "horizontal"
+                                size_hint: None, None#.93, .5
+                                width: "280dp"
+                                height: "30dp"
+                                md_bg_color: 0, 0, 0, .05 #"#DFD7F3"
+                                pos_hint: {"center_x":.5, "center_y":.5}
+                                radius: [12]
+                                MDIconButton:
+                                    icon: "magnify"
+                                    pos_hint: {"center_x":.08, "center_y":.5}
+                                    theme_icon_color: "Custom"
+                                    icon_color: 0, 0, 0, .08
+                                TextInput:
+                                    hint_text: "Search notes with  title"
+                                    pos_hint: {"center_x":.55, "center_y":.5}
+                                    multiline: False
+                                    size_hint_x: .85
+                                    height: self.minimum_height
+                                    line_color: 1, 1, 1, .4
+                                    background_color: 0, 0, 0, .0
+                                    foreground_color: app.main_accent_color
+                                    line_height: 0
+                                    line_color_focus: 1, 1, 1, .2
+                                    line_color_normal: 1, 1, 1, .4
+                                    on_text: app.search_note(self)
+
+#                       this is the part that actually holds the note
+                        MDBoxLayout:
+#                            md_bg_color: "red"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            orientation: "vertical"
+                            pos_hint:{"center_x":.5, "center_y":.5}
+                            spacing: "15dp"
+                            padding: 15, 10
+                            radius: [15]
+                            GridLayout:
+                                id: note_manager
+                                cols: 1
+                                spacing: 10, 15
+                                padding: 10, 10
+        #                        row_default_height: 50
+                                size_hint: 1.1, None
+                                height: self.minimum_height
+#                                width: dp(500)
+                                pos_hint:{"center_x":.44, "center_y":.1}
+
+
+                MDLabel:
+                    id: note_search_text
+                    text: "No Available Items"
+                    halign: "center"
+                    pos_hint:{"center_x":.5, "center_y":.5}
+
+                MDIconButton:
+                    icon: "plus"
+                    pos_hint:{"center_x":.5, "center_y":.22}
+                    md_bg_color: "#02BC62"#app.theme_cls.primary_color
+                    theme_icon_color: "Custom"
+                    icon_color: "#FFFFFF"
+                    elevation: 5
+                    on_release:
+                        app.change_screen("add_note_screen")
+
+        MDScreen:
+            name: "bmi_screen"
+            MDFloatLayout:
+                id: bmi_page
+                orientation: "vertical"
+                md_bg_color: "#DFD7F3"
+                MDIconButton:
+                    icon: "chevron-left"
+                    pos_hint: {"center_y":.96}
+                    theme_text_color: "Custom"
+                    text_color: 1, 0, 0, 1
+                    on_release:
+                        scrn_mgnr.current = "home"
+                # just the styling (right side of the design)
+                MDFloatLayout:
+                    orientation: "vertical"
+                    # just the styling (right side of the design)
+                    MDFloatLayout:
+                        canvas:
+                            Color:
+                                rgb: (app.theme_cls.accent_color)
+                            RoundedRectangle:
+                                size: 60, 20
+                                pos: 290, 340
+                                radius: [13]
+                    MDFloatLayout:
+                        canvas:
+                            Color:
+                                rgb: (app.theme_cls.accent_color)
+                            RoundedRectangle:
+                                size: 60, 20
+                                pos: 270, 310
+                                radius: [13]
+                    MDFloatLayout:
+                        canvas:
+                            Color:
+                                rgb: (app.theme_cls.accent_color)
+                            RoundedRectangle:
+                                size: 60, 20
+                                pos: 290, 280
+                                radius: [13]
+                    # just the styling (left side of the design)
+                    MDFloatLayout:
+                        canvas:
+                            Color:
+                                rgb: (app.theme_cls.accent_color)
+                            RoundedRectangle:
+                                size: 55, 20
+                                pos: -30, 95
+                                radius: [13]
+                    MDFloatLayout:
+                        canvas:
+                            Color:
+                                rgb: (app.theme_cls.accent_color)
+                            RoundedRectangle:
+                                size: 55, 20
+                                pos: -30, 50
+                                radius: [13]
+                MDLabel:
+                    text: "Calculate Your Weight"
+                    halign: "center"
+                    pos_hint: {"center_x":.5, "center_y":.95}
+
+                MDCard:
+                    id: male_card
+                    orientation: "vertical"
+                    size_hint: None, None
+                    size: 125, 125
+                    radius: [15]
+                    elevation: 2
+                    md_bg_color: "#FFFFFF"
+                    pos_hint: {"center_x":.27, "center_y":.8}
+                    MDFloatLayout:
+                        orientation: "vertical"
+                        size_hint: .95, .24
+                        pos_hint: {"center_x":.5, "center_y": .45}
+                        #md_bg_color: 0, 0, 0, 1
+                        radius: [15]
+                        MDLabel:
+                            text: "Male"
+                            pos_hint: {"center_x":.55, "center_y":.88}
+                            halign: "center"
+                        MDIconButton:
+                            id: male_button
+                            icon: "gender-male"
+                            user_font_size: 60
+                            pos_hint: {"center_x":.35, "center_y":.5}
+                        MDCheckbox:
+                            size_hint: None, None
+                            size: "48dp", "48dp"
+                            unselected_color: 200/255, 200/255, 200/255, 1
+                            selected_color: 0, 179/255, 0, 1
+                            pos_hint: {"center_x":.84, "center_y": .15}
+                            on_active: app.on_complete2(*args, male_button, calculate_btn, calculate_bmi_bg)
+
+
+                MDCard:
+                    id: female_card
+                    orientation: "vertical"
+                    size_hint: None, None
+                    size: 125, 125
+                    radius: [15]
+                    elevation: 2
+                    md_bg_color: "#FFFFFF"
+                    pos_hint: {"center_x":.72, "center_y":.8}
+                    MDFloatLayout:
+                        orientation: "vertical"
+                        size_hint: .95, .24
+                        pos_hint: {"center_x":.5, "center_y": .45}
+                        #md_bg_color: 0, 0, 0, 1
+                        radius: [15]
+                        MDLabel:
+                            text: "FeMale"
+                            pos_hint: {"center_x":.55, "center_y":.88}
+                            halign: "center"
+                        MDIconButton:
+                            id: female_button
+                            icon: "gender-female"
+                            user_font_size: 70
+                            pos_hint: {"center_x":.35, "center_y":.5}
+                        MDCheckbox:
+                            size_hint: None, None
+                            size: "48dp", "48dp"
+                            unselected_color: 200/255, 200/255, 200/255, 1
+                            selected_color: 0, 179/255, 0, 1
+                            pos_hint: {"center_x":.84, "center_y": .15}
+                            on_active: app.on_complete1(*args, female_button, calculate_btn, calculate_bmi_bg)
+
+                # this is the HEIGHT CARD
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: None, None
+                    size: 275, 135
+                    radius: [15]
+                    elevation: 2
+                    md_bg_color: "#FFFFFF"
+                    pos_hint: {"center_x":.5, "center_y":.575}
+
+                    MDFloatLayout:
+                        orientation: "vertical"
+                        size_hint: .95, .24
+                        pos_hint: {"center_x":.5, "center_y": .45}
+                        #md_bg_color: 0, 0, 0, 1
+                        radius: [15]
+                        MDLabel:
+                            text: "HEIGHT"
+                            pos_hint: {"center_x":.5, "center_y": .85}
+                            halign: "center"
+                        MDLabel:
+                            id: slider_text
+                            text: "183"
+                            pos_hint: {"center_x":.48, "center_y": .55}
+                            halign: "center"
+                            font_size: 25
+                            bold: True
+                        MDLabel:
+                            text: "cm"
+                            pos_hint: {"center_x":.60, "center_y": .52}
+                            halign: "center"
+                            font_size: 14
+                            bold: True
+                        MDSlider:
+                            id: height_value
+                            min: 10
+                            max: 250
+                            value: 183
+                            size_hint: 1, 0.5
+                            pos_hint: {"center_x":.5, "center_y": .35}
+                            on_touch_up:
+                                app.get_height_value()
+                        MDTextButton:
+                            text: "watch your weight>"
+                            pos_hint: {"center_x":.25, "center_y": .16}
+                            halign: "center"
+                            font_size: 12
+                            #bold: True
+                            color: app.theme_cls.accent_color
+
+                # this is the WEIGHT CARD
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: None, None
+                    size: 125, 125
+                    radius: [15]
+                    elevation: 2
+                    md_bg_color: "#FFFFFF"
+                    pos_hint: {"center_x":.25, "center_y":.35}
+
+                    MDFloatLayout:
+                        orientation: "vertical"
+                        size_hint: .95, .24
+                        pos_hint: {"center_x":.5, "center_y": .45}
+                        #md_bg_color: 0, 0, 0, 1
+                        radius: [15]
+                        MDLabel:
+                            text: "WEIGHT"
+                            pos_hint: {"center_x":.5, "center_y": .85}
+                            halign: "center"
+                        MDLabel:
+                            text: str(app.weight) + "kg"
+                            pos_hint: {"center_x":.475, "center_y": .55}
+                            halign: "center"
+                            font_size: 25
+                            bold: True
+                        MDIconButton:
+                            icon: "circle"
+                            user_font_size: 50
+                            pos_hint: {"center_x":.35, "center_y": .22}
+                            MDIconButton:
+                                icon: "minus"
+                                pos_hint: {"center_x":.35, "center_y": .22}
+                                theme_text_color: "Custom"
+                                text_color: app.theme_cls.primary_color
+                                on_release:
+                                    app.decrease_weight()
+                        MDIconButton:
+                            icon: "circle"
+                            user_font_size: 50
+                            pos_hint: {"center_x":.75, "center_y": .22}
+                            MDIconButton:
+                                icon: "plus"
+                                pos_hint: {"center_x":.75, "center_y": .22}
+                                theme_text_color: "Custom"
+                                text_color: app.theme_cls.accent_color
+                                on_release:
+                                    app.increase_weight()
+
+                # this is the AGE CARD
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: None, None
+                    size: 125, 125
+                    radius: [15]
+                    elevation: 2
+                    md_bg_color: "#FFFFFF"
+                    pos_hint: {"center_x":.75, "center_y":.35}
+
+                    MDFloatLayout:
+                        orientation: "vertical"
+                        size_hint: .95, .24
+                        pos_hint: {"center_x":.5, "center_y": .45}
+                        #md_bg_color: 0, 0, 0, 1
+                        radius: [15]
+                        MDLabel:
+                            text: "AGE"
+                            pos_hint: {"center_x":.5, "center_y": .85}
+                            halign: "center"
+                        MDLabel:
+                            text: str(app.age) + "yrs"
+                            pos_hint: {"center_x":.475, "center_y": .55}
+                            halign: "center"
+                            font_size: 25
+                            bold: True
+                        MDIconButton:
+                            icon: "circle"
+                            user_font_size: 50
+                            pos_hint: {"center_x":.35, "center_y": .22}
+                            MDIconButton:
+                                icon: "minus"
+                                pos_hint: {"center_x":.35, "center_y": .22}
+                                theme_text_color: "Custom"
+                                text_color: app.theme_cls.primary_color
+                                on_release:
+                                    app.decrease_age()
+
+                        MDIconButton:
+                            icon: "circle"
+                            user_font_size: 50
+                            pos_hint: {"center_x":.75, "center_y": .22}
+                            MDIconButton:
+                                icon: "plus"
+                                pos_hint: {"center_x":.75, "center_y": .22}
+                                theme_text_color: "Custom"
+                                text_color: app.theme_cls.accent_color
+                                on_release:
+                                    app.increase_age()
+
+
+            #MDFillRoundFlatIconButton:
+            MDFloatLayout:
+                id: calculate_bmi_bg
+                size_hint: .65, .06
+                md_bg_color: 0, 0, 0, .3
+                pos_hint: {"center_x": .5, "center_y": .18}
+                radius: [10]
+                MDTextButton:
+                    id: calculate_btn
+                    text: "CALCULATE"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    font_size : 20
+                    disabled: True
+                    halign: "center"
+                    on_release:
+                        app.calculate_bmi()
+#                        app.show_interstitial_ads()
+
+        MDScreen:
+            name: "category_screen"
+            MDFloatLayout:
+                orientation: "vertical"
+                MDIconButton:
+                    icon: "arrow-left"
+                    pos_hint: {"center_x":.08, "center_y":.95}
+                    on_release:
+                        app.change_screen("home")
+                MDLabel:
+                    text: "Categories Manager"
+                    bold: True
+                    halign: "center"
+                    font_size: 18
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color
+                    pos_hint: {"center_x":.5, "center_y":.95}
+                ScrollView:
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    size_hint: 1, .7
+                    pos_hint: {"center_x":.5, "center_y":.58}
+                    bar_width: 0
+                    GridLayout:
+                        cols: 1
+                        spacing: 15, 10
+                        padding: 15, 10
+#                        row_default_height: 50
+                        size_hint: None, None
+                        height: self.minimum_height
+                        width: dp(350)
+                        pos_hint:{"center_x":.5, "center_y":.1}
+
+                        MDBoxLayout:
+#                            md_bg_color: "red"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            orientation: "vertical"
+                            pos_hint:{"center_x":.5, "center_y":.5}
+                            spacing: "15dp"
+                            padding: 15, 10
+                            radius: [15]
+                            GridLayout:
+                                id: category_manager
+                                cols: 1
+                                spacing: 10, 30
+                                padding: 10, 10
+        #                        row_default_height: 50
+                                size_hint: 1.1, None
+                                height: self.minimum_height
+#                                width: dp(500)
+                                pos_hint:{"center_x":.4, "center_y":.1}
+
+
+
+                        MDBoxLayout:
+#                            md_bg_color: "green"
+                            size_hint_y: None
+                            orientation: "horizontal"
+                            height: self.minimum_height
+                            MDFloatLayout:
+                                orientation: "horizontal"
+                                size_hint_y: None
+                                height: dp(40)
+                                MDIconButton:
+                                    icon: "plus"
+                                    pos_hint:{"center_x":.05, "center_y":.5}
+                                    on_release:
+                                        app.show_confirmation_dialog()
+                                MDTextButton:
+                                    text: "Add New Category"
+                                    halign: "center"
+                                    bold: True
+                                    font_size: 15
+                                    theme_text_color: 'Custom'
+                                    text_color: app.main_primary_color
+                                    pos_hint:{"center_x":.3, "center_y":.5}
+                                    on_release:
+                                        app.show_confirmation_dialog()
+
+        MDScreen:
+#            profile_list: profile_list
+            name: "profile"
+            MDFloatLayout:
+                id: profile_page
+                orientation: "vertical"
+                md_bg_color: app.main_texture #"#DFD7F3"
+                MDCard:
+                    size_hint: None, None
+                    size: 40, 35
+                    md_bg_color: "#FFFFFF"
+                    elevation: 2
+                    radius: [10]
+                    padding: 8
+                    pos_hint: {"center_x":.13, "center_y":.95}
+                    MDFloatLayout:
+                        size_hint: .9, .9
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        MDIconButton:
+                            icon: "theme-light-dark"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                app.change_screen("themes")
+                                #screen_manager.current = "home"
+                                #app.reverse_color()
+                MDCard:
+                    size_hint: None, None
+                    size: 50, 40
+                    md_bg_color: "#FFFFFF"
+                    elevation: 2
+                    radius: [10]
+                    padding: 8
+                    pos_hint: {"center_x":.84, "center_y":.95}
+                    MDFloatLayout:
+                        size_hint: .9, .9
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        MDTextButton:
+                            text: "Edit"
+                            font_size: 13
+                            pos_hint: {"center_x":.3, "center_y":.5}
+                            halign: "center"
+                            on_release:
+                                scrn_mgnr.current = "edit profile"
+                        MDIconButton:
+                            icon: "chevron-right"
+                            #user_font_size: 18
+                            pos_hint: {"center_x":.85, "center_y":.5}
+                            on_release:
+                                scrn_mgnr.current = "edit profile"
+
+                MDFloatLayout:
+                    orientation: "vertical"
+                    size_hint: .95, .35
+                    radius: [30]
+                    pos_hint: {"center_x":.5, "center_y":.7}
+
+                    FitImage:
+                        id: profile
+                        source: "store/cate-car.jpg"
+                        size_hint: .95, .85
+                        keep_ratio: False
+                        allow_stretch: True
+                        radius: [12]
+                        pos_hint: {"center_x":.5, "center_y":.65}
+
+                    MDFloatLayout:
+                        orientation: "vertical"
+                        size_hint: .95, .18
+                        md_bg_color: 1, 1, 1, 0.35
+                        pos_hint: {"center_x":.5, "center_y":.3}
+                        radius: [8]
+                        MDIconButton:
+                            icon: "plus-circle-outline"
+                            pos_hint: {"center_x":.1, "center_y":.55}
+                            theme_text_color: "Custom"
+                            text_color: app.main_accent_color
+                            #user_font_size: 20
+                            on_release:
+                                on_release: app.open_cover_manger()
+                        MDLabel:
+                            id: user_name
+                            text: "username:"
+                            halign: "center"
+                            font_size: 15
+                            pos_hint: {"center_x":.5, "center_y":.55}
+
+                ScrollView:
+                    do_scroll_x: False
+                    do_scroll_y: True
+                    pos_hint: {"center_x":.5, "center_y":.13}
+                    bar_width: 0
+                    size_hint_y: .95
+
+                    MDFloatLayout:
+#                        id: profile_list
+#                        md_bg_color: "#FFFFFF"#1, 0, 0, 1
+                        #cols: 1
+                        orientation: 'vertical'
+                        pos_hint: {"center_x":.5}
+                        size_hint_y: 1.5
+                        padding: [15, 10, 0, 55]
+                        #spacing: 15
+                        #height: self.minimum_height
+                        #row_default_height: 50
+                        MDCard:
+                            orientation: "vertical"
+                            size_hint: None, None
+                            size: 280, 60
+                            padding: 15, 8
+                            pos_hint: {"center_x":.5, "center_y":.95}
+                            radius: [10]
+                            spacing: 15
+                            md_bg_color: "#FFFFFF"
+#                            elevation: 2
+                            MDLabel:
+                                text: "Full Name"
+                                font_size: "16sp"
+                            MDLabel:
+                                id: fullname
+                                text: "Fullname"
+                                font_size: "14sp"
+                                color: app.theme_cls.primary_color #rgba(200, 200, 200, 255)
+##                                font_name: "SPoppins"
+                        MDCard:
+                            orientation: "vertical"
+                            size_hint: None, None
+                            size: 280, 60
+                            padding: 15
+                            pos_hint: {"center_x":.5, "center_y":.87}
+                            radius: [10]
+                            spacing: 15
+                            md_bg_color: "#FFFFFF"
+#                            elevation: 2
+                            MDLabel:
+                                text: "E-mail"
+                                font_size: "16sp"
+                            MDLabel:
+                                id: email
+                                text: "E-Mail"
+                                font_size: "14sp"
+                                color: app.theme_cls.primary_color #rgba(200, 200, 200, 255)
+#                                font_name: "SPoppins"
+                        MDCard:
+                            orientation: "vertical"
+                            size_hint: None, None
+                            size: 280, 60
+                            padding: 15, 8
+                            pos_hint: {"center_x":.5, "center_y":.79}
+                            radius: [10]
+                            spacing: 15
+                            md_bg_color: "#FFFFFF"
+#                            elevation: 2
+                            MDFloatLayout:
+                                orientation: "vertical"
+                                size_hint: 1, 1
+                                pos_hint: {"center_x":.5, "center_y":.5}
+                                MDLabel:
+                                    text: "password"
+                                    font_size: "16sp"
+                                    pos_hint: {"center_x":.5, "center_y":.75}
+                                MDLabel:
+                                    id: pass_word
+                                    text: "PassWord"
+                                    font_size: "14sp"
+                                    color: app.theme_cls.primary_color #rgba(200, 200, 200, 255)
+#                                    font_name: "SPoppins"
+                                    pos_hint: {"center_x":.5, "center_y":.25}
+                                MDIconButton:
+                                    id: password_btn
+                                    icon: "eye"
+                                    pos_hint: {"center_x":.95, "center_y":.5}
+                                    on_release:
+                                        app.hide_password()
+
+                        MDCard:
+                            orientation: "vertical"
+                            size_hint: None, None
+                            size: 280, 60
+                            padding: 15, 8
+                            radius: [10]
+                            pos_hint: {"center_x":.5, "center_y":.71}
+                            spacing: 15
+                            md_bg_color: "#FFFFFF"
+#                            elevation: 2
+                            MDLabel:
+                                text: "Skills"
+                                font_size: "16sp"
+                            MDLabel:
+                                id: skills
+                                text: "skills description"
+                                font_size: "14sp"
+                                color: app.theme_cls.primary_color #rgba(200, 200, 200, 255)
+#                                font_name: "SPoppins"
+
+                        MDRoundFlatButton:
+                            id: login_logout_btn
+                            text: "Login"
+                            pos_hint: {"center_x":.5, "center_y":.6}
+                            size_hint: .85, .05
+                            text_color: 1, 0, 0, 1
+                            on_release:
+                                app.check_logout()
+#                                root.manager.current = "page"
+#                                app.change_page("login")
+#                                app.check_screen()
+        MDScreen:
+            name: "motivation_screen"
+            MDFloatLayout:
+                orientation: "vertical"
+                md_bg_color: app.main_texture
+                MDIconButton:
+                    icon: "refresh"
+                    pos_hint: {"center_x":.9, "center_y":.95}
+                    user_font_size: 20
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color
+                    on_release:
+                        app.call_refresh()
+
+                FitImage:
+                    id: home_image
+                    source: "store/mylogo.png"
+                    size_hint: .1, .05
+                    keep_ratio: False
+                    allow_stretch: True
+                    pos_hint: {"center_x":.1, "center_y":.95}
+                    radius: [10]
+                    elevation: 1
+                MDFloatLayout:
+                    orientation: "horizontal"
+                    size_hint: None, None#.93, .5
+                    width: "200dp"
+                    height: "30dp"
+                    md_bg_color: 0, 0, 0, .05 #"#DFD7F3"
+                    pos_hint: {"center_x":.5, "center_y":.95}
+                    radius: [12]
+                    MDIconButton:
+                        icon: "magnify"
+                        pos_hint: {"center_x":.08, "center_y":.5}
+                        theme_icon_color: "Custom"
+                        icon_color: 0, 0, 0, .08
+                        on_release:
+                            app.search()
+                    TextInput:
+                        id: home_search
+                        hint_text: "Search notes"
+                        pos_hint: {"center_x":.55, "center_y":.5}
+                        multiline: False
+                        size_hint_x: .85
+                        height: self.minimum_height
+                        line_color: 1, 1, 1, .4
+                        background_color: 0, 0, 0, .0
+                        foreground_color: app.main_accent_color
+                        line_height: 0
+                        line_color_focus: 1, 1, 1, .2
+                        line_color_normal: 1, 1, 1, .4
+                        on_text_validate:
+                            app.search()
+
+#                MDLabel:
+#                    id: greeting
+#                    text: "Good evening."
+#                    halign: "center"
+#                    pos_hint: {"center_x":.4, "center_y":.96}
+#                    font_size: 16
+#                    color: app.theme_cls.accent_color
+#                MDLabel:
+#                    id: home_user_name
+#                    text: "JACK"
+#                    halign: "center"
+#                    pos_hint: {"center_x":.35, "center_y":.93}
+#                    font_size: 12
+#                    font_style: "Caption"
+#                    color: 0, 0, 0, 1
+
+                MDLabel:
+                    id: date
+                    text: "Get Motivated Today"
+                    halign: "center"
+                    pos_hint: {"center_x":.42, "center_y":.88}
+                    font_size: 15
+                    bold: True
+                    font_name: app.fonts.styled
+                    theme_text_color: "Custom"
+                    text_color:  app.main_primary_color
+
+                ScrollView:
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    size_hint_y: .9
+                    pos_hint: {"center_x":.5, "center_y":.43}
+                    bar_width: 5
+                    MDFloatLayout:
+                        orientation: "vertical"
+                        size_hint_y: 5.5
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        # for the category layout
+
+                        MDLabel:
+                            text: "Most Popular Motivations"
+                            halign: "center"
+                            pos_hint: {"center_x":.32, "center_y": .99}
+                            font_size: 14
+                            theme_text_color: "Custom"
+                            text_color: app.main_primary_color
+
+                        # most Popular Layout
+                        ScrollView:
+                            do_scroll_y: False
+                            do_scroll_x: True
+                            size_hint_y: .045
+                            pos_hint: {"center_y":.96}
+                            bar_width: 0
+                            GridLayout:
+                                id: most_popular_quotes_layout
+                                size_hint_x: None
+                                height: self.minimum_height
+                                width: self.minimum_width
+                                rows: 1
+                                spacing: 10
+                                padding: 18, 0
+
+
+                        MDLabel:
+                            text: "Quotes of the day"
+                            halign: "center"
+                            pos_hint: {"center_x":.25, "center_y":.932}
+                            font_size: 14
+                            theme_text_color: "Custom"
+                            text_color: app.main_accent_color
+#                            color: 0, 0, 0, 1
+
+
+                        # quotes of the day layout
+                        ScrollView:
+                            do_scroll_y: False
+                            do_scroll_x: True
+                            size_hint_y: .037
+                            pos_hint: {"center_y":.907}
+                            bar_width: 0
+                            GridLayout:
+                                id: quotes_of_the_day_layout
+                                size_hint_x: None
+                                height: self.minimum_height
+                                width: self.minimum_width
+                                rows: 1
+                                spacing: 10
+                                padding: 18, 0
+
+                        MDLabel:
+                            text: "Quotes for the day"
+                            halign: "center"
+                            pos_hint: {"center_x":.25, "center_y":.885}
+                            font_size: 14
+                            theme_text_color: "Custom"
+                            text_color: app.main_primary_color
+#                            color: 0, 0, 0, 1
+                            bold: True
+                        # quotes for the day layout
+                        ScrollView:
+                            pos_hint: {"center_x":.49, "center_y":.63}
+                            size_hint_y:.5
+                            do_scroll_y: True
+                            do_scroll_x: False
+                            MDGridLayout:
+                                id: quotes_for_the_day_layout
+                                cols: 1
+                                size_hint_x: None
+                                size_hint_y: 5
+                                padding: [10, 10]
+                                spacing: 10
+                                #pos_hint: {"center_x":.5, "center_y":.5}
+                                height: self.minimum_height
+                                row_default_height: 120
+                                #adaptive_height: True
+                                #QuotesForTheDayImageCard:
+        MDScreen:
+            name: "search_screen"
+            MDFloatLayout:
+                orientation: "vertical"
+                md_bg_color:  app.main_texture
+                ScrollView:
+                    size_hint_y: .65
+                    pos_hint: {"center_x":.5, "center_y":.5}
+                    MDList:
+                        id: results_list
+                        size_hint: .8, None
+                        height: self.minimum_height
+                        pos_hint: {"center_x":.5, "center_y":.85}
+                MDLabel:
+                    id: search_label
+                    text: "No Result"
+                    halign: "center"
+                    pos_hint: {"center_x":.5, "center_y":.75}
+                MDFloatLayout:
+                    orientation: "horizontal"
+                    size_hint: None, None#.93, .5
+                    width: "200dp"
+                    height: "30dp"
+                    md_bg_color: 0, 0, 0, .05 #"#DFD7F3"
+                    pos_hint: {"center_x":.5, "center_y":.95}
+                    radius: [12]
+                    MDIconButton:
+                        icon: "magnify"
+                        pos_hint: {"center_x":.08, "center_y":.5}
+                        theme_icon_color: "Custom"
+                        icon_color: 0, 0, 0, .08
+
+                    TextInput:
+                        id: search_input
+                        hint_text: "Search notes"
+                        pos_hint: {"center_x":.55, "center_y":.5}
+                        multiline: False
+                        size_hint_x: .85
+                        height: self.minimum_height
+                        line_color: 1, 1, 1, .4
+                        background_color: 0, 0, 0, .0
+                        foreground_color: app.main_accent_color
+                        line_height: 0
+                        line_color_focus: 1, 1, 1, .2
+                        line_color_normal: 1, 1, 1, .4
+                        on_text:
+                            app.on_search(self)
+#                        on_text_validate:
+#                            app.search()
+        MDScreen:
+            name: "edit profile"
+            MDFloatLayout:
+                orientation: "vertical"
+                md_bg_color:  app.main_texture
+                MDIconButton:
+                    icon: "arrow-left"
+                    pos_hint: {"center_y":.96}
+                    theme_text_color: "Custom"
+                    text_color: app.theme_cls.primary_color
+                    on_release:
+                        scrn_mgnr.current = "profile"
+                MDIconButton:
+                    icon: "account-outline"
+                    pos_hint: {"center_x":.9, "center_y":.96}
+                    theme_text_color: "Custom"
+                    text_color: app.theme_cls.primary_color
+                    on_release:
+                        scrn_mgnr.current = "profile"
+                MDLabel:
+                    text: "Edit Profile"
+                    halign: "center"
+                    pos_hint: {"center_x":.45, "center_y":.92}
+                    theme_text_color: "Custom"
+                    text_color: app.main_primary_color
+                FitImage:
+                    id: edit_profile_pics
+                    source: "store/profile_pics.png"
+                    pos_hint: {"center_x":.45, "center_y":.85}
+                    size_hint: .19, .1
+                    radius: [40]
+                MDIconButton:
+                    icon: "camera-enhance"
+                    pos_hint: {"center_x":.525, "center_y":.81}
+                    theme_text_color: "Custom"
+                    text_color: app.main_accent_color
+                    on_release:
+                        app.file_manager_open()
+
+                # just the styling (right side of the design)
+                MDFloatLayout:
+                    orientation: "vertical"
+                    # just the styling (right side of the design)
+                    MDFloatLayout:
+                        canvas:
+                            Color:
+                                rgb: (app.main_accent_color)
+                            RoundedRectangle:
+                                size: 60, 20
+                                pos: 290, 340
+                                radius: [13]
+                    MDFloatLayout:
+                        canvas:
+                            Color:
+                                rgb: (app.main_accent_color)
+                            RoundedRectangle:
+                                size: 60, 20
+                                pos: 270, 310
+                                radius: [13]
+                    MDFloatLayout:
+                        canvas:
+                            Color:
+                                rgb: (app.main_accent_color)
+                            RoundedRectangle:
+                                size: 60, 20
+                                pos: 290, 280
+                                radius: [13]
+                    # just the styling (left side of the design)
+                    MDFloatLayout:
+                        canvas:
+                            Color:
+                                rgb: (app.main_accent_color)
+                            RoundedRectangle:
+                                size: 55, 20
+                                pos: -30, 95
+                                radius: [13]
+                    MDFloatLayout:
+                        canvas:
+                            Color:
+                                rgb: (app.main_accent_color)
+                            RoundedRectangle:
+                                size: 55, 20
+                                pos: -30, 50
+                                radius: [13]
+                MDTextField:
+                    id: fullname_text_field
+                    hint_text: "Full Name(e.g joe John)"
+                    mode: "fill"
+                    fill_color: 0, 0, 0, .08
+                    size_hint: .95, .085
+                    text_color: 0,0,0,1
+                    valign: "center"
+                    pos_hint: {"center_x":.5,"center_y":.71}
+                    font_size: "14sp"
+                    font_style: "Caption"
+                    spacing: 5
+                    normal_color: 30/255, 30/255, 30/255, 1
+                    line_color: app.theme_cls.accent_color
+                    color_active: 30/255, 30/255, 30/255, 1
+                    theme_text_color: "Custom"
+                    text_color: app.theme_cls.primary_color #230/255, 230/255, 230/255, 1
+                    hint_text_color: 130/255, 130/255, 130/255, 1
+                MDTextField:
+                    id: email_textfield
+                    hint_text: "E-mail (e.g example@gmail.com) "
+                    pos_hint: {"center_x":.5,"center_y":.6}
+                    mode: "fill"
+                    fill_color: 0, 0, 0, .08
+                    valign: "center"
+                    size_hint: .95, .09
+                    font_size: "14sp"
+                    font_style: "Caption"
+                    spacing: 5
+                    normal_color: 30/255, 30/255, 30/255, 1
+                    line_color: app.theme_cls.accent_color
+                    color_active: 30/255, 30/255, 30/255, 1
+                    theme_text_color: "Custom"
+                    text_color: app.theme_cls.primary_color #230/255, 230/255, 230/255, 1
+                    hint_text_color: 130/255, 130/255, 130/255, 1
+                MDTextField:
+                    id: password_text_field
+                    hint_text: "password"
+                    pos_hint: {"center_x":.5,"center_y":.49}
+                    mode: "fill"
+                    password: True
+                    fill_color: 0, 0, 0, .08
+                    valign: "center"
+                    size_hint: .95, .09
+                    font_size: "14sp"
+                    font_style: "Caption"
+                    spacing: 5
+                    normal_color: 30/255, 30/255, 30/255, 1
+                    line_color: app.theme_cls.accent_color
+                    color_active: 30/255, 30/255, 30/255, 1
+                    theme_text_color: "Custom"
+                    text_color: app.theme_cls.primary_color #230/255, 230/255, 230/255, 1
+                    hint_text_color: 130/255, 130/255, 130/255, 1
+                MDIconButton:
+                    icon: "eye"
+                    id: button_to_hide_password
+                    pos_hint: {"center_x":.85, "center_y":.49}
+                    theme_text_color: "Custom"
+                    text_color: rgba(150, 150, 150, 255)
+                    on_release:
+                        self.icon = "eye-off" if self.icon == "eye" else "eye"
+                        password_text_field.password = False if password_text_field.password is True else True
+                MDTextField:
+                    id: username_textinput
+                    hint_text: "UserName"
+                    pos_hint: {"center_x":.5,"center_y":.38}
+                    mode: "fill"
+                    fill_color: 0, 0, 0, .08
+                    valign: "center"
+                    size_hint: .95, .09
+                    color: app.theme_cls.primary_color
+                    font_size: "14sp"
+                    font_style: "Caption"
+                    spacing: 5
+                    normal_color: 30/255, 30/255, 30/255, 1
+                    line_color: app.theme_cls.accent_color
+                    color_active: 30/255, 30/255, 30/255, 1
+                    theme_text_color: "Custom"
+                    text_color: app.theme_cls.primary_color #230/255, 230/255, 230/255, 1
+                    hint_text_color: 130/255, 130/255, 130/255, 1
+                MDTextField:
+                    id: skills_textfield
+                    hint_text: "Skills (e.g coding and more)"
+                    mode: "fill"
+                    fill_color: 0, 0, 0, .08
+                    valign: "top"
+                    size_hint: .95, .09
+                    pos_hint: {"center_x":.5,"center_y":.27}
+                    font_size: "14sp"
+                    font_style: "Caption"
+                    spacing: 5
+                    normal_color: 30/255, 30/255, 30/255, 1
+                    line_color: app.theme_cls.accent_color
+                    color_active: 30/255, 30/255, 30/255, 1
+                    theme_text_color: "Custom"
+                    text_color: app.theme_cls.primary_color #230/255, 230/255, 230/255, 1
+                    hint_text_color: 130/255, 130/255, 130/255, 1
+                MDLabel:
+                    text: "Warning!! please make sure you feel all TextField"
+                    pos_hint: {"center_x":.53,"center_y":.2}
+                    color: 1, 0, 0, 1
+                    font_size: "12sp"
+                MDFillRoundFlatButton:
+                    text: "Cancel"
+                    pos_hint: {"center_x":.3,"center_y":.15}
+                    md_bg_color: app.main_accent_color #rgba(235, 235, 235, 255)
+                    size_hint:.18, .05
+                    on_release:
+                        scrn_mgnr.current = "home"
+                MDFillRoundFlatButton:
+                    text: "Save"
+                    pos_hint: {"center_x":.6,"center_y":.15}
+                    md_bg_color: app.main_primary_color
+                    size_hint:.18, .05
+                    on_release:
+                        app.save_user_full_details()
+                        scrn_mgnr.current = "profile"
+
+        MDScreen:
+            name: "about"
+            MDFloatLayout:
+                orientation: "vertical"
+                id: about_page
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: None, None
+                    width: "130dp"
+                    height: "45dp"
+                    pos_hint: {"center_x":.5, "center_y":.83}
+                    radius: [8]
+                    elevation: 1
+                    MDLabel:
+                        text: "Tasksivate"
+                        halign: "center"
+                        pos_hint: {"center_x":.5, "center_y":.7}
+                        color: app.main_primary_color #"#5D3AB7"
+                        font_size: "18sp"
+
+                MDIcon:
+                    icon: "dots-circle"
+                    halign: "center"
+                    pos_hint: {"center_x":.67, "center_y":.83}
+                    color: app.main_accent_color #"#5D3AB7"
+                    font_size: "18sp"
+
+                MDLabel:
+                    text: "About The App"
+                    halign: "center"
+                    pos_hint: {"center_x":.5, "center_y":.62}
+                    font_size: 18
+                    color: 1, 1, 1, 1
+                    font_style: "H6"
+
+                MDFloatLayout:
+                    orientation: "vertical"
+                    md_bg_color: app.main_accent_color
+                    pos_hint: {"center_x":.5, "center_y":.35}
+                    size_hint: 1, .7
+
+                MDLabel:
+                    text: "this app was developed by 'switnex xtra' and his team to help a lot of. our team sat a thought about this App before creating "
+                    halign: "center"
+                    pos_hint: {"center_x":.5, "center_y":.55}
+                    font_size: 13
+                    size_hint_x: .9
+                    color: 1, 1, 1, 1
+                    font_style: "Subtitle2"
+
+                MDLabel:
+                    text: "What Does The App Do?"
+                    halign: "center"
+                    pos_hint: {"center_x":.5, "center_y":.48}
+                    font_size: 18
+                    color: 1, 1, 1, 1
+                    font_style: "H6"
+                    color: app.main_primary_color
+
+                MDLabel:
+                    text: "this app provides you with over 1k+ daily motivations on various topics such as happiness, wisdom, and more. it also provides you with over 2k+ daily Affirmations on lots of topics like self worth, man, woman and more. also this app can be used to calculate your Body Mass Index (BMI), schedule tasks, and know your weather. this is why this App is 'Your Own Gee!' & your paddy."
+                    halign: "center"
+                    pos_hint: {"center_x":.5, "center_y":.32}
+                    font_size: 12
+                    size_hint_x: .9
+                    color: 1, 1, 1, 1
+                    font_style: "Subtitle2"
+                MDCard:
+                    size_hint: None, None
+                    size: 30, 30
+                    md_bg_color: "#FFFFFF"
+                    elevation: 2
+                    radius: [8]
+                    padding: 8
+                    pos_hint: {"center_x":.1, "center_y":.95}
+                    MDFloatLayout:
+                        size_hint: .9, .9
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        MDIconButton:
+                            icon: "chevron-left"
+                            pos_hint: {"center_x":.5, "center_y":.5}
+                            on_release:
+                                scrn_mgnr.current = "home"
+
+    MDNavigationDrawer:
+        id: nav_drawer
+#        radius: (0, 16, 16, 0)
+        size_hint_y: .9
+        md_bg_color: app.main_texture #"#DFD7F3"
+        padding: 0
+        spacing: 0
+        pos_hint:{"center_y":.55}
+        ContentNavigationDrawer:
+
+
+
+    NavBar:
+        id: navbar
+        md_bg_color: app.main_texture #"FFFFFF"
+        radius: [15]
+        size_hint: None, None #.85, .1
+        height: dp(55)
+        width: dp(270)
+        pos_hint:{"center_x":.5, "center_y":.06}
+        elevation: 2
+        GridLayout:
+            cols: 5
+            spacing: "3dp"
+            padding: "15dp"
+            size_hint_x: .9
+            pos_hint:{"center_x":.43, "center_y":.7}
+            MDIconButton:
+                id: nav_icon1
+                icon: "view-dashboard-outline"
+                ripple_scale: 1
+                theme_text_color: "Custom"
+                text_color: app.nav_icon_color #"#DFD7F3" #app.theme_cls.primary_color #200/255, 200/255, 200/255, 1
+                pos_hint:{"center_x":.14, "center_y":.5}
+                on_release:
+                    app.change_color(self)
+                    app.nav_drawer_open()
+#                    app.show_interstitial_ads()
+            MDIconButton:
+                id: nav_icon2
+                icon: "text-box-check-outline"
+                ripple_scale: 1
+                theme_text_color: "Custom"
+                text_color: app.main_primary_color #"#5D3AB7" #200/255, 200/255, 200/255, 1
+                pos_hint:{"center_x":.14, "center_y":.5}
+                on_release:
+                    app.change_color(self)
+                    scrn_mgnr.current = "home"
+
+            MDIconButton:
+                id: nav_icon3
+                icon: "meditation" #"weather-partly-cloudy"
+                ripple_scale: 1
+                theme_text_color: "Custom"
+                text_color: app.nav_icon_color #200/255, 200/255, 200/255, 1
+                pos_hint:{"center_x":.62, "center_y":.5}
+                on_release:
+                    app.change_color(self)
+                    scrn_mgnr.current = "motivation_screen"
+                    app.ads.show_interstitial()
+
+            MDIconButton:
+                id: nav_icon4
+                icon: "air-filter"
+                ripple_scale: 1
+                theme_text_color: "Custom"
+                text_color: app.nav_icon_color #200/255, 200/255, 200/255, 1
+                pos_hint:{"center_x":.82, "center_y":.5}
+                on_release:
+                    scrn_mgnr.current = "note_screen"
+                    app.change_color(self)
+                    app.ads.show_interstitial()
+
+            MDIconButton:
+                id: nav_icon5
+                icon: "chart-bell-curve-cumulative"#"account-heart-outline"
+                ripple_scale: 2
+                theme_text_color: "Custom"
+                text_color: app.nav_icon_color #200/255, 200/255, 200/255, 1
+                pos_hint:{"center_x":.85, "center_y":.5}
+                on_release:
+                    scrn_mgnr.current = "insight"
+                    app.change_color(self)
+                    app.ads.show_interstitial()

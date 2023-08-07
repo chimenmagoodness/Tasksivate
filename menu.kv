@@ -1,0 +1,184 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+
+
+MDScreen:
+    name: "menu"
+    ScreenManager:
+        id: scrn_mgnr
+        transition: NoTransition()
+
+        MDScreen:
+            name: "menu"
+            MDFloatLayout:
+                orientation: "vertical"
+                md_bg_color: rgba(244, 146, 35,255)
+                MDFloatLayout:
+                    orientation: "vertical"
+                    md_bg_color: 1,1,1,0.35
+                    FitImage:
+                        id: menu_image
+                        source: "menuimages/morning_menu.png"
+                        size_hint: 1, .5
+                        pos_hint: {"center_x":.5, "center_y":.85}
+                        radius: [0, 0, 30, 30, ]
+
+                    MDLabel:
+                        id: menu_date
+                        text: ""
+                        halign: "center"
+                        pos_hint: {"center_x":.45, "center_y":.57}
+                        font_size: 13
+                        font_style: "Body2"
+                    MDLabel:
+                        id: suggest_txt
+                        text: "First Thing"
+                        halign: "center"
+                        pos_hint: {"center_x":.47, "center_y":.47}
+                        font_size: 70
+                        #font_style: "Subtitle1"
+                        font_name: app.fonts.BelieveIt
+
+                    MDLabel:
+                        id: welcome_text
+                        text: "Get Affirmed & Motivated Tonight before going to Bed. and Perhaps set your Schedule for Tomorrow"
+                        halign: "center"
+                        pos_hint: {"center_x":.5, "center_y":.37}
+                        size_hint_x: .93
+                        font_size: 15
+                        font_style: "Body2"
+
+                    Button:
+                        text: "Get Motivation"
+                        size_hint: .35, .06
+                        pos_hint: {"center_x": .25, "center_y": .27}
+                        background_color: 0, 0, 0, 0
+                        font_style: "Body2"
+                        font_size: "15sp"
+                        color: 1, 1, 1, 1
+                        on_release:
+                            app.change_menu_page("main")
+                            app.change_screen("motivation_screen")
+        #                    screen_manager.current = "motivation_screen"
+                        canvas.before:
+                            Color:
+                                rgb: app.theme_cls.accent_color #(1, 170/255, 23/255, 1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [10]
+
+                    Button:
+                        text: "Calculate BMI"
+                        size_hint: .35, .06
+                        pos_hint: {"center_x": .25, "center_y": .2}
+                        background_color: 0, 0, 0, 0
+                        font_style: "Body2"
+                        font_size: "15sp"
+                        color: 1, 1, 1, 1
+                        on_release:
+                            app.change_menu_page("main")
+                            app.change_screen("bmi_screen")
+                        canvas.before:
+                            Color:
+                                rgb: app.theme_cls.primary_color #(1, 170/255, 23/255, 1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [10]
+
+                    Button:
+                        text: "About The App"
+                        size_hint: .35, .06
+                        pos_hint: {"center_x": .25, "center_y": .13}
+                        background_color: 0, 0, 0, 0
+                        font_style: "Body2"
+                        font_size: "15sp"
+                        color: 1, 1, 1, 1
+                        on_release:
+                            app.change_menu_page("main")
+                            app.change_screen("about")
+        #                    screen_manager.current = "about"
+                        canvas.before:
+                            Color:
+                                rgb: (106/255, 83/255, 131/255, 255) #app.theme_cls.accent_color #(1, 170/255, 23/255, 1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [10]
+
+                    MDFloatLayout:
+                        orientation: "vertical"
+                        size_hint: .43,.21
+                        pos_hint: {"center_x":.68, "center_y":.2}
+                        md_bg_color: 1, 1, 1, 0.2
+                        radius: [17]
+
+
+                        FitImage:
+                            id: menu_profile_image
+                            source: "" #"store/propics2.jfif"
+                            size_hint: .4, .4
+                            pos_hint: {"center_x":.43, "center_y":.26}
+                            #keep_ratio: False
+                            #allow_stretch: True
+                            radius: [25,]
+
+                        MDLabel:
+                            text: "All Tasks: "
+                            halign: "center"
+                            pos_hint: {"center_x":.3, "center_y":.85}
+                            font_size: 12
+                            font_style: "Body2"
+                            theme_text_color: "Custom"
+                            text_color: app.theme_cls.primary_color
+
+                        # the text that displays the number of all tasks
+                        MDLabel:
+                            id: all_tasks
+                            text: "0"
+                            halign: "center"
+                            pos_hint: {"center_x":.57, "center_y":.85}
+                            font_size: 18
+                            bold: True
+                            font_style: "Body2"
+                            color: app.theme_cls.primary_color
+
+                        MDLabel:
+                            text: "Pending: "
+                            halign: "center"
+                            pos_hint: {"center_x":.3, "center_y":.7}
+                            font_size: 15
+                            bold: True
+                            theme_text_color: "Custom"
+                            text_color: app.main_accent_color
+                            #font_style: "Body2"
+
+                        # the text that displays the number of pending tasks
+                        MDLabel:
+                            id: pending_tasks
+                            text: "0"
+                            halign: "center"
+                            pos_hint: {"center_x":.57, "center_y":.7}
+                            bold: True
+                            font_size: 28
+                            font_style: "Body2"
+
+                        MDLabel:
+                            text: "Completed: "
+                            halign: "center"
+                            pos_hint: {"center_x":.34, "center_y":.55}
+                            font_size: 14
+                            theme_text_color: "Custom"
+                            bold: True
+                            text_color: rgba(106, 83, 131, 255)
+                            font_style: "Body2"
+
+                        # the text that displays the number of completed tasks
+                        MDLabel:
+                            id: completed_tasks
+                            text: "0"
+                            halign: "center"
+                            pos_hint: {"center_x":.67, "center_y":.55}
+                            bold: True
+                            font_size: 28
+                            font_style: "Body2"

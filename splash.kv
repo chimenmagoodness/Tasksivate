@@ -1,0 +1,42 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+
+MDScreen:
+    name: "splash"
+    ScreenManager:
+        id: scrn_mgnr
+        transition: NoTransition()
+
+        MDScreen:
+            name: "splash"
+            MDFloatLayout:
+                id: splash_layout
+                orientation: "vertical"
+                md_bg_color: app.main_theme_color #"#EBEBEB"
+                MDCard:
+                    orientation: "vertical"
+                    size_hint: None, None
+                    width: "131dp"
+                    height: "45dp"
+                    pos_hint: {"center_x":.5, "center_y":.6}
+                    radius: [10]
+                    elevation: 1
+                    MDLabel:
+                        text: "Tasksivate"
+                        halign: "center"
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        color: app.main_primary_color #"#5D3AB7"
+                        font_size: "18sp"
+
+                MDIcon:
+                    icon: "dots-circle"
+                    halign: "center"
+                    pos_hint: {"center_x":.67, "center_y":.6}
+                    color: app.main_accent_color #"#5D3AB7"
+                    font_size: "18sp"
+
+                MDLabel:
+                    text: "Get Motivated, \n Stay Tasksivated"
+                    halign: "center"
+                    pos_hint: {"center_x":.5, "center_y":.3}
+                    color: "red" #"#5D3AB7"
+                    font_size: "13sp"
