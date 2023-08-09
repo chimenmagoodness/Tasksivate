@@ -1,7 +1,7 @@
 [app]
 
 # (str) Title of your application
-title = Tasksivate
+title = tasksivate
 
 # (str) Package name
 package.name = taskisvate
