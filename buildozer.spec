@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,sdl2_ttf==2.0.15,docutils,certifi,jnius,pillow,kivymd,requests,plyer,pyjnius,kivmob,matplotlib
+requirements = python3,kivy,sdl2_ttf==2.0.15,docutils,certifi,jnius,pillow,kivymd,requests,plyer,pyjnius,kivmob,matplotlib,android
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -95,7 +95,8 @@ fullscreen = 0
 
 # (list) Permissions
 # (See https://python-for-android.readthedocs.io/en/latest/buildoptions/#build-options-1 for all the supported syntaxes and properties)
-android.permissions = android.permission.INTERNET, (name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18)
+android.permissions = android.permission.INTERNET, android.permission.ACCESS_NETWORK_STATE, (name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18)
+(name=android.permission.READ_EXTERNAL_STORAGE;maxSdkVersion=18), 
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
@@ -107,10 +108,10 @@ android.api = 33
 android.minapi = 21
 
 # (int) Android SDK version to use
-#android.sdk = 20
+android.sdk = 33
 
 # (str) Android NDK version to use
-#android.ndk = 23b
+android.ndk = 25b
 
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
 #android.ndk_api = 21
@@ -201,12 +202,13 @@ android.minapi = 21
 #android.add_resources =
 
 # (list) Gradle dependencies to add
-android.gradle_dependencies = 'com.google.firebase:firebase-ads:22.2.0'
-
+android.gradle_dependencies = com.google.firebase:firebase-ads:21.4.0, 
+androidx.appcompat:appcompat:1.6.1, 
+androidx.activity:activity:1.6.1 
 # (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
 # contains an 'androidx' package, or any package from Kotlin source.
 # android.enable_androidx requires android.api >= 28
-#android.enable_androidx = True
+android.enable_androidx = True
 
 # (list) add java compile options
 # this can for example be necessary when importing certain java libraries using the 'android.gradle_dependencies' option
@@ -260,7 +262,7 @@ android.gradle_dependencies = 'com.google.firebase:firebase-ads:22.2.0'
 #android.wakelock = False
 
 # (list) Android application meta-data to set (key=value format)
-android.meta_data = com.google.android.gms.ads.APPLICATION_ID='ca-app-pub-4268254501946298~4518366608'
+android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-4268254501946298~4518366608
 
 # (list) Android library project to add (will be added in the
 # project.properties automatically.)
