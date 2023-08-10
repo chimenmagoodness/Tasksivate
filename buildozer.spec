@@ -201,7 +201,7 @@ android.minapi = 21
 #android.add_resources =
 
 # (list) Gradle dependencies to add
-android.gradle_dependencies = 'com.google.firebase:firebase-ads:19.8.0'
+android.gradle_dependencies = 'com.google.firebase:firebase-ads:22.2.0'
 
 # (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
 # contains an 'androidx' package, or any package from Kotlin source.
