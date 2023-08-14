@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,sdl2_ttf==2.0.15,docutils,certifi,jnius,pillow,kivymd,requests,plyer,pyjnius,kivmob,matplotlib,android
+requirements = python3,kivy,sdl2_ttf==2.0.15,docutils,certifi,jnius,pillow,kivymd,requests,plyer,pyjnius,matplotlib,android, https://github.com/MichaelStott/KivMob/archive/refs/heads/master.zip
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -202,9 +202,9 @@ android.ndk = 25b
 #android.add_resources =
 
 # (list) Gradle dependencies to add
-android.gradle_dependencies = com.google.firebase:firebase-ads:21.4.0, 
-androidx.appcompat:appcompat:1.6.1, 
-androidx.activity:activity:1.6.1 
+android.gradle_dependencies = com.google.firebase:firebase-ads:21.4.0
+#androidx.appcompat:appcompat:1.6.1, 
+#androidx.activity:activity:1.6.1 
 # (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
 # contains an 'androidx' package, or any package from Kotlin source.
 # android.enable_androidx requires android.api >= 28
