@@ -47,10 +47,10 @@ from kivymd.uix.snackbar import BaseSnackbar
 from kivymd.uix.textfield import MDTextField
 from kivy.utils import get_color_from_hex as hex_to_rgba
 from kivy import platform
-# from kvdroid.jclass.android.graphics import Color
-# from kvdroid.tools.notification import create_notification
-# from kvdroid.tools import get_resource
-# from kvdroid.tools import share_text
+from kvdroid.jclass.android.graphics import Color
+from kvdroid.tools.notification import create_notification
+from kvdroid.tools import get_resource
+from kvdroid.tools import share_text
 
 
 class Tasksivate(MDApp):
@@ -59,7 +59,7 @@ class Tasksivate(MDApp):
     main_accent_color = ColorProperty([1, 170 / 255, 23 / 255, 1])
     main_texture = ColorProperty(hex_to_rgba("#e4f0fb"))
     media = OptionProperty('M', options=('XS', 'S', 'M', 'L', 'XL'))
-    ads = KivMob('ca-app-pub-4268254501946298~4518366608')  # 'ca-app-pub-4268254501946298~4518366608')
+    ads = KivMob('ca-app-pub-4268254501946298~45183123608')  # your app id here
     theme_color = ""
     tasks = ""
     notes = ""
@@ -1274,7 +1274,7 @@ class Tasksivate(MDApp):
         UrlRequest(urls, on_success=self.on_quotes_for_the_day, on_failure=self.on_failure,on_error=self.on_error)
         UrlRequest(url2, on_success=self.on_quotes_of_the_day, on_failure=self.on_failure,on_error=self.on_error)
         UrlRequest(api_url, on_success=self.on_most_popular, on_failure=self.on_failure,on_error=self.on_error,
-                   req_headers={'X-Api-Key': 'PKdyDYuaaEZ2vwwPogR8WA==8LPK2F0HaIMSXkP4'})
+                   req_headers={'X-Api-Key': 'YOUR API KEY'})
 
     @mainthread
     def on_quotes_for_the_day(self, request, result):
@@ -1918,13 +1918,11 @@ class Tasksivate(MDApp):
 
     # Define a function that will build your app
     def build(self):
-        self.ads.new_banner("ca-app-pub-4268254501946298/4026879184", top_pos=False)
+        self.ads.new_banner("ca-app-pub-4268254501946298/40200879184", top_pos=False) #YOUR BANNAR ADS ID
         self.ads.request_banner()
         self.ads.show_banner()
         # interstitial
-        # ('ca-app-pub-4268254501946298/4026879184', top_pos=False)
-        self.ads.load_interstitial("ca-app-pub-4268254501946298/8317477982")
-        # self.ads.load_rewarded_ad("ca-app-pub-4268254501946298/2523387912")
+        self.ads.load_interstitial("ca-app-pub-4268254501946298/8314977982") #YOUR INTERSTITIAL ADS ID
         global screen_manager
         screen_manager = ScreenManager()
         screen_manager.add_widget(Builder.load_file("menu.kv"))
@@ -1944,7 +1942,7 @@ class Tasksivate(MDApp):
         UrlRequest(urls, on_success=self.on_success1, on_failure=self.on_failure, on_error=self.on_error)
         UrlRequest(url2, on_success=self.on_success2, on_failure=self.on_failure, on_error=self.on_error)
         UrlRequest(url3, on_success=self.on_success3, on_failure=self.on_failure, on_error=self.on_error,
-                   req_headers={'X-Api-Key': 'PKdyDYuaaEZ2vwwPogR8WA==8LPK2F0HaIMSXkP4'})
+                   req_headers={'X-Api-Key': 'YOUR API KEY'})
         UrlRequest(url4, on_success=self.on_success4, on_failure=self.on_failure, on_error=self.on_error)
 
     @mainthread
@@ -2409,10 +2407,10 @@ class Tasksivate(MDApp):
         self.ads.request_banner()
 
         # interstitial
-        self.ads.load_interstitial("ca-app-pub-4268254501946298/8317477982")
+        self.ads.load_interstitial("ca-app-pub-4268254501946298/8314977982")
 
         # rewarded_ad
-        self.ads.load_rewarded_ad("ca-app-pub-4268254501946298/8317477982")
+        self.ads.load_rewarded_ad("ca-app-pub-4268254501946298/8314977982")
 
     def show_inter_ads(self, *args):
         self.ads.show_interstitial()
