@@ -17,10 +17,10 @@ MDScreen:
                     md_bg_color: 1,1,1,0.35
                     FitImage:
                         id: menu_image
-                        source: "menuimages/morning_menu.png"
+                        source: "menuimages/morning_menu.PNG"
                         size_hint: 1, .5
                         pos_hint: {"center_x":.5, "center_y":.85}
-                        radius: [0, 0, 30, 30, ]
+                        radius: [dp(0), dp(0), dp(30), dp(30)]
 
                     MDLabel:
                         id: menu_date
@@ -33,8 +33,8 @@ MDScreen:
                         id: suggest_txt
                         text: "First Thing"
                         halign: "center"
-                        pos_hint: {"center_x":.47, "center_y":.47}
-                        font_size: 70
+                        pos_hint: {"center_x":.47, "center_y":.53}
+                        font_size: dp(55)
                         #font_style: "Subtitle1"
                         font_name: app.fonts.BelieveIt
 
@@ -42,22 +42,24 @@ MDScreen:
                         id: welcome_text
                         text: "Get Affirmed & Motivated Tonight before going to Bed. and Perhaps set your Schedule for Tomorrow"
                         halign: "center"
-                        pos_hint: {"center_x":.5, "center_y":.37}
-                        size_hint_x: .93
-                        font_size: 15
+                        pos_hint: {"center_x":.5, "center_y":.43}
+                        size_hint_x: None
+                        width: dp(280)
+                        font_size: dp(15)
                         font_style: "Body2"
 
                     Button:
-                        text: "Get Motivation"
+                        text: "Add Task"
                         size_hint: .35, .06
-                        pos_hint: {"center_x": .25, "center_y": .27}
+                        pos_hint: {"center_x": .25, "center_y": .32}
                         background_color: 0, 0, 0, 0
                         font_style: "Body2"
                         font_size: "15sp"
                         color: 1, 1, 1, 1
                         on_release:
                             app.change_menu_page("main")
-                            app.change_screen("motivation_screen")
+                            app.change_screen("home")
+#                            app.start()
         #                    screen_manager.current = "motivation_screen"
                         canvas.before:
                             Color:
@@ -65,12 +67,12 @@ MDScreen:
                             RoundedRectangle:
                                 size: self.size
                                 pos: self.pos
-                                radius: [10]
+                                radius: (dp(10), dp(10))
 
                     Button:
                         text: "Calculate BMI"
                         size_hint: .35, .06
-                        pos_hint: {"center_x": .25, "center_y": .2}
+                        pos_hint: {"center_x": .25, "center_y": .245}
                         background_color: 0, 0, 0, 0
                         font_style: "Body2"
                         font_size: "15sp"
@@ -84,12 +86,12 @@ MDScreen:
                             RoundedRectangle:
                                 size: self.size
                                 pos: self.pos
-                                radius: [10]
+                                radius: (dp(10), dp(10))
 
                     Button:
                         text: "About The App"
                         size_hint: .35, .06
-                        pos_hint: {"center_x": .25, "center_y": .13}
+                        pos_hint: {"center_x": .25, "center_y": .17}
                         background_color: 0, 0, 0, 0
                         font_style: "Body2"
                         font_size: "15sp"
@@ -104,30 +106,30 @@ MDScreen:
                             RoundedRectangle:
                                 size: self.size
                                 pos: self.pos
-                                radius: [10]
+                                radius: (dp(10), dp(10))
 
                     MDFloatLayout:
                         orientation: "vertical"
                         size_hint: .43,.21
-                        pos_hint: {"center_x":.68, "center_y":.2}
+                        pos_hint: {"center_x":.68, "center_y":.25}
                         md_bg_color: 1, 1, 1, 0.2
-                        radius: [17]
+                        radius: (dp(17), dp(17))
 
 
                         FitImage:
                             id: menu_profile_image
                             source: "" #"store/propics2.jfif"
-                            size_hint: .4, .4
-                            pos_hint: {"center_x":.43, "center_y":.26}
-                            #keep_ratio: False
-                            #allow_stretch: True
-                            radius: [25,]
+                            size_hint: .97, .35
+#                            height: dp(40)
+#                            width: dp(40)
+                            pos_hint: {"center_x":.5, "center_y":.2}
+                            radius: [dp(0), dp(0), dp(15), dp(15)]
 
                         MDLabel:
                             text: "All Tasks: "
                             halign: "center"
                             pos_hint: {"center_x":.3, "center_y":.85}
-                            font_size: 12
+                            font_size: dp(12)
                             font_style: "Body2"
                             theme_text_color: "Custom"
                             text_color: app.theme_cls.primary_color
@@ -138,7 +140,7 @@ MDScreen:
                             text: "0"
                             halign: "center"
                             pos_hint: {"center_x":.57, "center_y":.85}
-                            font_size: 18
+                            font_size: dp(18)
                             bold: True
                             font_style: "Body2"
                             color: app.theme_cls.primary_color
@@ -147,7 +149,7 @@ MDScreen:
                             text: "Pending: "
                             halign: "center"
                             pos_hint: {"center_x":.3, "center_y":.7}
-                            font_size: 15
+                            font_size: dp(15)
                             bold: True
                             theme_text_color: "Custom"
                             text_color: app.main_accent_color
@@ -160,17 +162,17 @@ MDScreen:
                             halign: "center"
                             pos_hint: {"center_x":.57, "center_y":.7}
                             bold: True
-                            font_size: 28
+                            font_size: dp(28)
                             font_style: "Body2"
 
                         MDLabel:
                             text: "Completed: "
                             halign: "center"
                             pos_hint: {"center_x":.34, "center_y":.55}
-                            font_size: 14
+                            font_size: dp(14)
                             theme_text_color: "Custom"
-                            bold: True
                             text_color: rgba(106, 83, 131, 255)
+                            bold: True
                             font_style: "Body2"
 
                         # the text that displays the number of completed tasks
@@ -180,5 +182,5 @@ MDScreen:
                             halign: "center"
                             pos_hint: {"center_x":.67, "center_y":.55}
                             bold: True
-                            font_size: 28
+                            font_size: dp(28)
                             font_style: "Body2"

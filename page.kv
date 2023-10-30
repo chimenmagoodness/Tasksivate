@@ -28,7 +28,15 @@ MDScreen:
             MDFloatLayout:
                 id: login_layout
                 orientation: "vertical"
-                md_bg_color: "#EBEBEB"
+                md_bg_color: app.main_texture #"#EBEBEB"
+
+                MDIconButton:
+                    icon: "close"
+                    pos_hint: {"center_x":.1, "center_y":.9}
+                    theme_icon_color: "Custom"
+                    icon_color: 1, 0, 0, 1
+                    on_release:
+                        app.back_home()
 
                 MDIconButton:
                     icon: "account-circle"
@@ -51,12 +59,14 @@ MDScreen:
                     text: "Signin to continue"
                     halign: "center"
                     pos_hint: {"center_x":.5, "center_y":.7}
-                    font_size: 15
+                    font_size: dp(15)
                     font_style: "Caption"
                     color: 130/255, 130/255, 130/255, 1
 
                 MDFloatLayout:
-                    size_hint: .8, .073
+                    size_hint: None, None #.8, .073
+                    width: dp(250)
+                    height: dp(45)
                     pos_hint: {"center_x":.5, "center_y":.6}
                     md_bg_color:  "#FFFFFF"
                     elevation: 5
@@ -81,7 +91,9 @@ MDScreen:
                         text_color_focus: 93/255, 58/255, 183/255, 1 #"#5D3AB7"
 
                 MDFloatLayout:
-                    size_hint: .8, .073
+                    size_hint: None, None #.8, .073
+                    width: dp(250)
+                    height: dp(45)
                     pos_hint: {"center_x":.5, "center_y":.48}
                     md_bg_color:  "#FFFFFF"
                     elevation: 5
@@ -124,14 +136,16 @@ MDScreen:
                     text: "Remember me!"
                     halign: "center"
                     pos_hint: {"center_x":.38, "center_y":.38}
-                    font_size: 15
+                    font_size: dp(15)
                     font_style: "Caption"
                     color: "#5D3AB7" #130/255, 130/255, 130/255, 1
                     on_release:
                         app.remember_user()
 
                 MDFloatLayout:
-                    size_hint: .8, .065
+                    size_hint: None, None #.8, .073
+                    width: dp(250)
+                    height: dp(40)
                     pos_hint: {"center_x": .5, "center_y": .32}
                     md_bg_color:  "#5D3AB7"
                     radius: [5]
@@ -147,7 +161,7 @@ MDScreen:
                     text: "Don't have an Account? "
                     halign: "center"
                     pos_hint: {"center_x":.4, "center_y":.25}
-                    font_size: 15
+                    font_size: dp(15)
                     font_style: "Caption"
                     color: 130/255, 130/255, 130/255, 1
 
@@ -155,7 +169,7 @@ MDScreen:
                     text: "Signup"
                     halign: "center"
                     pos_hint: {"center_x":.7, "center_y":.25}
-                    font_size: 15
+                    font_size: dp(15)
                     font_style: "Caption"
                     color: "#5D3AB7" #130/255, 130/255, 130/255, 1
                     on_release:
@@ -167,7 +181,7 @@ MDScreen:
             MDFloatLayout:
                 id: signup_layout
                 orientation: "vertical"
-                md_bg_color:  "#FBFBFB"
+                md_bg_color:  app.main_texture #"#FBFBFB"
 
                 MDIconButton:
                     id: signup_back_btn
@@ -181,19 +195,21 @@ MDScreen:
                     text: "Create Account"
                     halign: "center"
                     pos_hint: {"center_x":.5, "center_y":.85}
-                    font_size: 20
+                    font_size: dp(20)
                     font_name: app.fonts.poppinsbold
 
                 MDLabel:
                     text: "create a new account"
                     halign: "center"
                     pos_hint: {"center_x":.5, "center_y":.82}
-                    font_size: 15
+                    font_size: dp(15)
                     font_style: "Caption"
                     color: 130/255, 130/255, 130/255, 1
 
                 MDFloatLayout:
-                    size_hint: .8, .065
+                    size_hint: None, None #.8, .073
+                    width: dp(250)
+                    height: dp(47)
                     pos_hint: {"center_x":.5, "center_y":.73}
                     md_bg_color:  "#FBFBFB"
                     MDIconButton:
@@ -215,7 +231,9 @@ MDScreen:
                         text_color_focus: 93/255, 58/255, 183/255, 1 #"#5D3AB7"
 
                 MDFloatLayout:
-                    size_hint: .8, .065
+                    size_hint: None, None #.8, .073
+                    width: dp(250)
+                    height: dp(47)
                     pos_hint: {"center_x":.5, "center_y":.635}
                     md_bg_color:  "#FBFBFB"
                     MDIconButton:
@@ -238,7 +256,9 @@ MDScreen:
                         text_color_focus: 93/255, 58/255, 183/255, 1 #"#5D3AB7"
 
                 MDFloatLayout:
-                    size_hint: .8, .065
+                    size_hint: None, None #.8, .073
+                    width: dp(250)
+                    height: dp(47)
                     pos_hint: {"center_x":.5, "center_y":.545}
                     md_bg_color:  "#FBFBFB"
                     MDIconButton:
@@ -263,7 +283,9 @@ MDScreen:
                         text_color_focus: 93/255, 58/255, 183/255, 1 #"#5D3AB7"
 
                 MDFloatLayout:
-                    size_hint: .8, .065
+                    size_hint: None, None #.8, .073
+                    width: dp(250)
+                    height: dp(47)
                     pos_hint: {"center_x":.5, "center_y":.455}
                     md_bg_color:  "#FBFBFB"
                     MDIconButton:
@@ -275,10 +297,10 @@ MDScreen:
                     MDTextField:
                         id: signup_password
                         hint_text: 'Password'
-                        pos_hint: {"center_x":.55, "center_y":.49}
+                        pos_hint: {"center_x":.548, "center_y":.49}
                         size_hint_x: .7
                         hint_text_color: "#EBEBEB"
-                        font_size: "15sp"
+                        font_size: dp(15)
                         line_color_normal: "#FBFBFB"
                         line_color_focus: "#FBFBFB"
                         theme_text_color: "Custom"
@@ -287,12 +309,14 @@ MDScreen:
                     MDIconButton:
                         icon: "eye-off"
                         pos_hint: {"center_x":.85, "center_y":.49}
-                        icon_size: "14sp"
+                        icon_size: dp(14)
                         on_release:
                             self.icon = "eye-off" if self.icon == "eye" else "eye"
                             signup_password.password = False if signup_password.password is True else True
                 MDFloatLayout:
-                    size_hint: .8, .065
+                    size_hint: None, None #.8, .073
+                    width: dp(250)
+                    height: dp(47)
                     pos_hint: {"center_x":.5, "center_y":.365}
                     md_bg_color:  "#FBFBFB"
                     MDIconButton:
@@ -300,7 +324,7 @@ MDScreen:
                         pos_hint: {"center_x":.1, "center_y":.53}
                         theme_text_color: "Custom"
                         text_color: "#5D3AB7"
-                        icon_size: "17sp"
+                        icon_size: dp(17)
                     MDTextField:
                         id: signup_skills
                         hint_text: 'Skills'
@@ -315,7 +339,9 @@ MDScreen:
                         text_color_focus: 93/255, 58/255, 183/255, 1 #"#5D3AB7"
 
                 MDFloatLayout:
-                    size_hint: .8, .065
+                    size_hint: None, None #.8, .073
+                    width: dp(250)
+                    height: dp(40)
                     pos_hint: {"center_x": .5, "center_y": .25}
                     md_bg_color:  "#5D3AB7"
                     radius: [5]
@@ -333,7 +359,7 @@ MDScreen:
                     text: "Already have an Account? "
                     halign: "center"
                     pos_hint: {"center_x":.4, "center_y":.19}
-                    font_size: 15
+                    font_size: dp(15)
                     font_style: "Caption"
                     color: 130/255, 130/255, 130/255, 1
 
@@ -341,7 +367,7 @@ MDScreen:
                     text: "Login"
                     halign: "center"
                     pos_hint: {"center_x":.7, "center_y":.19}
-                    font_size: 15
+                    font_size: dp(15)
                     font_style: "Caption"
                     color: "#5D3AB7"
                     on_release:
