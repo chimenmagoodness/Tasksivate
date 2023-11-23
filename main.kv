@@ -3,6 +3,7 @@
 #:import toast kivymd.toast.toast
 #:import asyncio asyncio
 #:import asyncio asyncio
+#: import StiffScrollEffect kivymd.effects.stiffscroll.StiffScrollEffect
 #:import Loader kivy.loader.Loader
 
 
@@ -75,28 +76,40 @@
         orientation: 'vertical'
 
 <MotivationView>
-    size_hint: None, None
     orientation: "vertical"
-    width: dp(300)
-    height: dp(200)
-    md_bg_color: app.nav_icon_color
+    spacing: dp(10)
+    size_hint: 1, None
+    height: "200dp"
+    md_bg_color: app.main_texture
     radius: (dp(20), dp(20))
-    pos_hint: {'center_x':.5, 'center_y':.5}
-
+    pos_hint: {'center_x':.2, 'center_y':.6}
     MDFloatLayout:
         orientation: "vertical"
-        pos_hint: {'center_x':.39, 'center_y':.5}
-#        md_bg_color: 0, 0, 0, .45
-        size_hint: None, None
-        width: dp(260)
-        height: dp(270)
-        padding: [dp(15), dp(10), dp(10), dp(15)]
+        size_hint: 1, 1
+        md_bg_color: app.main_texture
+        pos_hint: {"center_x":.5, "center_y":.5}
+#    size_hint: None, None
+#    orientation: "vertical"
+#    width: dp(280)
+#    height: dp(200)
+#    md_bg_color: app.main_texture
+#    radius: (dp(20), dp(20))
+#    pos_hint: {'center_x':.2, 'center_y':.6}
+
+#    MDFloatLayout:
+#        orientation: "vertical"
+#        pos_hint: {'center_x':.39, 'center_y':.5}
+##        md_bg_color: 0, 0, 0, .45
+#        size_hint: None, None
+#        width: dp(260)
+#        height: dp(270)
+#        padding: [dp(15), dp(10), dp(10), dp(15)]
 #        radius: dp(20)
         MDLabel:
             id: motivation_view_text
             text:  root.motivation_view_text #""" "Life" is hard, but you got to show her that you are "though" """
             halign: "center"
-            pos_hint: {"center_x":.5, "center_y":.6}
+            pos_hint: {"center_x":.45, "center_y":.7}
             font_size: dp(16)
             color: app.main_primary_color #1, 1, 1, 1
             #adaptive_height: True
@@ -108,7 +121,7 @@
             pos_hint: {"center_x":.7, "center_y":.18}
             bold: True
             font_size: dp(16)
-#            color: 0, 1, 1, 1
+    #            color: 0, 1, 1, 1
 
         MDIconButton:
             icon: "clipboard-outline"
@@ -345,7 +358,7 @@
     size_hint: None, None
     width: dp(300)
     height: dp(65)
-    md_bg_color: "#FFFFFF"
+    md_bg_color: app.nav_icon_color #"#FFFFFF"
     pos_hint: {"center_x":.5, "center_y":.5}
     elevation: 2
     radius: (dp(12), dp(12))
@@ -387,7 +400,7 @@
     size_hint: None, None
     width: dp(300)
     height: dp(65)
-    md_bg_color: "#FFFFFF"
+    md_bg_color: app.nav_icon_color #"#FFFFFF"
     pos_hint: {"center_x":.5, "center_y":.5}
     elevation: 2
     radius: (dp(12), dp(12))
@@ -520,7 +533,7 @@
     MDFloatLayout:
         orientation: "vertical"
         size_hint: None, None
-        width: dp(200)
+        width: dp(250)
         height: "150dp"
         FitImage:
             source: "store/mylogo.png"
@@ -554,7 +567,7 @@
                 theme_text_color: "Custom"
                 text_color: app.main_primary_color
                 on_release:
-                    app.change_screen("bmi_screen")
+                    app.go_bmi("bmi_screen")
                 IconLeftWidget:
                     icon: "gender-male-female"
                     theme_icon_color: "Custom"
@@ -595,7 +608,7 @@
                 theme_text_color: "Custom"
                 text_color: app.main_primary_color
                 on_release:
-                    app.change_screen("about")
+                    app.go_about("about")
                 IconLeftWidget:
                     icon: "unfold-more-vertical"
                     theme_icon_color: "Custom"
@@ -883,7 +896,6 @@
     height: dp(125)
     md_bg_color: app.main_accent_color #main_primary_color #"#7057BB"
     radius: (dp(15), dp(15))
-    elevation: 3
     on_release:
         app.edit_task(self)
         app.change_screen("edit_task")
@@ -1001,6 +1013,15 @@
         color: "#FFFFFF"
         pos_hint: {"center_x":.9, "center_y":.2}
 
+    Text:
+        id: task_time
+        text: root.task_time #"till Mon, 27 May"
+        font_size: "13sp"
+        halign: "center"
+        theme_text_color: "Custom"
+        color: "#9f9f9f"
+        pos_hint: {"center_x":.5, "center_y":.2}
+
 
 <TaskCard>
     orientation: "vertical"
@@ -1009,7 +1030,6 @@
     height: dp(125)
     shadow_offset: dp(-12), dp(-12)
     shadow_softness: dp(4)
-    elevation: dp(4)
     md_bg_color: root.md_bg_color #app.main_texture#"#FFFFFF"
     radius: [dp(14), dp(14), dp(14), dp(14)]
     on_release:
@@ -1045,7 +1065,7 @@
         text: root.end_date #"till Mon, 27 May"
         font_size: "13sp"
         theme_text_color: "Custom"
-        color: "#9f9f9f"
+        color: app.nav_icon_color #"#9f9f9f"
         pos_hint: {"center_x":.6, "center_y":.2}
     Text:
         id: category
@@ -1055,6 +1075,14 @@
         theme_text_color: "Custom"
 #        color: "#FFFFFF" #app.main_texture
         pos_hint: {"center_x":.82, "center_y":.86}
+    Text:
+        id: task_time
+        text: root.task_time #"till Mon, 27 May"
+        font_size: "13sp"
+        halign: "center"
+        theme_text_color: "Custom"
+        color: "#9f9f9f"
+        pos_hint: {"center_x":.85, "center_y":.2}
 
 <Dates>
     orientation: "vertical"
@@ -1203,40 +1231,10 @@ MDScreen:
                     bold: True
                     markup: True
                     font_name: app.fonts.bold #"Roboto-Bold"#app.fonts.body
-                    pos_hint: {"center_x":.45, "center_y":.9}
+                    pos_hint: {"center_x":.44, "center_y":.9}
                     theme_text_color: "Custom"
                     color: app.main_primary_color
 
-                # the search bar
-                MDFloatLayout:
-                    orientation: "horizontal"
-                    size_hint: None, None#.93, .5
-                    width: dp(280)
-                    height: dp(35)
-                    md_bg_color: 0, 0, 0, .05 #"#DFD7F3"
-                    pos_hint: {"center_x":.5, "center_y":.85}
-                    radius: (dp(12), dp(12))
-                    line_color: app.main_accent_color
-                    MDIconButton:
-                        icon: "magnify"
-                        pos_hint: {"center_x":.08, "center_y":.5}
-                        theme_icon_color: "Custom"
-                        icon_color: 0, 0, 0, .08
-                    TextInput:
-                        hint_text: "Search task with title"
-                        pos_hint: {"center_x":.5, "center_y":.5}
-                        multiline: False
-                        size_hint: None, None
-                        width: dp(200)
-                        height: dp(35)
-                        height: self.minimum_height
-                        line_color: 1, 1, 1, .4
-                        background_color: 0, 0, 0, .0
-                        foreground_color: app.main_accent_color
-                        line_height: 0
-                        line_color_focus: 1, 1, 1, .2
-                        line_color_normal: 1, 1, 1, .4
-                        on_text: app.search_tasks(self)
 
 #                This is the Layout that hold all the dates
                 ScrollView:
@@ -1263,7 +1261,7 @@ MDScreen:
                     size_hint: None, None #1, .7
                     width: dp(320)
                     height: dp(415)
-                    pos_hint: {"center_x":.46, "center_y":.43}
+                    pos_hint: {"center_x":.46, "center_y":.45}
                     bar_width: 0
                     GridLayout:
                         cols: 1
@@ -1516,6 +1514,47 @@ MDScreen:
                             width: dp(40)
                             height: dp(30)
                             radius: (dp(6), dp(6))
+
+                # the search bar
+                MDFloatLayout:
+                    orientation: "horizontal"
+                    size_hint: None, None#.93, .5
+                    width: dp(258)
+                    height: dp(34)
+                    md_bg_color: 0, 0, 0, .05 #"#DFD7F3"
+                    pos_hint: {"center_x":.48, "center_y":.85}
+                    radius: (dp(12), dp(12))
+                    line_color: app.main_accent_color
+                    MDIconButton:
+                        icon: "magnify"
+                        pos_hint: {"center_x":.08, "center_y":.5}
+                        theme_icon_color: "Custom"
+                        icon_color: 0, 0, 0, .08
+                    TextInput:
+                        hint_text: "Search task with title"
+                        pos_hint: {"center_x":.5, "center_y":.5}
+                        multiline: False
+                        size_hint: None, None
+                        width: dp(190)
+                        height: dp(34)
+                        height: self.minimum_height
+                        line_color: 1, 1, 1, .4
+                        background_color: 0, 0, 0, .0
+                        foreground_color: app.main_accent_color
+                        line_height: 0
+                        line_color_focus: 1, 1, 1, .2
+                        line_color_normal: 1, 1, 1, .4
+                        on_focus: pos_hint: {"center_x":.48, "center_y":.85}
+                        on_text: app.search_tasks(self)
+
+                MDIconButton:
+                    icon: "refresh"
+                    pos_hint: {"center_x":.9, "center_y":.85}
+                    theme_icon_color: "Custom"
+                    icon_size: dp(19)
+                    icon_color: app.main_primary_color
+                    on_release:
+                        app.refresh_tasks()
                 MDLabel:
                     id: task_search_text
                     text: ""
@@ -1575,8 +1614,8 @@ MDScreen:
                     id: all_completed_greeting
                     text: "Good evening."
                     halign: "center"
-                    pos_hint: {"center_x":.53, "center_y":.95}
-                    font_size: dp(18)
+                    pos_hint: {"center_x":.55, "center_y":.95}
+                    font_size: dp(16)
                     color: app.main_accent_color
                 Text:
                     id: all_completed_text
@@ -1587,7 +1626,7 @@ MDScreen:
                     bold: True
                     markup: True
                     font_name: app.fonts.bold #"Roboto-Bold"#app.fonts.body
-                    pos_hint: {"center_x":.53, "center_y":.9}
+                    pos_hint: {"center_x":.51, "center_y":.9}
                     theme_text_color: "Custom"
                     color: app.main_primary_color
                 RecycleView:
@@ -1597,7 +1636,7 @@ MDScreen:
                     height: dp(500) # Set the height to fit the content
                     orientation: 'vertical' # Set the orientation to vertical
                     viewclass: 'AllCompletedCard' # Bind the view class to the data model
-                    pos_hint: {"center_x":.5, "center_y":.47}
+                    pos_hint: {"center_x":.5, "center_y":.49}
                     RecycleGridLayout:
                         # Use RecycleGridLayout to arrange the items in a grid layout
                         cols: 1 # Set the number of columns to 1
@@ -1657,8 +1696,8 @@ MDScreen:
                     id: all_tasks_greeting
                     text: "Good evening."
                     halign: "center"
-                    pos_hint: {"center_x":.53, "center_y":.95}
-                    font_size: dp(18)
+                    pos_hint: {"center_x":.55, "center_y":.95}
+                    font_size: dp(16)
                     color: app.main_accent_color
 
                 Text:
@@ -1670,7 +1709,7 @@ MDScreen:
                     bold: True
                     markup: True
                     font_name: app.fonts.bold #"Roboto-Bold"#app.fonts.body
-                    pos_hint: {"center_x":.53, "center_y":.9}
+                    pos_hint: {"center_x":.51, "center_y":.9}
                     theme_text_color: "Custom"
                     color: app.main_primary_color
 
@@ -1681,7 +1720,7 @@ MDScreen:
                     height: dp(500) # Set the height to fit the content
                     orientation: 'vertical' # Set the orientation to vertical
                     viewclass: 'AllTasksCard' # Bind the view class to the data model
-                    pos_hint: {"center_x":.5, "center_y":.47}
+                    pos_hint: {"center_x":.5, "center_y":.49}
                     RecycleGridLayout:
                         # Use RecycleGridLayout to arrange the items in a grid layout
                         cols: 1 # Set the number of columns to 1
@@ -1740,7 +1779,7 @@ MDScreen:
                     id: all_progress_greeting
                     text: "Good evening."
                     halign: "center"
-                    pos_hint: {"center_x":.53, "center_y":.95}
+                    pos_hint: {"center_x":.55, "center_y":.95}
                     font_size: dp(16)
                     color: app.main_accent_color
                 Text:
@@ -1752,7 +1791,7 @@ MDScreen:
                     bold: True
                     markup: True
                     font_name: app.fonts.bold #"Roboto-Bold"#app.fonts.body
-                    pos_hint: {"center_x":.53, "center_y":.9}
+                    pos_hint: {"center_x":.51, "center_y":.9}
                     theme_text_color: "Custom"
                     color: app.main_primary_color
 
@@ -1763,7 +1802,7 @@ MDScreen:
                     height: dp(500) # Set the height to fit the content
                     orientation: 'vertical' # Set the orientation to vertical
                     viewclass: 'AllProgressCard' # Bind the view class to the data model
-                    pos_hint: {"center_x":.5, "center_y":.47}
+                    pos_hint: {"center_x":.5, "center_y":.49}
                     RecycleGridLayout:
                         # Use RecycleGridLayout to arrange the items in a grid layout
                         cols: 1 # Set the number of columns to 1
@@ -1821,7 +1860,7 @@ MDScreen:
 
                 MDTextButton:
                     id: login_logout_text
-                    text: "Logout"
+                    text: "Login"
                     font_size: dp(14)
                     halign: "left"
                     pos_hint: {"center_x":.35, "center_y":.91}
@@ -2037,6 +2076,7 @@ MDScreen:
                         line_color: 1, 1, 1, .4
                         background_color: 0, 0, 0, .0
                         foreground_color: app.main_primary_color#
+                        on_focus: pos_hint: {"center_x":.48, "center_y":.87}
                         line_height: 0
                         line_color_focus: 1, 1, 1, .2
                         line_color_normal: 1, 1, 1, .4
@@ -2063,6 +2103,7 @@ MDScreen:
                         line_color: 1, 1, 1, .4
                         background_color: 0, 0, 0, .0
                         foreground_color: app.main_primary_color
+                        on_focus: pos_hint: {"center_x":.48, "center_y":.77}
 #                        foreground_color: "red"
                         line_height: 0
                         line_color_focus: 1, 1, 1, .2
@@ -2129,12 +2170,12 @@ MDScreen:
                     do_scroll_x: False
                     size_hint_y: None #1, .55
                     height: dp(350)
-                    pos_hint: {"center_x":.53, "center_y":.4}
+                    pos_hint: {"center_x":.53, "center_y":.42}
                     bar_width: 0
                     GridLayout:
                         cols: 1
                         spacing: dp(15), dp(10)
-                        padding: [dp(15), dp(10), dp(15), dp(10)]
+                        padding: [dp(15), dp(8), dp(15), dp(10)]
 #                        row_default_height: 50
                         size_hint: None, None
                         height: self.minimum_height
@@ -2148,13 +2189,13 @@ MDScreen:
                             orientation: "vertical"
                             pos_hint:{"center_x":.5, "center_y":.5}
                             spacing: dp(15)
-                            padding: [dp(15), dp(10), dp(15), dp(10)]
+                            padding: [dp(15), dp(8), dp(15), dp(10)]
                             radius: (dp(15), dp(15))
                             GridLayout:
                                 id: todo_card_manager
                                 cols: 1
                                 spacing: dp(10), dp(10)
-                                padding: [dp(10), dp(10), dp(10), dp(10)]
+                                padding: [dp(10), dp(8), dp(10), dp(10)]
         #                        row_default_height: 50
                                 size_hint: 1.1, None
                                 height: self.minimum_height
@@ -2200,7 +2241,6 @@ MDScreen:
                     icon_color: app.main_primary_color#"#5D3AB7"
                     on_release:
                         app.save_edit_task(self)
-                        app.change_screen("home")
 
 #               title textfield
                 MDFloatLayout:
@@ -2223,6 +2263,7 @@ MDScreen:
                         line_color: 1, 1, 1, .4
                         background_color: 0, 0, 0, .0
                         foreground_color: app.main_primary_color
+                        on_focus: pos_hint: {"center_x":.48, "center_y":.87}
 #                        foreground_color: "red"
                         line_height: 0
                         line_color_focus: 1, 1, 1, .2
@@ -2251,6 +2292,7 @@ MDScreen:
                         line_color: 1, 1, 1, .4
                         background_color: 0, 0, 0, .0
                         foreground_color: app.main_primary_color
+                        on_focus: pos_hint: {"center_x":.48, "center_y":.77}
 #                        foreground_color: "red"
                         line_height: 0
                         line_color_focus: 1, 1, 1, .2
@@ -2268,7 +2310,7 @@ MDScreen:
                         md_bg_color: app.main_accent_color#1, 170 / 255, 23 / 255, 1
                         radius: (dp(9), dp(9))
                         pos_hint: {"center_x":.27, "center_y":.5}
-                        on_release: app.show_date_picker()
+                        on_release: app.show_edit_date_picker()
                         MDTextButton:
                             text: "Start & End Date"
                             font_name: app.fonts.poppinsregular
@@ -2277,7 +2319,7 @@ MDScreen:
                             text_color: "#FFFFFF"
                             font_size: dp(15)
                             on_release:
-                                app.show_date_picker()
+                                app.show_edit_date_picker()
                     EditableButtons:
                         size_hint: None, None #.43, .7
                         width: dp(48)
@@ -2294,7 +2336,7 @@ MDScreen:
                             theme_text_color: "Custom"
                             text_color: "#FFFFFF"
                             on_release:
-                                app.show_time_picker()
+                                app.show_edit_time_picker()
                     EditableButtons:
                         size_hint: None, None #.43, .7
                         width: dp(100)
@@ -2318,12 +2360,12 @@ MDScreen:
                     do_scroll_x: False
                     size_hint_y: None #1, .55
                     height: dp(350)
-                    pos_hint: {"center_x":.53, "center_y":.4}
+                    pos_hint: {"center_x":.53, "center_y":.42}
                     bar_width: 0
                     GridLayout:
                         cols: 1
                         spacing: dp(15), dp(10)
-                        padding: [dp(15), dp(10), dp(15), dp(10)]
+                        padding: [dp(15), dp(8), dp(15), dp(10)]
 #                        row_default_height: 50
                         size_hint: None, None
                         height: self.minimum_height
@@ -2337,13 +2379,13 @@ MDScreen:
                             orientation: "vertical"
                             pos_hint:{"center_x":.5, "center_y":.5}
                             spacing: dp(15)
-                            padding: [dp(15), dp(10), dp(15), dp(10)]
+                            padding: [dp(15), dp(8), dp(15), dp(10)]
                             radius: (dp(15), dp(15))
                             GridLayout:
                                 id: edit_todo_card_manager
                                 cols: 1
                                 spacing: dp(10), dp(10)
-                                padding: [dp(10), dp(10), dp(10), dp(10)]
+                                padding: [dp(10), dp(8), dp(10), dp(10)]
         #                        row_default_height: 50
                                 size_hint: 1.1, None
                                 height: self.minimum_height
@@ -2415,7 +2457,7 @@ MDScreen:
                         scrn_mgnr.current = "note_screen"
 
                 MDLabel:
-                    text: "Take Notes"
+                    text: "Edit Notes"
                     halign: 'center'
                     pos_hint: {"center_x":.4, "center_y":.95}
                     theme_text_color: "Custom"
@@ -2438,14 +2480,14 @@ MDScreen:
                     on_release:
                         app.save_edit_note(self)
                         root.ids.note_image_layout.clear_widgets()
-                        app.change_screen("note_screen")
+                        scrn_mgnr.current = "note_screen"
 
                 ScrollView:
                     do_scroll_y: True
                     do_scroll_x: False
                     size_hint: 1, None#1, .65
                     width: dp(300)
-                    height: dp(400)
+                    height: dp(500)
                     pos_hint: {"center_x":.5, "center_y":.58}
                     bar_width: 0
                     GridLayout:
@@ -3097,7 +3139,7 @@ MDScreen:
                     theme_icon_color: "Custom"
                     icon_color: app.main_primary_color #"#5D3AB7"
                     on_release:
-                        app.change_screen("note_screen")
+                        scrn_mgnr.current = "note_screen"
 
                 MDLabel:
                     text: "Take Notes"
@@ -3122,31 +3164,31 @@ MDScreen:
                     icon_color: "#5D3AB7"
                     on_release:
                         app.add_note()
-                        app.change_screen("note_screen")
+                        scrn_mgnr.current = "note_screen"
 
                 ScrollView:
                     do_scroll_y: True
                     do_scroll_x: False
                     size_hint: None, None#1, .65
                     width: dp(300)
-                    height: dp(400)
+                    height: dp(500)
                     pos_hint: {"center_x":.5, "center_y":.58}
                     bar_width: 0
                     GridLayout:
                         cols: 1
                         spacing: dp(15), dp(10)
-                        padding: [dp(10), dp(10), dp(10), dp(10)]
+                        padding: [dp(10), dp(5), dp(10), dp(10)]
                         row_default_height: dp(20)
                         size_hint_y: None
                         height: self.minimum_height
 #                        width: self.minimum_width
-                        pos_hint:{"center_x":.4, "center_y":.5}
+                        pos_hint:{"center_x":.4, "center_y":.55}
 
         #               title textfield
                         TextInput:
                             id: note_title
                             hint_text: "Title"
-                            pos_hint: {"center_x":.5, "center_y":.85}
+                            pos_hint: {"center_x":.5, "center_y":.9}
                             multiline: True
                             font_name: app.fonts.poppinsbold
                             bold: True
@@ -3164,7 +3206,7 @@ MDScreen:
                         TextInput:
                             id: note_description
                             hint_text: "Description or write note here"
-                            pos_hint: {"center_x":.5, "center_y":.52}
+                            pos_hint: {"center_x":.5, "center_y":.75}
                             multiline: True
                             size_hint: None, None #.85, .05
                             width: dp(300)
@@ -3202,20 +3244,20 @@ MDScreen:
                 orientation: "vertical"
                 md_bg_color: app.main_texture #"#EBEBEB"
                 MDLabel:
-                    text: "My Note"
+                    text: "My Notes"
 #                    bold: True
                     font_name: app.fonts.subheading #"Roboto-Medium"
                     theme_text_color: 'Custom'
                     text_color: app.main_primary_color #"#7057BB"
                     halign: "center"
                     font_size: dp(25)
-                    pos_hint: {"center_x":.5, "center_y":.95}
+                    pos_hint: {"center_x":.48, "center_y":.95}
 
                 MDIconButton:
                     icon: "refresh"
-                    pos_hint: {"center_x":.8, "center_y":.5}
+                    pos_hint: {"center_x":.8, "center_y":.95}
                     theme_icon_color: "Custom"
-                    icon_color: 0, 0, 0, .08
+                    icon_color: app.main_primary_color
                     icon_size: dp(19)
                     on_release:
                         app.load_notes()
@@ -3331,7 +3373,7 @@ MDScreen:
                     elevation: dp(5)
                     icon_size: dp(30)
                     on_release:
-                        app.change_screen("add_note_screen")
+                        scrn_mgnr.current = "add_note_screen"
 
         MDScreen:
             name: "bmi_screen"
@@ -4049,8 +4091,8 @@ MDScreen:
                     do_scroll_y: True
                     do_scroll_x: False
                     size_hint_y: None
-                    height: dp(440)
-                    pos_hint: {"center_x":.5, "center_y":.53}
+                    height: dp(500)
+                    pos_hint: {"center_x":.5, "center_y":.5}
                     bar_width: 5
                     MDBoxLayout:
                         orientation: "vertical"
@@ -4076,6 +4118,7 @@ MDScreen:
                             do_scroll_y: False
                             do_scroll_x: True
                             size_hint_y: None
+                            effect_cls: 'ScrollEffect'
                             pos_hint: {"center_y":.5}
                             height: dp(180)
                             # Change the orientation to horizontal
@@ -4122,6 +4165,7 @@ MDScreen:
                             do_scroll_y: False
                             do_scroll_x: True
                             size_hint_y: None
+                            effect_cls: 'ScrollEffect'
                             pos_hint: {"center_y":.5}
                             height: dp(135)
                             # Change the orientation to horizontal
@@ -4168,6 +4212,7 @@ MDScreen:
                             height: dp(390) # Set the height to fit the content
                             orientation: 'vertical' # Set the orientation to vertical
                             viewclass: 'QuotesForTheDayImageCard' # Bind the view class to the data model
+                            effect_cls: 'ScrollEffect'
                             RecycleGridLayout:
                                 # Use RecycleGridLayout to arrange the items in a grid layout
                                 cols: 1 # Set the number of columns to 1
@@ -4715,7 +4760,7 @@ MDScreen:
         shadow_offset: 0, 4
         shadow_softness: 3
         elevation: 4
-        pos_hint:{"center_x":.5, "center_y":.15}
+        pos_hint:{"center_x":.5, "center_y":.13}
         GridLayout:
             cols: 5
             spacing: dp(3)
