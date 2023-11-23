@@ -1,6 +1,5 @@
 import json
 from datetime import datetime, date
-from main import Tasksivate as ts
 from kvdroid.jclass.android.graphics import Color
 from kvdroid.tools.notification import create_notification
 from kvdroid.tools import get_resource
@@ -30,9 +29,9 @@ def send_notification(title, text, extras=None):
         pass
 
 
-def get_current_notification():
+def get_notification2():
     try:
-        notified_tasks = []
+        notified_tasks2 = []
         notification_id = 1
         with open('tasks-file.json') as json_file:
             data = json.load(json_file)
@@ -40,7 +39,7 @@ def get_current_notification():
         current_time = datetime.now().strftime("%I:%M %p")
         for task_data in data['task_body']:
             task_id = task_data['id']
-            if task_id not in notified_tasks:
+            if task_id not in notified_tasks2:
                 todays_date = date.today()
                 title = task_data['title']
                 tasks = task_data['tasks']
@@ -48,15 +47,10 @@ def get_current_notification():
                 start_date = task_data['start_date']
                 end_date = task_data['end_date']
                 task_time = task_data["time"]
-
-                if start_date == str(todays_date) and task_time == current_time:
+                if end_date == str(todays_date):
                     notification_id += 1
-                    send_notification(title=f"Reminder! It's time for {title}", text=f"{description}")
-                    notified_tasks.append(task_id)
+                    send_notification(title=f"Reminder! {title} ends Today!", text=f"{description}")
+                    notified_tasks2.append(task_id)
 
-                if end_date == str(todays_date) and task_time == current_time:
-                    notification_id += 1
-                    send_notification(title=f"Reminder! It's time for {title}", text=f"{description}")
-                    notified_tasks.append(task_id)
     except:
         pass
