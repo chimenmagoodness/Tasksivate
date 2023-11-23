@@ -63,7 +63,7 @@ class Tasksivate(MDApp):
     main_accent_color = ColorProperty([1, 170 / 255, 23 / 255, 1])
     main_texture = ColorProperty(hex_to_rgba("#e4f0fb"))
     media = OptionProperty('M', options=('XS', 'S', 'M', 'L', 'XL'))
-    ads = KivMob('ca-app-pub-4268254501946298~4518366608')  # 'ca-app-pub-4268254501946298~4518366608')
+    ads = KivMob(ADMOB APPID)
     theme_color = ""
     date_range = []
     tasks = ""
@@ -1968,7 +1968,7 @@ class Tasksivate(MDApp):
         UrlRequest(urls, on_success=self.on_success1, on_failure=self.on_failure, on_error=self.on_error)
         UrlRequest(url2, on_success=self.on_success2, on_failure=self.on_failure, on_error=self.on_error)
         UrlRequest(url3, on_success=self.on_success3, on_failure=self.on_failure, on_error=self.on_error,
-                   req_headers={'X-Api-Key': 'PKdyDYuaaEZ2vwwPogR8WA==8LPK2F0HaIMSXkP4'})
+                   req_headers={'X-Api-Key': 'YOUR API KEY'})
         UrlRequest(url4, on_success=self.on_success4, on_failure=self.on_failure, on_error=self.on_error)
 
     # quotes of the day Motivation
