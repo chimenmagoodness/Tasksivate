@@ -79,7 +79,7 @@ MDScreen:
                         color: 1, 1, 1, 1
                         on_release:
                             app.change_menu_page("main")
-                            app.change_screen("bmi_screen")
+                            app.go_bmi("bmi_screen")
                         canvas.before:
                             Color:
                                 rgb: app.theme_cls.primary_color #(1, 170/255, 23/255, 1)
@@ -98,7 +98,7 @@ MDScreen:
                         color: 1, 1, 1, 1
                         on_release:
                             app.change_menu_page("main")
-                            app.change_screen("about")
+                            app.go_about("about")
         #                    screen_manager.current = "about"
                         canvas.before:
                             Color:
@@ -146,9 +146,29 @@ MDScreen:
                             color: app.theme_cls.primary_color
 
                         MDLabel:
-                            text: "Pending: "
+                            text: "In progress: "
                             halign: "center"
-                            pos_hint: {"center_x":.3, "center_y":.7}
+                            pos_hint: {"center_x":.33, "center_y":.7}
+                            font_size: dp(12)
+                            font_style: "Body2"
+                            theme_text_color: "Custom"
+                            text_color: app.theme_cls.primary_color
+
+                        # the text that displays the number of in progress tasks
+                        MDLabel:
+                            id: progress_tasks
+                            text: "0"
+                            halign: "center"
+                            pos_hint: {"center_x":.61, "center_y":.7}
+                            font_size: dp(18)
+                            bold: True
+                            font_style: "Body2"
+                            color: app.theme_cls.primary_color
+
+                        MDLabel:
+                            text: "Not Started: "
+                            halign: "center"
+                            pos_hint: {"center_x":.34, "center_y":.55}
                             font_size: dp(15)
                             bold: True
                             theme_text_color: "Custom"
@@ -160,7 +180,7 @@ MDScreen:
                             id: pending_tasks
                             text: "0"
                             halign: "center"
-                            pos_hint: {"center_x":.57, "center_y":.7}
+                            pos_hint: {"center_x":.65, "center_y":.55}
                             bold: True
                             font_size: dp(28)
                             font_style: "Body2"
@@ -168,7 +188,7 @@ MDScreen:
                         MDLabel:
                             text: "Completed: "
                             halign: "center"
-                            pos_hint: {"center_x":.34, "center_y":.55}
+                            pos_hint: {"center_x":.35, "center_y":.4}
                             font_size: dp(14)
                             theme_text_color: "Custom"
                             text_color: rgba(106, 83, 131, 255)
@@ -180,7 +200,7 @@ MDScreen:
                             id: completed_tasks
                             text: "0"
                             halign: "center"
-                            pos_hint: {"center_x":.67, "center_y":.55}
+                            pos_hint: {"center_x":.68, "center_y":.42}
                             bold: True
                             font_size: dp(28)
                             font_style: "Body2"
