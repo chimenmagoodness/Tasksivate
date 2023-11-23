@@ -1,7 +1,5 @@
 # Tasksivate
 multi functional mobile appliction created with python using kivy and kivymd framework for your daily activities, such as tasks scheduling, notes taking, daily motivation, bmi calculations and much more.
-![play drawer](https://github.com/chimenmagoodness/Tasksivate/assets/62130469/11d1173c-2f97-49f9-ad26-958bbe9139e6)
-![play date](https://github.com/chimenmagoodness/Tasksivate/assets/62130469/de368919-9d9d-4be4-9a6c-af50cb175125)
 ![last page](https://github.com/chimenmagoodness/Tasksivate/assets/62130469/7cc3cda9-93db-4177-9528-8c72583c5dd4)
 ![featured](https://github.com/chimenmagoodness/Tasksivate/assets/62130469/fa466876-cc14-477f-9b12-52905c4d204c)
 ![play task](https://github.com/chimenmagoodness/Tasksivate/assets/62130469/32f4fc0c-7075-43ae-b8f9-146bb0f62383)
