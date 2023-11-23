@@ -3,19 +3,23 @@ import os
 import threading
 import tempfile
 import ssl
+import uuid
+from datetime import datetime, date
 
+import plyer
 from kivy.network.urlrequest import UrlRequest
 from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Color
 from kivy.uix.recycleview import RecycleView
-from kivymd.uix.fitimage import FitImage
-
+from kivymd import utils
+from kivymd.uix.snackbar import Snackbar
 from kivmob_mod import KivMob
 from kivymd.uix.label import MDLabel
 from matplotlib import pyplot as plt
 from kivy.uix.image import Image, AsyncImage
 from datetime import datetime
 import random
+
 import requests
 from kivy.app import App
 from kivy.clock import Clock, mainthread
@@ -31,7 +35,7 @@ from kivymd.theming import ThemableBehavior
 from kivymd.toast import toast
 from kivymd.uix.behaviors import MagicBehavior
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.button import MDFlatButton, MDIconButton
+from kivymd.uix.button import MDFlatButton, MDIconButton, MDTextButton
 from kivymd.uix.card import MDCard
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.filemanager import MDFileManager
@@ -47,10 +51,10 @@ from kivymd.uix.snackbar import BaseSnackbar
 from kivymd.uix.textfield import MDTextField
 from kivy.utils import get_color_from_hex as hex_to_rgba
 from kivy import platform
-from kvdroid.jclass.android.graphics import Color
-from kvdroid.tools.notification import create_notification
-from kvdroid.tools import get_resource
-from kvdroid.tools import share_text
+# from kvdroid.jclass.android.graphics import Color
+# from kvdroid.tools.notification import create_notification
+# from kvdroid.tools import get_resource
+# from kvdroid.tools import share_text
 
 
 class Tasksivate(MDApp):
@@ -59,12 +63,24 @@ class Tasksivate(MDApp):
     main_accent_color = ColorProperty([1, 170 / 255, 23 / 255, 1])
     main_texture = ColorProperty(hex_to_rgba("#e4f0fb"))
     media = OptionProperty('M', options=('XS', 'S', 'M', 'L', 'XL'))
-    ads = KivMob('ca-app-pub-4268254501946298~45183123608')  # your app id here
+    ads = KivMob('ca-app-pub-4268254501946298~4518366608')  # 'ca-app-pub-4268254501946298~4518366608')
     theme_color = ""
+    date_range = []
     tasks = ""
+    id = 1
+    notification_id = 1
+    channel_id = ""
+    ampm = ""
+    edit_notifier = []
     notes = ""
+    start_date = ""
+    end_date = ""
+    task_card_body = ListProperty([])
+    completed_body = ListProperty([])
+    progress_card_body = ListProperty([])
     quotes_data = []
     add_task_dialog = None
+    snackbar = ""
     edit_task_dialog = None
     delete_todo_dialog = None
     nav_icon_color = ColorProperty(hex_to_rgba("#FFFFFF"))
@@ -73,6 +89,8 @@ class Tasksivate(MDApp):
     weight = NumericProperty(12)
     age = NumericProperty(18)
     note_image_list = []
+    notified_tasks = []
+    notified_tasks2 = []
     accent_colors = ""
     primary_colors = ""
     dark_themes = ""
@@ -138,11 +156,9 @@ class Tasksivate(MDApp):
         'motivation_images/image-4.jpg', 'motivation_images/image-5.jpg', 'motivation_images/image-6.jpg',
         'motivation_images/image-7.jpg', 'motivation_images/image-8.jpg', 'motivation_images/image-9.jpg',
         'motivation_images/image-10.jpg', 'motivation_images/image-11.jpg', 'motivation_images/image-12.jpg',
-        'motivation_images/image-13.jpg', 'motivation_images/image-14.jpg', 'motivation_images/image-15.jpg',
-        'motivation_images/image-16.jpg', 'motivation_images/image-17.jpg', 'motivation_images/image-18.jpg',
-        'motivation_images/image-19.jpg', 'motivation_images/image-20.jpg', 'motivation_images/image-21.jpg',
-        'motivation_images/image-22.jpg', 'motivation_images/image-23.jpg', 'motivation_images/image-24.jpg',
-        'motivation_images/image-25.jpg', 'motivation_images/image-26.jfif']
+        'motivation_images/image-13.jpg', 'motivation_images/image-14.jpg', 'motivation_images/image-14.jpg',
+        'motivation_images/image-15.jpg'
+        ]
 
     # Define a list of background colors
     bg_colors = ["#FAF4E3", "#e6e6e6", "#F3EAF6", "#F6ECEE", "#E1F5EC", "#E3F0FF", "#FFDDE4", "#FFE9EE",
@@ -194,26 +210,43 @@ class Tasksivate(MDApp):
         self.file_manager = MDFileManager(
             exit_manager=self.exit_manager,
             select_path=self.select_path,
-            preview=True
+            preview=True,
+            md_bg_color=self.main_texture,
+            icon_color=self.main_accent_color,
+            background_color_toolbar=self.main_primary_color,
+            icon_selection_button="check",
         )
         self.note_file_manager = MDFileManager(
             exit_manager=self.exit_note_manager,
             select_path=self.select_note_path,
-            preview=True
+            preview=True,
+            md_bg_color=self.main_texture,
+            icon_color=self.main_accent_color,
+            background_color_toolbar=self.main_primary_color,
+            icon_selection_button="check",
         )
         self.edit_note_file_manager = MDFileManager(
             exit_manager=self.exit_edit_note_manager,
             select_path=self.select_edit_note_path,
-            preview=True
+            preview=True,
+            md_bg_color=self.main_texture,
+            icon_color=self.main_accent_color,
+            background_color_toolbar=self.main_primary_color,
+            icon_selection_button="check",
         )
         self.cover_manager = MDFileManager(
             exit_manager=self.exit_cover_manager,
             select_path=self.select_cover_path,
-            preview=True
+            preview=True,
+            md_bg_color=self.main_texture,
+            icon_color=self.main_accent_color,
+            background_color_toolbar=self.main_primary_color,
+            icon_selection_button="check",
         )
 
     def render(self, _):
-        threading.Thread(target=self.load_motivations, daemon=True).start()
+        pass
+        # t1 = threading.Thread(target=self.show_loading_dialog(), daemon=True)
         # t1.start()
 
     def open_edit_popup(self, image):
@@ -554,8 +587,9 @@ class Tasksivate(MDApp):
         dialog.dismiss()
 
     def menu_callback(self, text_item):
-        print(text_item)
+        pass
 
+    @mainthread
     def open_note_file_manger(self):
         try:
             if platform == 'android':
@@ -569,6 +603,7 @@ class Tasksivate(MDApp):
         except:
             pass
 
+    @mainthread
     def file_manager_open(self):
         try:
             if platform == 'android':
@@ -611,6 +646,7 @@ class Tasksivate(MDApp):
         except:
             pass
 
+    @mainthread
     def open_cover_manger(self):
         try:
             if platform == 'android':
@@ -624,6 +660,7 @@ class Tasksivate(MDApp):
         except:
             pass
 
+    @mainthread
     def check_platform(self):
         try:
             if platform == 'android':
@@ -710,11 +747,6 @@ class Tasksivate(MDApp):
         # noteimage.source = path
         self.root.get_screen("main").ids.edit_note_image_layout.add_widget(NI)
 
-    def exit_manager(self, *args):
-        '''Called when the user reaches the root of the directory tree.'''
-
-        self.manager_open = False
-        self.file_manager.close()
 
     def exit_cover_manager(self, *args):
         '''Called when the user reaches the root of the directory tree.'''
@@ -749,7 +781,7 @@ class Tasksivate(MDApp):
         return True
 
     @mainthread
-    def load_notes(self):
+    def load_notes(self, *args):
         try:
             note_file_path = "notes-file.json"
 
@@ -839,6 +871,7 @@ class Tasksivate(MDApp):
         self.root.get_screen("main").ids.note_description.text = ""
         self.root.get_screen("main").ids.note_image_layout.clear_widgets()
         self.note_image_list = []
+        Clock.schedule_once(self.load_notes, 3)
 
     def edit_note(self, note_card):
         # Access the data from the clicked NoteCard
@@ -880,7 +913,7 @@ class Tasksivate(MDApp):
 
         # Find the index of the edited note within the notes list
         for index, note in enumerate(notes):
-            note_body = note["note_body"]
+            note_body = note
             if note_body["title"] == title and note_body["description"] == description:
                 # Update the note data with the new values
                 note_body["title"] = self.root.get_screen("main").ids.edit_note_title.text
@@ -905,7 +938,7 @@ class Tasksivate(MDApp):
         # Clear the note layout before reloading the notes
         note_layout = self.root.get_screen("main").ids.note_manager
         note_layout.clear_widgets()
-        self.load_notes()
+        Clock.schedule_once(self.load_notes, 3)
 
     def delete_note(self, title, description):
         # Access the data from the clicked NoteCard
@@ -936,6 +969,7 @@ class Tasksivate(MDApp):
         self.root.get_screen("main").ids.note_manager.clear_widgets()
         self.load_notes()
 
+    @mainthread
     def delete_full_task(self, title, description):
         self.todo_count = self.todo_count
         self.progress_count = self.progress_count
@@ -956,6 +990,9 @@ class Tasksivate(MDApp):
                     self.todo_count -= 1
                     self.root.get_screen("main").ids.total_task_count.text = str(self.todo_count)
                     data["task_body"].pop(task_index)
+                    self.task_card_body.pop(task_index)
+                    self.root.get_screen("main").ids.task_card_layout.data = self.task_card_body
+
 
                 else:
                     completeness = completed_tasks_count / total_tasks_count
@@ -965,11 +1002,15 @@ class Tasksivate(MDApp):
                         self.completed_count -= 1
                         self.root.get_screen("main").ids.total_completed_task_count.text = str(self.completed_count)
                         data["task_body"].pop(task_index)
+                        self.completed_body.pop(task_index)
+                        self.root.get_screen("main").ids.completed_card_layout.data = self.completed_body
 
                     else:
                         self.progress_count -= 1
                         self.root.get_screen("main").ids.total_task_progress_count.text = str(self.progress_count)
                         data["task_body"].pop(task_index)
+                        self.progress_card_body.pop(task_index)
+                        self.root.get_screen("main").ids.progress_card_layout.data = self.progress_card_body
                         # try:
                         #     self.root.get_screen("main").ids.progress_card_layout.remove_widget(
                         #         self.root.get_screen("main").ids.progress_card_layout.children[task_index]
@@ -995,9 +1036,9 @@ class Tasksivate(MDApp):
 
     def get_categories_task(self, cate):
         try:
-            task_card_body = []
-            completed_body = []
-            progress_card_body = []
+            self.task_card_body = []
+            self.completed_body = []
+            self.progress_card_body = []
             self.todo_count = 0
             self.progress_count = 0
             self.completed_count = 0
@@ -1057,8 +1098,8 @@ class Tasksivate(MDApp):
                             "end_date": end_date,
                             "md_bg_color": random.choice(self.bg_colors)
                         }
-                        task_card_body.append(task_dict)
-                        self.root.get_screen("main").ids.task_card_layout.data = task_card_body
+                        self.task_card_body.append(task_dict)
+                        self.root.get_screen("main").ids.task_card_layout.data = self.task_card_body
                         self.root.get_screen("main").ids.progress_card_layout.data = []
                         self.root.get_screen("main").ids.completed_card_layout.data = []
                     else:
@@ -1079,8 +1120,8 @@ class Tasksivate(MDApp):
                                 "percent": f"{str(taskPecent)}%",
                                 "progress": taskPecent
                             }
-                            completed_body.append(completed_dict)
-                            self.root.get_screen("main").ids.completed_card_layout.data = completed_body
+                            self.completed_body.append(completed_dict)
+                            self.root.get_screen("main").ids.completed_card_layout.data = self.completed_body
                             self.root.get_screen("main").ids.progress_card_layout.data = []
                             self.root.get_screen("main").ids.task_card_layout.data = []
                         else:
@@ -1107,8 +1148,8 @@ class Tasksivate(MDApp):
                                 "percent": f"{str(taskPecent)}%",
                                 "progress": taskPecent
                             }
-                            progress_card_body.append(progress_dict)
-                            self.root.get_screen("main").ids.progress_card_layout.data = progress_card_body
+                            self.progress_card_body.append(progress_dict)
+                            self.root.get_screen("main").ids.progress_card_layout.data = self.progress_card_body
                             self.root.get_screen("main").ids.completed_card_layout.data = []
                             self.root.get_screen("main").ids.task_card_layout.data = []
                         # Print or process the extracted information as needed
@@ -1166,8 +1207,8 @@ class Tasksivate(MDApp):
                                 "end_date": end_date,
                                 "md_bg_color": random.choice(self.bg_colors)
                             }
-                            task_card_body.append(task_dict)
-                            self.root.get_screen("main").ids.task_card_layout.data = task_card_body
+                            self.task_card_body.append(task_dict)
+                            self.root.get_screen("main").ids.task_card_layout.data = self.task_card_body
                             self.root.get_screen("main").ids.progress_card_layout.data = []
                             self.root.get_screen("main").ids.completed_card_layout.data = []
                         else:
@@ -1188,8 +1229,8 @@ class Tasksivate(MDApp):
                                     "percent": f"{str(taskPecent)}%",
                                     "progress": taskPecent
                                 }
-                                completed_body.append(completed_dict)
-                                self.root.get_screen("main").ids.completed_card_layout.data = completed_body
+                                self.completed_body.append(completed_dict)
+                                self.root.get_screen("main").ids.completed_card_layout.data = self.completed_body
                                 self.root.get_screen("main").ids.progress_card_layout.data = []
                                 self.root.get_screen("main").ids.task_card_layout.data = []
                             else:
@@ -1216,8 +1257,8 @@ class Tasksivate(MDApp):
                                     "percent": f"{str(taskPecent)}%",
                                     "progress": taskPecent
                                 }
-                                progress_card_body.append(progress_dict)
-                                self.root.get_screen("main").ids.progress_card_layout.data = progress_card_body
+                                self.progress_card_body.append(progress_dict)
+                                self.root.get_screen("main").ids.progress_card_layout.data = self.progress_card_body
                                 self.root.get_screen("main").ids.completed_card_layout.data = []
                                 self.root.get_screen("main").ids.task_card_layout.data = []
                         break
@@ -1227,28 +1268,6 @@ class Tasksivate(MDApp):
         except Exception as error:
             toast(f"No Task found on '{cate.text}'")
 
-    def search_for_quotes_for_the_day(self, *args):
-        # getting search for the quotes_for_the_day
-        search_input = self.root.get_screen("main").ids.home_search.text
-        try:
-            url = f"https://api.api-ninjas.com/v1/quotes?category={search_input}"
-            reqest2 = requests.get(url,
-                                   headers={
-                                       'X-Api-Key': "Your Api Key"})  # requests.get(url)
-            quotes_respond = reqest2.json()
-            quotes_for_the_day_quote = quotes_respond[0]['quote']
-            quotes_for_the_day_author = quotes_respond[0]['author']
-            self.root.get_screen("main").ids.quotes_for_the_day_layout.add_widget(
-                QuotesForTheDayImageCard(quotes_for_the_day_text=quotes_for_the_day_quote,
-                                         quotes_for_the_day_author=quotes_for_the_day_author,
-                                         quote_bg_image=random.choice(self.motivation_bg_images)))
-
-        except IndexError:
-            toast(f"no Data on {search_input} for search_for_quotes_for_the_day")
-        except requests.ConnectionError:
-            self.ErrorNetwork = True
-        except requests.RequestException:
-            pass
 
     def on_error(self, request, error):
         if requests.ConnectionError:
@@ -1274,7 +1293,7 @@ class Tasksivate(MDApp):
         UrlRequest(urls, on_success=self.on_quotes_for_the_day, on_failure=self.on_failure,on_error=self.on_error)
         UrlRequest(url2, on_success=self.on_quotes_of_the_day, on_failure=self.on_failure,on_error=self.on_error)
         UrlRequest(api_url, on_success=self.on_most_popular, on_failure=self.on_failure,on_error=self.on_error,
-                   req_headers={'X-Api-Key': 'YOUR API KEY'})
+                   req_headers={'X-Api-Key': 'PKdyDYuaaEZ2vwwPogR8WA==8LPK2F0HaIMSXkP4'})
 
     @mainthread
     def on_quotes_for_the_day(self, request, result):
@@ -1877,10 +1896,11 @@ class Tasksivate(MDApp):
                 # print(f"This is the new completed list: {self.completed_tasks}")
 
             if task_text not in self.uncompleted_tasks and f"[s]{task_text}[/s]" not in self.uncompleted_tasks:
-                self.uncompleted_tasks.append(task_text)  # Add task to uncompleted tasks
+                self.uncompleted_tasks.append(task_text.strip("[s][/s]"))  # Add task to uncompleted tasks
                 self.uncompleted_tasks_count = len(self.uncompleted_tasks)
                 # print(f"This is the new uncompleted list: {self.uncompleted_tasks}")
 
+    @mainthread
     def complete(self, checkbox, value, todo_text, bar):
         task_text = todo_text.text
         if value:
@@ -1913,16 +1933,18 @@ class Tasksivate(MDApp):
                 # print(f"This is the new completed list: {self.completed_tasks}")
 
             if task_text not in self.uncompleted_tasks and f"[s]{task_text}[/s]" not in self.uncompleted_tasks:
-                self.uncompleted_tasks.append(task_text)  # Add task to uncompleted tasks
+                self.uncompleted_tasks.append(task_text.strip("[s][/s]"))  # Add task to uncompleted tasks
                 self.uncompleted_tasks_count = len(self.uncompleted_tasks)
 
     # Define a function that will build your app
     def build(self):
-        self.ads.new_banner("ca-app-pub-4268254501946298/40200879184", top_pos=False) #YOUR BANNAR ADS ID
+        self.icon = "store/myicon.png"
+        self.ads.new_banner("ca-app-pub-4268254501946298/4026879184", top_pos=False)
         self.ads.request_banner()
-        self.ads.show_banner()
         # interstitial
-        self.ads.load_interstitial("ca-app-pub-4268254501946298/8314977982") #YOUR INTERSTITIAL ADS ID
+        # ('ca-app-pub-4268254501946298/4026879184', top_pos=False)
+        self.ads.load_interstitial("ca-app-pub-4268254501946298/8317477982")
+        # self.ads.load_rewarded_ad("ca-app-pub-4268254501946298/2523387912")
         global screen_manager
         screen_manager = ScreenManager()
         screen_manager.add_widget(Builder.load_file("menu.kv"))
@@ -1930,7 +1952,11 @@ class Tasksivate(MDApp):
         screen_manager.add_widget(Builder.load_file("page.kv"))
         return screen_manager
 
-    @mainthread
+    # @mainthread
+    def load_motivation_in_thread(self):
+        load = threading.Thread(target=self.load_motivations,)
+        load.start()
+
     def load_motivations(self, *args):
         # Define the URL for the API endpoints
         urls = "https://quote-garden.onrender.com/api/v3/quotes?limit=25"
@@ -1942,9 +1968,10 @@ class Tasksivate(MDApp):
         UrlRequest(urls, on_success=self.on_success1, on_failure=self.on_failure, on_error=self.on_error)
         UrlRequest(url2, on_success=self.on_success2, on_failure=self.on_failure, on_error=self.on_error)
         UrlRequest(url3, on_success=self.on_success3, on_failure=self.on_failure, on_error=self.on_error,
-                   req_headers={'X-Api-Key': 'YOUR API KEY'})
+                   req_headers={'X-Api-Key': 'PKdyDYuaaEZ2vwwPogR8WA==8LPK2F0HaIMSXkP4'})
         UrlRequest(url4, on_success=self.on_success4, on_failure=self.on_failure, on_error=self.on_error)
 
+    # quotes of the day Motivation
     @mainthread
     def on_success1(self, request, result):
         # Process the first URL's response (urls)
@@ -1978,7 +2005,51 @@ class Tasksivate(MDApp):
 
         self.root.get_screen("main").ids.quotes_of_the_day_layout.data = quotes_data
 
+
+    # def on_success1(self, request, result):
+    #     data = result['data']
+    #     quotes_data = []
+    #
+    #     def process_data():
+    #         # Process the first URL's response (urls)
+    #         for q in data:
+    #             quote = q['quoteText']
+    #             author = q['quoteAuthor']
+    #
+    #             quotes_dict = {
+    #                 "qoute_of_the_day_text": quote,
+    #                 "quote_of_the_day_author": author,
+    #                 "md_bg_color": random.choice(self.bg_colors)
+    #             }
+    #
+    #             quotes_data.append(quotes_dict)
+    #
+    #         for i in range(10):
+    #             quotes = random.choice(self.my_quotes)
+    #             author = random.choice(self.author)
+    #
+    #             # Create a dictionary with the quote, author, and background color
+    #             quotes_dict = {
+    #                 "qoute_of_the_day_text": quotes,
+    #                 "quote_of_the_day_author": author,
+    #                 "md_bg_color": random.choice(self.bg_colors)
+    #             }
+    #
+    #             # Append the dictionary to the quotes data list
+    #             quotes_data.append(quotes_dict)
+    #
+    #         # Update the UI on the main thread
+    #         Clock.schedule_once(lambda dt: self.update_quotes_data(quotes_data), 0)
+    #
+    #     # Execute the time-consuming operation in a separate thread
+    #     threading.Thread(target=process_data).start()
+
+    def update_quotes_data(self, quotes_data):
+        # Update the UI on the main thread
+        self.root.get_screen("main").ids.quotes_of_the_day_layout.data = quotes_data
+
     @mainthread
+    # quotes for MostPopular Motivation
     def on_success2(self, request, result):
         # Process the second URL's response (url2)
         data2 = result['results']
@@ -1998,6 +2069,7 @@ class Tasksivate(MDApp):
         self.root.get_screen("main").ids.most_popular_quotes_layout.data = quotes_data2
 
     @mainthread
+    # quotes for the day Motivation
     def on_success3(self, request, result):
         # Process the third URL's response (api_url)
         data3 = result
@@ -2016,6 +2088,7 @@ class Tasksivate(MDApp):
         self.root.get_screen("main").ids.quotes_for_the_day_layout.data = self.quotes_data
 
     @mainthread
+    # quotes for the day Motivation
     def on_success4(self, request, result):
         # Process the third URL's response (api_url)
         data2 = result['results']
@@ -2179,11 +2252,13 @@ class Tasksivate(MDApp):
 
     @mainthread
     def share_text(self, qbody):
-        quotes = qbody.motivation_view_text
-        author = qbody.motivation_view_author
-        share_text(f"{quotes}\n By---> {author}", title="Share", chooser=False, app_package=None,
+        try:
+            quotes = qbody.motivation_view_text
+            author = qbody.motivation_view_author
+            share_text(f"{quotes}\n By---> {author}", title="Share", chooser=False, app_package=None,
                    call_playstore=False, error_msg="application unavailable")
-
+        except Exception as error:
+            toast(f"{error}")
     def close_motivation_view_dialog(self):
         self.motivation_view_dialog.dismiss()
 
@@ -2209,7 +2284,6 @@ class Tasksivate(MDApp):
             self.motivation_view_dialog = MDDialog(
                 title="Motivation Body",
                 type="custom",
-                # radius=[30],
                 auto_dismiss=True,
                 content_cls=MotivationView(motivation_view_text=quotes, motivation_view_author=author),
                 md_bg_color=self.nav_icon_color
@@ -2225,10 +2299,19 @@ class Tasksivate(MDApp):
         Clock.schedule_once(self.home_refresh, 4)
         Clock.schedule_once(self.close_loading_dialog, 8)
 
+    # refreshes the tasks
+    @mainthread
+    def refresh_tasks(self):
+        self.show_loading_dialog()
+        self.load_home_cate()
+        self.load_home_tasks()
+        self.get_todo_dates()
+        Clock.schedule_once(self.close_loading_dialog, 4)
+
     @mainthread
     def home_refresh(self, *args):
         try:
-            self.load_motivations()
+            self.load_motivation_in_thread()
             if self.ErrorNetwork != self.ErrorNetwork:
                 self.show_error_dialog()
         except requests.ConnectionError:
@@ -2399,19 +2482,31 @@ class Tasksivate(MDApp):
     def go_home(self, *args):
         screen_manager.current = "menu"
 
+    def go_bmi(self, screen_name):
+        self.nav_drawer_close()
+        self.root.get_screen("main").ids.scrn_mgnr.current = screen_name
+        self.root.get_screen("main").ids.nav_icon1.icon_color = "#abb3ac"
+
+    def go_about(self, screen_name):
+        self.nav_drawer_close()
+        self.root.get_screen("main").ids.scrn_mgnr.current = screen_name
+        self.root.get_screen("main").ids.nav_icon1.icon_color = "#abb3ac"
+
     def on_resume(self):
         self.start_up()
+        return True
 
     def load_ads(self):
         # banner
         self.ads.request_banner()
 
         # interstitial
-        self.ads.load_interstitial("ca-app-pub-4268254501946298/8314977982")
+        self.ads.load_interstitial("ca-app-pub-4268254501946298/8317477982")
 
         # rewarded_ad
-        self.ads.load_rewarded_ad("ca-app-pub-4268254501946298/8314977982")
+        self.ads.load_rewarded_ad("ca-app-pub-4268254501946298/8317477982")
 
+    @mainthread
     def show_inter_ads(self, *args):
         self.ads.show_interstitial()
 
@@ -2421,13 +2516,11 @@ class Tasksivate(MDApp):
         Clock.schedule_once(self.close_loading_dialog, 7)
 
     def on_pause(self):
-        self.get_current_notification()
-        Clock.schedule_interval(self.get_current_notification, 5)
         return True
 
     def start_up(self, *args):
         try:
-            self.tasks_notification()
+            # self.tasks_notification()
             self.load_home_cate()
             self.load_home_tasks()
             self.get_todo_dates()
@@ -2435,10 +2528,11 @@ class Tasksivate(MDApp):
             Clock.schedule_interval(self.show_inter_ads, 450)
             self.show_ads()
             self.show_all_categories()
-            Clock.schedule_interval(self.get_current_notification, 5)
+            Clock.schedule_interval(self.get_current_notification, 30)
+            Clock.schedule_interval(self.get_notification, 30)
             self.start_breathing()
             snackbar = CustomSnackbar(
-                text=f"app resumed",
+                text=f"Welcome Back!",
                 icon="information",
                 pos_hint={"center_y": .95},
                 buttons=[MDFlatButton(text="ACTION", theme_text_color="Custom", text_color=(1, 1, 1, 1))]
@@ -2447,19 +2541,25 @@ class Tasksivate(MDApp):
         except:
             pass
 
+    @mainthread
     def show_ads(self, *args):
         self.ads.show_banner()
         self.ads.show_interstitial()
 
+    @mainthread
+    def check_notifications(self, *args):
+        Clock.schedule_interval(self.get_current_notification, 10)
+        Clock.schedule_interval(self.get_notification, 5)
+        Clock.schedule_interval(self.get_notification2, 15)
+        Clock.schedule_interval(self.edit_task_notification, 5)
 
     @mainthread
     def on_start(self):
-        self.ads.show_banner()
+        self.start_service()
+        self.check_notifications()
+        self.load_motivation_in_thread()
         self.load_startup()
-        self.tasks_notification()
-        Clock.schedule_interval(self.get_current_notification, 5)
-        Clock.schedule_interval(self.show_inter_ads, 500)
-        # Clock.schedule_once(self.load_motivations, 6)
+        Clock.schedule_interval(self.show_inter_ads, 120)
         self.greet()
 
     @mainthread
@@ -2598,12 +2698,16 @@ class Tasksivate(MDApp):
 
     @staticmethod
     def start_service():
-        from jnius import autoclass
-        service = autoclass("org.tasksivating.taskisvate.ServiceTasksivate")
-        mActivity = autoclass("org.kivy.android.PythonActivity").mActivity
-        service.start(mActivity, "")
-        return service
+        try:
+            from jnius import autoclass
+            service = autoclass("org.tasksivating.taskisvate.ServiceTasksivate")
+            mActivity = autoclass("org.kivy.android.PythonActivity").mActivity
+            service.start(mActivity, "")
+            return service
+        except:
+            pass
 
+    @mainthread
     def on_save(self, instance, value, date_range):
         '''
         Events called when the "OK" dialog box button is clicked.
@@ -2620,12 +2724,23 @@ class Tasksivate(MDApp):
         # print(value, date_range)
         self.range = date_range
 
+    @mainthread
     def on_cancel(self, instance, value):
         '''Events called when the "CANCEL" dialog box button is clicked.'''
+        self.get_time()
 
     @mainthread
     def show_date_picker(self):
         date_dialog = MDDatePicker(mode="range")
+        date_dialog.bind(on_save=self.on_save, on_cancel=self.on_cancel)
+        date_dialog.open()
+
+    @mainthread
+    def show_edit_date_picker(self):
+        start_date = datetime.strptime(self.start_date, "%Y-%m-%d").date()
+        end_date = datetime.strptime(self.end_date, "%Y-%m-%d").date()
+        date_dialog = MDDatePicker(mode="range", min_date=start_date, max_date=end_date)
+        # date_dialog.date = self.date_range
         date_dialog.bind(on_save=self.on_save, on_cancel=self.on_cancel)
         date_dialog.open()
 
@@ -2635,6 +2750,23 @@ class Tasksivate(MDApp):
         time_dialog.bind(time=self.get_time, on_save=self.get_time)
         time_dialog.open()
 
+    @mainthread
+    def show_edit_time_picker(self):
+        self.ampm = self.todo_time.split()[1].lower()
+        previous_time = datetime.strptime(self.todo_time, '%H:%M %p').time()
+        time_dialog = MDTimePicker(am_pm=self.ampm)
+        time_dialog.set_time(previous_time)
+        time_dialog._set_am_pm(self.ampm)
+        time_dialog.bind(on_save=self.get_edited_time)
+        time_dialog.open()
+
+    @mainthread
+    def get_edited_time(self, instance, time):
+        formatted_time = time.strftime('%I:%M %p')
+        self.todo_time = formatted_time
+        print(self.todo_time)
+         #formatted_time.split()
+
     def get_time(self, instance, time):
         '''
         The method returns the set time.
@@ -2642,7 +2774,10 @@ class Tasksivate(MDApp):
         :type instance: <kivymd.uix.picker.MDTimePicker object>
         :type time: <class 'datetime.time'>
         '''
-        self.todo_time = time
+        # self.todo_time = time
+        # Convert the selected 24-hour time to 12-hour AM/PM format
+        formatted_time = time.strftime('%I:%M %p')
+        self.todo_time = formatted_time
 
     @mainthread
     def save_user_full_details(self):
@@ -2702,11 +2837,12 @@ class Tasksivate(MDApp):
             "main").ids.user_name.text.capitalize()
         self.root.get_screen("main").ids.login_logout_text.text = self.root.get_screen("main").ids.login_logout_btn.text
         self.root.get_screen("main").ids.insight_pics.source = self.root.get_screen("main").ids.edit_profile_pics.source
-        if self.root.get_screen("main").ids.pass_word.text != "PassWord":
+        if self.root.get_screen("main").ids.pass_word.text != "":
             self.root.get_screen("main").ids.login_logout_btn.text = "Logout"
             self.root.get_screen("main").ids.login_logout_text.text = "Logout"
         else:
             self.root.get_screen("main").ids.login_logout_btn.text = "LogIn"
+            self.root.get_screen("main").ids.login_logout_text.text = "LogIn"
 
     def delete_note_image(self, note_image):
         layout = self.root.get_screen("main").ids.note_image_layout
@@ -2812,34 +2948,38 @@ class Tasksivate(MDApp):
             todoCard = TodoCard()  # Create a new instance for each task
             todoCard.ids.todo_text.text = t
             self.root.get_screen("main").ids.edit_todo_card_manager.add_widget(todoCard)
-        print(f"the todo list: {self.todo_list}")
-
-    def reload_tasks(self):
-        pass
 
     @mainthread
     def add_full_todo(self):
-        # ...
-        title = self.root.get_screen("main").ids.task_title.text
-        description = self.root.get_screen("main").ids.task_description.text
         try:
-            # ...
-            start_date = self.range[0].strftime("%Y-%m-%d")  # Convert start date to string
-            end_date = self.range[-1].strftime("%Y-%m-%d")  # Convert end date to string
-            time_str = self.todo_time.strftime("%H:%M")  # Convert time to string
-            if self.category_text == "":
-                self.category_text = "all"
-            elif len(title) == 0:
-                toast("title can not be empty")
-            elif len(description) == 0:
-                toast("description can not be empty")
-            else:
+            title = self.root.get_screen("main").ids.task_title.text
+            description = self.root.get_screen("main").ids.task_description.text
+            todo_time_str = self.todo_time
 
-                # Use task_file_name for the file name
+            todo_time_datetime = datetime.strptime(todo_time_str, "%I:%M %p")
+            time_str = todo_time_datetime.strftime("%I:%M %p")
+
+            start_date = self.range[0].strftime("%Y-%m-%d")
+            end_date = self.range[-1].strftime("%Y-%m-%d")
+            cate_file = "categories-file.json"
+
+            if self.category_text == "":
+                if os.path.exists(cate_file) and os.path.getsize(cate_file) > 0:
+                    self.category_text = "all"
+                else:
+                    self.category_text = "all"
+                    self.add_category(self.category_text)
+            elif len(title) == 0 or len(description) == 0:
+                toast("Title and description cannot be empty")
+            elif len(self.todo_list) == 0:
+                toast("add at least on task")
+            else:
                 task_file_name = "tasks-file.json"
 
-                # task_file = 'tasks-file.json'
+                task_id = str(uuid.uuid4())
+
                 tasks = {
+                    'id': task_id,
                     'category': self.category_text,
                     'title': title,
                     'description': description,
@@ -2854,42 +2994,120 @@ class Tasksivate(MDApp):
                     'total_tasks_count': len(self.completed_tasks) + len(self.uncompleted_tasks)
                 }
 
-                # ...
-
                 if os.path.exists(task_file_name) and os.path.getsize(task_file_name) > 0:
-                    # Load existing data from the JSON file
+                    # If the file exists, load existing data from the JSON file
                     with open(task_file_name, "r") as tasks_file:
                         task_data = json.load(tasks_file)
-                    #
                     if 'task_body' in task_data:
                         # Append new task data to existing data
                         task_data['task_body'].append(tasks)
                     else:
                         task_data['task_body'] = [tasks]
                 else:
+                    # If the file doesn't exist, create it with initial data
                     task_data = {"task_body": [tasks]}
 
-                # Write the updated data back to the JSON file
                 with open(task_file_name, "w") as task_file_obj:
                     json.dump(task_data, task_file_obj, indent=4)
 
-
-            self.show_all_categories()
-            self.root.get_screen("main").ids.task_title.text = ""
-            self.root.get_screen("main").ids.task_description.text = ""
-            self.root.get_screen("main").ids.todo_card_manager.clear_widgets()
+                self.show_all_categories()
+                self.root.get_screen("main").ids.task_title.text = ""
+                self.root.get_screen("main").ids.task_description.text = ""
+                self.root.get_screen("main").ids.todo_card_manager.clear_widgets()
+                self.load_home_cate()
+                self.load_home_tasks()
+                self.todo_list = []
+                self.completed_tasks = []
+                self.uncompleted_tasks = []
+                self.change_screen("home")
         except Exception as error:
-            toast(f"{error}")
-        self.load_home_tasks()
-        self.todo_list = []
-        self.completed_tasks = []
-        self.uncompleted_tasks = []
-        self.change_screen("home")
+            if len(self.range) < 1:
+                toast("please select your date rang!")
+            else:
+                toast(f"{error}")
+
+    # def add_full_todo(self):
+    #     # ...
+    #     title = self.root.get_screen("main").ids.task_title.text
+    #     description = self.root.get_screen("main").ids.task_description.text
+    #     # Assuming self.todo_time is a string in the format "HH:MM" or "HH:MM:SS"
+    #     todo_time_str = self.todo_time
+    #
+    #     # Convert string time to a datetime object
+    #     todo_time_datetime = datetime.strptime(todo_time_str, "%H:%M %p")
+    #
+    #     # Format the datetime object as a string with AM/PM
+    #     time_str = todo_time_datetime.strftime("%I:%M %p")
+    #     try:
+    #         # ...
+    #         start_date = self.range[0].strftime("%Y-%m-%d")  # Convert start date to string
+    #         end_date = self.range[-1].strftime("%Y-%m-%d")  # Convert end date to string
+    #         # time_str = self.todo_time.strftime("%H:%M %p")  # Convert time to string
+    #         if self.category_text == "":
+    #             self.category_text = "all"
+    #         elif len(title) == 0:
+    #             toast("title can not be empty")
+    #         elif len(description) == 0:
+    #             toast("description can not be empty")
+    #         else:
+    #
+    #             # Use task_file_name for the file name
+    #             task_file_name = "tasks-file.json"
+    #             task_id = str(uuid.uuid4())
+    #
+    #             # task_file = 'tasks-file.json'
+    #             tasks = {
+    #                 'id': task_id,
+    #                 'category': self.category_text,
+    #                 'title': title,
+    #                 'description': description,
+    #                 'start_date': start_date,
+    #                 'end_date': end_date,
+    #                 'time': time_str,
+    #                 'tasks': self.todo_list,
+    #                 'completed_tasks': self.completed_tasks,
+    #                 'uncompleted_tasks': self.uncompleted_tasks,
+    #                 'completed_tasks_count': len(self.completed_tasks),
+    #                 'uncompleted_tasks_count': len(self.uncompleted_tasks),
+    #                 'total_tasks_count': len(self.completed_tasks) + len(self.uncompleted_tasks)
+    #             }
+    #
+    #             # ...
+    #
+    #             if os.path.exists(task_file_name) and os.path.getsize(task_file_name) > 0:
+    #                 # Load existing data from the JSON file
+    #                 with open(task_file_name, "r") as tasks_file:
+    #                     task_data = json.load(tasks_file)
+    #                 #
+    #                 if 'task_body' in task_data:
+    #                     # Append new task data to existing data
+    #                     task_data['task_body'].append(tasks)
+    #                 else:
+    #                     task_data['task_body'] = [tasks]
+    #             else:
+    #                 task_data = {"task_body": [tasks]}
+    #
+    #             # Write the updated data back to the JSON file
+    #             with open(task_file_name, "w") as task_file_obj:
+    #                 json.dump(task_data, task_file_obj, indent=4)
+    #
+    #         self.show_all_categories()
+    #         self.root.get_screen("main").ids.task_title.text = ""
+    #         self.root.get_screen("main").ids.task_description.text = ""
+    #         self.root.get_screen("main").ids.todo_card_manager.clear_widgets()
+    #     except Exception as error:
+    #         toast(f"{error}")
+    #     self.load_home_tasks()
+    #     self.todo_list = []
+    #     self.completed_tasks = []
+    #     self.uncompleted_tasks = []
+    #     self.change_screen("home")
 
     def focus_description(self):
         descr = self.root.get_screen("main").ids.task_description
         descr.focus = True
 
+    @mainthread
     def edit_task(self, task_card):
         self.root.get_screen("main").ids.edit_todo_card_manager.clear_widgets()
         title = task_card.ids.title.text
@@ -2914,9 +3132,13 @@ class Tasksivate(MDApp):
                     self.category_text = task_body['category']
                     completed_tasks = task_body['completed_tasks']
                     uncompleted_tasks = task_body['uncompleted_tasks']
+                    self.todo_time = task_body["time"]
                     self.uncompleted_tasks = uncompleted_tasks
                     self.completed_tasks = completed_tasks
                     self.todo_list = todo_list
+                    self.start_date = task_body['start_date']
+                    self.end_date = task_body['end_date']
+                    self.date_range = [self.start_date, self.end_date]
                     # print(self.completed_tasks)
                     self.root.get_screen("main").ids.edit_task_title.text = title
                     self.root.get_screen("main").ids.edit_task_description.text = description
@@ -2928,7 +3150,7 @@ class Tasksivate(MDApp):
                         ToCa = EditTodoCard()
                         ToCa.ids.todo_text.text = card
                         # print(f"this is the state before disabled {ToCa.ids.md_check_box.state}")
-                        ToCa.ids.md_check_box.active = "down"
+                        ToCa.ids.md_check_box.state = "down"
                         # print(f"this is the state after disabled {ToCa.ids.md_check_box.state}")
                         self.root.get_screen("main").ids.edit_todo_card_manager.add_widget(ToCa)
 
@@ -2946,6 +3168,9 @@ class Tasksivate(MDApp):
                     self.completed_tasks = completed_tasks
                     self.category_text = task['category']
                     todo_list = task['tasks']
+                    self.todo_time = task["time"]
+                    self.start_date = task['start_date']
+                    self.end_date = task['end_date']
                     self.todo_list = todo_list
                     self.root.get_screen("main").ids.edit_task_title.text = title
                     self.root.get_screen("main").ids.edit_task_description.text = description
@@ -2957,7 +3182,7 @@ class Tasksivate(MDApp):
                     for card in self.completed_tasks:
                         ToCa = EditTodoCard()
                         # print(f"this is the state before disabled {ToCa.ids.md_check_box.state}")
-                        ToCa.ids.md_check_box.active = "down"
+                        ToCa.ids.md_check_box.state = "down"
                         # print(f"this is the state after disabled {ToCa.ids.md_check_box.state}")
                         ToCa.ids.todo_text.text = card
                         self.root.get_screen("main").ids.edit_todo_card_manager.add_widget(ToCa)
@@ -2972,6 +3197,7 @@ class Tasksivate(MDApp):
             )
             snackbar.open()
 
+    @mainthread
     def save_edit_task(self, task_card):
         # Access the data from the clicked NoteCard
         title = self.root.get_screen("main").ids.edit_task_title.text
@@ -2982,6 +3208,20 @@ class Tasksivate(MDApp):
         tasks = data["task_body"]
 
         task_updated = False  # To track whether the task has been updated
+        todo_time_str = self.todo_time
+
+        # Convert string time to a datetime object
+        todo_time_datetime = datetime.strptime(todo_time_str, "%H:%M %p")
+
+        # Format the datetime object as a string with AM/PM
+        time_str = todo_time_datetime.strftime("%I:%M %p")
+
+        if self.range:
+            start_date = self.range[0].strftime("%Y-%m-%d")  # Convert start date to string
+            end_date = self.range[-1].strftime("%Y-%m-%d")  # Convert end date to string
+        else:
+            start_date = self.start_date
+            end_date = self.end_date  # Set default values when self.range is empty
 
         # Find the task to edit
         for task in tasks:
@@ -2991,45 +3231,63 @@ class Tasksivate(MDApp):
                 task["description"] = description
                 task["completed_tasks"] = self.completed_tasks
                 task["uncompleted_tasks"] = self.uncompleted_tasks
-                task["uncompleted_tasks_count"] = self.uncompleted_tasks_count
-                task["completed_tasks_count"] = self.completed_tasks_count
+                task["uncompleted_tasks_count"] = len(self.uncompleted_tasks)
+                task["completed_tasks_count"] = len(self.completed_tasks)
+                task["start_date"] = start_date
+                task["end_date"] = end_date
+                task["time"] = self.todo_time
                 task["category"] = self.category_text
                 task["tasks"] = self.todo_list
+                task["total_tasks_count"] = len(self.todo_list)
                 task_updated = True
                 break  # Exit the loop once the task is found and updated
+            if task["id"] in self.notified_tasks:
+                self.notified_tasks.remove(task['id'])
+
+            if task["id"] in self.notified_tasks2:
+                self.notified_tasks2.remove(task['id'])
 
         if not task_updated:
-            pass
+            toast("task not updated")
         # Handle the case where no matching task was found
         # You might want to show an error message or take appropriate action here
+        if len(self.todo_list) > 0:
+            with open("tasks-file.json", "w") as task_file:
+                json.dump(data, task_file, indent=4)
 
-        with open("tasks-file.json", "w") as task_file:
-            json.dump(data, task_file, indent=4)
+            # Clear the task layout before adding the tasks
+            self.root.get_screen("main").ids.edit_todo_card_manager.clear_widgets()
 
-        # Clear the task layout before adding the edited images
-        self.root.get_screen("main").ids.edit_todo_card_manager.clear_widgets()
-
-        # Clear the task layout before reloading the notes
-        self.root.get_screen("main").ids.task_card_layout.clear_widgets()
-        self.root.get_screen("main").ids.pending_task.text = str(0)
-        self.root.get_screen("main").ids.completed_task_text.text = str(0)
-        self.root.get_screen("main").ids.total_task_count.text = str(0)
-        self.root.get_screen("main").ids.total_task_progress_count.text = str(0)
-        self.root.get_screen("main").ids.total_completed_task_count.text = str(0)
-        self.root.get_screen("main").ids.insight_pics.source = self.root.get_screen("main").ids.edit_profile_pics.source
-        self.root.get_screen(
-            "main").ids.notify_text1.text = f"You've got a total of [color=#FFAA17]0[/color] Tasks"
-        self.load_home_tasks()
-        self.show_all_categories()
-
+            # Clear the task layout before reloading the tasks
+            self.root.get_screen("main").ids.pending_task.text = str(0)
+            self.root.get_screen("main").ids.completed_task_text.text = str(0)
+            self.root.get_screen("main").ids.total_task_count.text = str(0)
+            self.root.get_screen("main").ids.total_task_progress_count.text = str(0)
+            self.root.get_screen("main").ids.total_completed_task_count.text = str(0)
+            self.root.get_screen(
+                "main").ids.notify_text1.text = f"You've got a total of [color=#FFAA17]0[/color] Tasks"
+            self.root.get_screen("main").ids.task_card_layout.data = []
+            self.root.get_screen("main").ids.progress_card_layout.data = []
+            self.root.get_screen("main").ids.completed_card_layout.data = []
+            self.load_home_tasks()
+            self.show_all_categories()
+            self.change_screen("home")
+        else:
+            toast("add at least on task")
+        self.task_card_body = []
+        self.progress_card_body = []
+        self.completed_tasks = []
+    @mainthread
     def show_delete_cate_dialog(self, title):
         dialog = DeleteCateDialog(title=title)
         dialog.open()
 
+    @mainthread
     def close_delete_cate_dialog(self, *args):
         dialog = DeleteCateDialog()
         dialog.dismiss()
 
+    @mainthread
     def delete_category(self, title):
         # category = self.root.ids.title.text
         with open("categories-file.json", "r") as file:
@@ -3040,7 +3298,7 @@ class Tasksivate(MDApp):
         for item in categories:
             if item["categories"] == title:
                 if title == "all":
-                    toast("You can't delete this!")
+                    toast("You can't delete this category!")
                     break
                 else:
                     categories.remove(item)
@@ -3053,6 +3311,7 @@ class Tasksivate(MDApp):
         self.show_all_categories()
         self.close_delete_cate_dialog()
 
+    @mainthread
     def show_delete_todo_dialog(self, todo):
         # categories_manager = self.root.get_screen("main").ids.category_manager
         # cate = categories_manager.ids.title.text
@@ -3108,10 +3367,12 @@ class Tasksivate(MDApp):
     def close_edit_todo_dialog(self, *args):
         self.edit_todo_dialog.dismiss()
 
+    @mainthread
     def show_delete_task_dialog(self, title, description):
         dialog = DeleteTaskDialog(title=title, subtitle=description)
         dialog.open()
 
+    @mainthread
     def close_task_dialog(self, *args):
         dialog = DeleteTaskDialog()
         dialog.dismiss()
@@ -3130,6 +3391,7 @@ class Tasksivate(MDApp):
 
             if todo.ids.todo_text.text in tasks:
                 tasks.remove(todo.ids.todo_text.text)
+                print(todo.ids.todo_text.text)
             if todo.ids.todo_text.text in completed_tasks:
                 completed_tasks.remove(todo.ids.todo_text.text)
             elif todo.ids.todo_text.text in uncompleted_tasks:
@@ -3142,6 +3404,8 @@ class Tasksivate(MDApp):
             with open("tasks-file.json", "w") as file:
                 json.dump(data, file, indent=4)
 
+            # remove the task from the list
+            # self.todo_list.remove(todo.ids.todo_text.text)
             # Remove the widget from the layout
             self.root.get_screen("main").ids.edit_todo_card_manager.remove_widget(todo)
 
@@ -3150,12 +3414,10 @@ class Tasksivate(MDApp):
             # self.close_edit_todo_dialog()
             break  # Exit the loop when a match is found
         else:
-            print(f"this is  the self.todo_list{self.todo_list}")
             if todo.ids.todo_text.text in self.todo_list:
                 self.todo_list.remove(todo.ids.todo_text.text)
                 # Remove the widget from the layout
                 self.root.get_screen("main").ids.edit_todo_card_manager.remove_widget(todo)
-            print(f"this is  the self.todo_list{self.todo_list}")
             # Close the edit_todo_dialog
             self.close_delete_edit_todo_dialog()
 
@@ -3187,11 +3449,9 @@ class Tasksivate(MDApp):
                 # self.root.get_screen("main").ids.edit_todo_card_manager.remove_widget(todo)
                 self.todo_dialog.dismiss()
         else:
-            print(f"this is  the self.todo_list{self.todo_list}")
             if todo.ids.todo_text.text in self.todo_list:
                 self.todo_list.remove(todo.ids.todo_text.text)
                 self.root.get_screen("main").ids.todo_card_manager.remove_widget(todo)
-            print(f"this is  the self.todo_list{self.todo_list}")
             self.todo_dialog.dismiss()
 
     @mainthread
@@ -3233,11 +3493,7 @@ class Tasksivate(MDApp):
 
     @mainthread
     def get_all_progress(self):
-        self.total_task = 0
-        self.completed_count = 0
-        self.todo_count = 0
-        progress_card_body = []
-
+        self.progress_card_body = []
         try:
             with open('tasks-file.json') as json_file:
                 data = json.load(json_file)
@@ -3250,7 +3506,6 @@ class Tasksivate(MDApp):
                 total_tasks_count = task_data['total_tasks_count']
                 end_date = task_data['end_date']
 
-                from datetime import datetime, date
                 # ... (continue with the remaining code to display the task data)
                 # Convert the string to a datetime object
                 date_obj = datetime.strptime(end_date, "%Y-%m-%d")
@@ -3262,7 +3517,7 @@ class Tasksivate(MDApp):
                 # Get the month, date, and day
                 month = date_obj.strftime("%b")  # Full month name
                 day = date_obj.strftime("%a")  # Full weekday name
-                date = date_obj.strftime("%d")  # Day of the month (with leading zero)
+                date_ = date_obj.strftime("%d")  # Day of the month (with leading zero)
 
                 # Get the formatted date
                 formatted_date = date_obj.strftime("%A, %d")
@@ -3287,13 +3542,12 @@ class Tasksivate(MDApp):
                         Todocard.ids.category.text = category
                         Todocard.ids.percent.text = f"{str(task_percent)}%"
                         Todocard.ids.progress.value = task_percent
-                        self.progress_count += 1
                         # self.root.get_screen("main").ids.all_progress_layout.add_widget(Todocard)
                         text_date = ""
                         if given_date < todays_date:
                             text_date = f"Expired"
                         else:
-                            text_date = f"till {day}, {date} {month}"
+                            text_date = f"till {day}, {date_} {month}"
                         progress_dict = {
                             "title": title,
                             "description": description,
@@ -3302,23 +3556,24 @@ class Tasksivate(MDApp):
                             "percent": f"{str(task_percent)}%",
                             "progress": task_percent
                         }
-                        progress_card_body.append(progress_dict)
-                    self.root.get_screen("main").ids.all_progress_layout.data = progress_card_body
+                        self.progress_card_body.append(progress_dict)
         except:
             pass
         total_task_progress_count = self.root.get_screen("main").ids.total_task_progress_count.text
         self.root.get_screen(
             "main").ids.all_progress_text.text = f"You've got a total of [color=#FFAA17]{str(self.progress_count)}[/color] Tasks in Progress"
-        if len(progress_card_body) == 0:
+        if len(self.progress_card_body) == 0:
             self.root.get_screen("main").ids.progress_text.text = "No Tasks in Progress"
+        else:
+            self.root.get_screen("main").ids.progress_text.text = ""
+        self.root.get_screen("main").ids.all_progress_layout.data = self.progress_card_body
 
     @mainthread
     def get_all_completed(self):
-        self.total_task = 0
-        self.completed_count = 0
-        self.todo_count = 0
-        task_completed_body = []
-
+        # self.total_task = 0
+        # self.completed_count = 0
+        # self.todo_count = 0
+        self.completed_body = []
         try:
             with open('tasks-file.json') as json_file:
                 data = json.load(json_file)
@@ -3331,7 +3586,6 @@ class Tasksivate(MDApp):
                 total_tasks_count = task_data['total_tasks_count']
                 end_date = task_data['end_date']
 
-                from datetime import datetime, date
                 # ... (continue with the remaining code to display the task data)
                 # Convert the string to a datetime object
                 date_obj = datetime.strptime(end_date, "%Y-%m-%d")
@@ -3343,7 +3597,7 @@ class Tasksivate(MDApp):
                 # Get the month, date, and day
                 month = date_obj.strftime("%b")  # Full month name
                 day = date_obj.strftime("%a")  # Full weekday name
-                date = date_obj.strftime("%d")  # Day of the month (with leading zero)
+                date_ = date_obj.strftime("%d")  # Day of the month (with leading zero)
 
                 # Get the formatted date
                 formatted_date = date_obj.strftime("%A, %d")
@@ -3360,31 +3614,32 @@ class Tasksivate(MDApp):
                     completeCard.ids.description.text = description
                     completeCard.ids.percent.text = f"{str(task_percent)}%"
                     completeCard.ids.progress.value = task_percent
-                    self.completed_count += 1
                     completed_dict = {
                         "title": title,
                         "description": description,
                         "percent": f"{str(task_percent)}%",
                         "progress": task_percent
                     }
-                    task_completed_body.append(completed_dict)
+                    self.task_completed_body.append(completed_dict)
         except:
             pass
 
-        self.root.get_screen("main").ids.all_completed_layout.data = task_completed_body
+        self.root.get_screen("main").ids.all_completed_layout.data = self.task_completed_body
         # self.root.get_screen("main").ids.all_completed_layout.add_widget(completeCard)
         self.root.get_screen(
             "main").ids.all_completed_text.text = f"You've got a total of [color=#FFAA17]{str(self.completed_count)}[/color] Completed Tasks"
-        if len(task_completed_body) == 0:
+        if len(self.task_completed_body) == 0:
             self.root.get_screen("main").ids.completed_text.text = "No Completed Tasks yet!"
+        else:
+            self.root.get_screen("main").ids.completed_text.text = ""
 
     @mainthread
     def get_all_tasks(self):
         # self.root.get_screen("main").ids.all_tasks_layout.clear_widgets()
-        self.total_task = 0
-        self.completed_count = 0
-        self.todo_count = 0
-        task_card_body = []
+        # self.total_task = 0
+        # self.completed_count = 0
+        # self.todo_count = 0
+        self.task_card_body = []
         date_text = ""
         try:
             with open('tasks-file.json') as json_file:
@@ -3397,8 +3652,8 @@ class Tasksivate(MDApp):
                 completed_tasks_count = task_data['completed_tasks_count']
                 total_tasks_count = task_data['total_tasks_count']
                 end_date = task_data['end_date']
+                task_time = task_data['time']
 
-                from datetime import datetime, date
                 # ... (continue with the remaining code to display the task data)
                 # Convert the string to a datetime object
                 date_obj = datetime.strptime(end_date, "%Y-%m-%d")
@@ -3410,7 +3665,7 @@ class Tasksivate(MDApp):
                 # Get the month, date, and day
                 month = date_obj.strftime("%b")  # Full month name
                 day = date_obj.strftime("%a")  # Full weekday name
-                date = date_obj.strftime("%d")  # Day of the month (with leading zero)
+                date_ = date_obj.strftime("%d")  # Day of the month (with leading zero)
 
                 # Get the formatted date
                 formatted_date = date_obj.strftime("%A, %d")
@@ -3420,28 +3675,101 @@ class Tasksivate(MDApp):
                     # Todocard.ids.description.text = description
                     # Todocard.ids.date_range.text = f"till {day}, {date} {month}"
                     # Todocard.ids.category.text = category
-                    self.todo_count += 1
+                    # Todocard.ids.task_time.text = task_time
+                    # self.todo_count += 1
                     # self.root.get_screen("main").ids.all_tasks_layout.add_widget(Todocard)
                     if given_date < todays_date:
                         date_text = f"Expired"
                     else:
-                        date_text = f"till {day}, {date} {month}"
-                    self.root.get_screen(
-                        "main").ids.all_tasks_text.text = f"You've got a [color=#FFAA17]{str(self.todo_count)}[/color] pending Tasks"
+                        date_text = f"till {day}, {date_} {month}"
 
                     task_dict = {
                         "title": title,
                         "description": description,
                         "category": category,
                         "end_date": date_text,
+                        "task_time": task_time,
                         "md_bg_color": random.choice(self.bg_colors)
                     }
-                    task_card_body.append(task_dict)
+                    self.task_card_body.append(task_dict)
         except:
             pass
-        self.root.get_screen("main").ids.all_tasks_layout.data = task_card_body
-        if len(task_card_body) == 0:
+        self.root.get_screen("main").ids.all_tasks_layout.data = self.task_card_body
+
+        self.root.get_screen(
+            "main").ids.all_tasks_text.text = f"You've got [color=#FFAA17]{str(self.todo_count)}[/color] pending Tasks"
+        if len(self.task_card_body) == 0:
             self.root.get_screen("main").ids.tasks_text.text = "No Available Tasks"
+        else:
+            self.root.get_screen("main").ids.tasks_text.text = ""
+
+    @mainthread
+    def edit_task_notification(self, *args):
+        try:
+            with open('tasks-file.json') as json_file:
+                data = json.load(json_file)
+
+            current_time = datetime.now().strftime("%I:%M %p")
+            for task_data in data['task_body']:
+                task_id = task_data['id']
+                if task_id not in self.edit_notifier:
+                    todays_date = date.today()
+                    title = task_data['title']
+                    tasks = task_data['tasks']
+                    description = task_data['description']
+                    start_date = task_data['start_date']
+                    end_date = task_data['end_date']
+                    task_time = task_data["time"]
+
+                    if start_date == str(todays_date) and task_time == current_time:
+                        self.notification_id +=1
+                        snackbar = CustomSnackbar(
+                            text=f"It's time for {title} \n {description}",
+                            icon="information",
+                            pos_hint={"center_y": .95},
+                            buttons=[MDFlatButton(text="Ok", theme_text_color="Custom", text_color=(1, 1, 1, 1))]
+                        )
+                        snackbar.open()
+                        self.send_notification(title=f"Reminder! It's time for {title}", text=f"{description}")
+                                                   #message='\n'.join(tasks[0]))
+                        self.edit_notifier.append(task_id)
+
+                    if end_date == str(todays_date) and task_time == current_time:
+                        self.notification_id += 1
+                        snackbar = CustomSnackbar(
+                            text=f"It's time for {title} \n {description}",
+                            icon="information",
+                            pos_hint={"center_y": .95},
+                            buttons=[MDFlatButton(text="Ok", theme_text_color="Custom", text_color=(1, 1, 1, 1))]
+                        )
+                        snackbar.open()
+                        self.send_notification(title=f"Reminder! It's time for {title}", text=f"{description}")
+                                               #message='\n'.join(tasks[:]))
+
+                        self.edit_notifier.append(task_id)
+        except:
+            pass
+
+    @mainthread
+    def send_notification(self, title, text, extras=None):
+        # Create a notification using the code from the first snippet
+        self.id += 1
+        if platform == "android":
+            create_notification(
+                small_icon=get_resource("mipmap").icon,
+                channel_id="ch1",
+                title=title,
+                text=text,
+                ids=self.id,
+                channel_name=f"It's Important! to perform this task",
+                large_icon="store/myicon.png",
+                small_icon_color=Color().rgb(0x00, 0xC8, 0x53),
+                big_picture="store/myicon.png",
+                action_title1="action1",
+                reply_title="reply",
+                key_text_reply="TEST_KEY",
+                extras=extras,
+            )
 
     @mainthread
     def get_current_notification(self, *args):
@@ -3449,202 +3777,112 @@ class Tasksivate(MDApp):
             with open('tasks-file.json') as json_file:
                 data = json.load(json_file)
 
+            current_time = datetime.now().strftime("%I:%M %p")
             for task_data in data['task_body']:
-                category = task_data['category']
-                title = task_data['title']
-                description = task_data['description']
-                completed_tasks_count = task_data['completed_tasks_count']
-                total_tasks_count = task_data['total_tasks_count']
-                start_data = task_data['start_date']
-                end_date = task_data['end_date']
-                task_time = task_data["time"]
+                task_id = task_data['id']
+                if task_id not in self.notified_tasks:
+                    todays_date = date.today()
+                    title = task_data['title']
+                    tasks = task_data['tasks']
+                    description = task_data['description']
+                    start_date = task_data['start_date']
+                    end_date = task_data['end_date']
+                    task_time = task_data["time"]
 
-                from datetime import datetime, date
-                # ... (continue with the remaining code to display the task data)
-                # Convert the string to a datetime object
-                date_obj = datetime.strptime(end_date, "%Y-%m-%d")
-                given_date = date_obj.date()
-                todays_date = date.today()
+                    if start_date == str(todays_date) and task_time == current_time:
+                        self.notification_id +=1
+                        snackbar = CustomSnackbar(
+                            text=f"It's time for {title} \n {description}",
+                            icon="information",
+                            pos_hint={"center_y": .95},
+                            buttons=[MDFlatButton(text="Ok", theme_text_color="Custom", text_color=(1, 1, 1, 1))]
+                        )
+                        snackbar.open()
 
-                # Get the weekday name
-                weekday = date_obj.strftime("%a")
-                # Get the month, date, and day
-                month = date_obj.strftime("%b")  # Full month name
-                day = date_obj.strftime("%a")  # Full weekday name
-                month_date = date_obj.strftime("%d")  # Day of the month (with leading zero)
-                # Get the formatted date
-                formatted_date = date_obj.strftime("%A, %d")
-                current_time = datetime.now().time()
-                if start_data == todays_date:
-                    create_notification(
-                        small_icon=get_resource("drawable").ico_nocenstore,  # app icon
-                        channel_id="1", title="Task Reminder",
-                        text=f"Reminder {task_data['title']} starts Today! \n {task_data['description']}",
-                        ids=1, channel_name=f"ch1",
-                        large_icon="store/mylogo",
-                        expandable=False,
-                        small_icon_color=Color().rgb(0x00, 0xC8, 0x53),  # 0x00 0xC8 0x53 is same as 00C853
-                        big_picture="store/mylogo"
-                    )
+                        self.send_notification(title=f"Reminder! It's time for {title}",
+                                                   text=f"{description}")
+                            # plyer.notification(title=f"Reminder! It's time for {title}", message=f"Important! to perform this task")
+                        self.notified_tasks.append(task_id)
 
-                elif end_date == todays_date:
-                    create_notification(
-                        small_icon=get_resource("drawable").ico_nocenstore,  # app icon
-                        channel_id="1", title="Task Reminder",
-                        text=f"Reminder {task_data['title']} ends Today! \n {task_data['description']}",
-                        ids=1, channel_name=f"ch1",
-                        large_icon="store/mylogo",
-                        expandable=False,
-                        small_icon_color=Color().rgb(0x00, 0xC8, 0x53),  # 0x00 0xC8 0x53 is same as 00C853
-                        big_picture="store/mylogo"
-                    )
-
-                if (start_data == todays_date or end_date == todays_date) and task_time == current_time:
-                    create_notification(
-                        small_icon=get_resource("drawable").ico_nocenstore,  # app icon
-                        channel_id="1", title="Task Reminder",
-                        text=f"It's time for {task_data['title']} \n {task_data['description']}",
-                        ids=1, channel_name=f"ch1",
-                        large_icon="store/mylogo",
-                        expandable=False,
-                        small_icon_color=Color().rgb(0x00, 0xC8, 0x53),  # 0x00 0xC8 0x53 is same as 00C853
-                        big_picture="store/mylogo"
-                    )
-                    # plyer.notification.notify(title='Task Reminder!', message=f"It's time for {title} \n {description}",
-                    #                           app_name='Tasksivate', app_icon='store/app-icon.ico', timeout=10)
-                    snackbar = CustomSnackbar(
-                        text=f"It's time for {task_data['title']}",
-                        icon="information",
-                        pos_hint={"center_y": .95},
-                        buttons=[MDFlatButton(text="ACTION", theme_text_color="Custom", text_color=(1, 1, 1, 1))]
-                    )
-                    snackbar.open()
+                    elif end_date == str(todays_date) and task_time == current_time:
+                        self.notification_id += 1
+                        snackbar = CustomSnackbar(
+                            text=f"It's time for {title} \n {description}",
+                            icon="information",
+                            pos_hint={"center_y": .95},
+                            buttons=[MDFlatButton(text="Ok", theme_text_color="Custom", text_color=(1, 1, 1, 1))]
+                        )
+                        snackbar.open()
+                        self.send_notification(title=f"Reminder! It's time for {title}", text=f"{description}")
+                                               # message='\n'.join(tasks[:]))
+                        self.notified_tasks.append(task_id)
         except:
             pass
 
     @mainthread
-    def tasks_notification(self, *args):
+    def get_notification(self, *args):
+        try:
+            with open('tasks-file.json') as json_file:
+                data = json.load(json_file)
+            current_time = datetime.now().strftime("%I:%M %p")
+            for task_data in data['task_body']:
+                task_id = task_data['id']
+                if task_id not in self.notified_tasks2:
+                    todays_date = date.today()
+                    title = task_data['title']
+                    tasks = task_data['tasks']
+                    description = task_data['description']
+                    start_date = task_data['start_date']
+                    end_date = task_data['end_date']
+                    task_time = task_data["time"]
+                    if start_date == str(todays_date):
+                        self.notification_id += 1
+                        snackbar = CustomSnackbar(
+                            text=f"Reminder {title} starts Today! \n {description}",
+                            icon="information",
+                            pos_hint={"center_y": .95},
+                            buttons=[MDFlatButton(text="Ok", theme_text_color="Custom", text_color=(1, 1, 1, 1))]
+                        )
+                        snackbar.open()
+                        self.send_notification(title=f"Reminder! {title} starts Today!",
+                                                   text=f"{description}") #message=f"Important! get prepared its almost time") #message='\n'.join(tasks[:]))
+                        self.notified_tasks2.append(task_id)
+
+        except:
+            pass
+
+    @mainthread
+    def get_notification2(self, *args):
         try:
             with open('tasks-file.json') as json_file:
                 data = json.load(json_file)
 
+            current_time = datetime.now().strftime("%I:%M %p")
             for task_data in data['task_body']:
-                category = task_data['category']
-                title = task_data['title']
-                description = task_data['description']
-                completed_tasks_count = task_data['completed_tasks_count']
-                total_tasks_count = task_data['total_tasks_count']
-                end_date = task_data['end_date']
-
-                from datetime import datetime, date
-                # ... (continue with the remaining code to display the task data)
-                # Convert the string to a datetime object
-                date_obj = datetime.strptime(end_date, "%Y-%m-%d")
-                given_date = date_obj.date()
-                todays_date = date.today()
-
-                # Get the weekday name
-                weekday = date_obj.strftime("%a")
-                # Get the month, date, and day
-                month = date_obj.strftime("%b")  # Full month name
-                day = date_obj.strftime("%a")  # Full weekday name
-                date = date_obj.strftime("%d")  # Day of the month (with leading zero)
-                if completed_tasks_count == 0:
-                    TC = TaskCard()
-                    TC.ids.category.text = category
-                    TC.ids.title.text = title
-                    TC.ids.description.text = description
-                    if given_date < todays_date:
-                        create_notification(
-                            small_icon=get_resource("drawable").ico_nocenstore,  # app icon
-                            channel_id="1", title="Task Reminder",
-                            text=f"you have some Expired undone Task.",
-                            ids=1, channel_name=f"ch1",
-                            large_icon="store/mylogo",
-                            expandable=False,
-                            small_icon_color=Color().rgb(0x00, 0xC8, 0x53),  # 0x00 0xC8 0x53 is same as 00C853
-                            big_picture="store/mylogo"
-                        )
-                        # plyer.notification.notify(title='Task Reminder',
-                        #                           message=f"you have some Expired undone Task.",
-                        #                           app_name='Taskivate', app_icon='store/app-icon.ico', timeout=10)
+                task_id = task_data['id']
+                if task_id not in self.notified_tasks2:
+                    todays_date = date.today()
+                    title = task_data['title']
+                    tasks = task_data['tasks']
+                    description = task_data['description']
+                    start_date = task_data['start_date']
+                    end_date = task_data['end_date']
+                    task_time = task_data["time"]
+                    if end_date == str(todays_date):
+                        self.notification_id += 1
                         snackbar = CustomSnackbar(
-                            text=f"you have some Expired undone Task.",
+                            text=f"Reminder {title} ends Today! \n {description}",
                             icon="information",
                             pos_hint={"center_y": .95},
-                            buttons=[MDFlatButton(text="ACTION", theme_text_color="Custom", text_color=(1, 1, 1, 1))]
+                            buttons=[MDFlatButton(text="Ok", theme_text_color="Custom", text_color=(1, 1, 1, 1))]
                         )
                         snackbar.open()
-                    else:
-                        create_notification(
-                            small_icon=get_resource("drawable").ico_nocenstore,  # app icon
-                            channel_id="1", title="Task Reminder",
-                            text=f"you have some undone Task.",
-                            ids=1, channel_name=f"ch1",
-                            large_icon="store/mylogo",
-                            expandable=False,
-                            small_icon_color=Color().rgb(0x00, 0xC8, 0x53),  # 0x00 0xC8 0x53 is same as 00C853
-                            big_picture="store/mylogo"
-                        )
-                        # plyer.notification.notify(title='Task Reminder',
-                        #                           message=f"you have some undone Task.",
-                        #                           app_name='Tasksivate', app_icon='store/app-icon.ico', timeout=10)
-                        snackbar = CustomSnackbar(
-                            text=f"you have some undone Task.",
-                            icon="information",
-                            pos_hint={"center_y": .95},
-                            buttons=[MDFlatButton(text="ACTION", theme_text_color="Custom", text_color=(1, 1, 1, 1))]
-                        )
-                        snackbar.open()
-                else:
-                    completeness = completed_tasks_count / total_tasks_count
-                    task_percent = round(completeness * 100)
-                    if task_percent == 100:
-                        completeCard = CompletedCard()
+                        self.send_notification(title=f"Reminder! {title} ends Today!", text=f"{description}")
+                                                   # message='\n'.join(tasks[:]))
+                                                   # message=f"Important!! you are running out of time")
 
-                    else:
-                        if given_date < todays_date:
-                            create_notification(
-                                small_icon=get_resource("drawable").ico_nocenstore,  # app icon
-                                channel_id="1", title="Task Reminder",
-                                text=f"you have some Expired pending Task.",
-                                ids=1, channel_name=f"ch1",
-                                large_icon="store/mylogo",
-                                expandable=False,
-                                small_icon_color=Color().rgb(0x00, 0xC8, 0x53),  # 0x00 0xC8 0x53 is same as 00C853
-                                big_picture="store/mylogo"
-                            )
-                            # plyer.notification.notify(title='Task Reminder',
-                            #                           message=f"you have some Expired pending Task.",
-                            #                           app_name='Tasksivate', app_icon='store/app-icon.ico', timeout=10)
-                            snackbar = CustomSnackbar(
-                                text=f"you have some Expired pending Task.",
-                                icon="information",
-                                pos_hint={"center_y": .95},
-                                buttons=[MDFlatButton(text="ACTION", text_color=(1, 1, 1, 1))]
-                            )
-                            snackbar.open()
-                        else:
-                            create_notification(
-                                small_icon=get_resource("drawable").ico_nocenstore,  # app icon
-                                channel_id="1", title="Task Reminder",
-                                text=f"you have some pending Task.",
-                                ids=1, channel_name=f"ch1",
-                                large_icon="store/mylogo",
-                                expandable=False,
-                                small_icon_color=Color().rgb(0x00, 0xC8, 0x53),  # 0x00 0xC8 0x53 is same as 00C853
-                                big_picture="store/mylogo"
-                            )
-                            # plyer.notification.notify(title='Task Reminder',
-                            #                           message=f"you have some pending Task.",
-                            #                           app_name='Tasksivate', app_icon='store/app-icon.ico', timeout=10)
-                            snackbar = CustomSnackbar(
-                                text=f"you have some pending Task.",
-                                icon="information",
-                                pos_hint={"center_y": .95},
-                                buttons=[MDFlatButton(text="ACTION", text_color=(1, 1, 1, 1))]
-                            )
-                            snackbar.open()
+                        self.notified_tasks2.append(task_id)
+
         except:
             pass
 
@@ -3653,9 +3891,11 @@ class Tasksivate(MDApp):
         self.total_task = 0
         self.completed_count = 0
         self.todo_count = 0
-        task_card_body = []
-        progress_card_body = []
-        completed_body = []
+        self.progress_count = 0
+        self.task_card_body = []
+        self.completed_body = []
+        self.progress_card_body = []
+
         try:
             task_file = 'tasks-file.json'
 
@@ -3673,6 +3913,7 @@ class Tasksivate(MDApp):
                 completed_tasks_count = task_data['completed_tasks_count']
                 total_tasks_count = task_data['total_tasks_count']
                 end_date = task_data['end_date']
+                task_time = task_data["time"]
 
                 from datetime import datetime, date
                 # ... (continue with the remaining code to display the task data)
@@ -3702,7 +3943,7 @@ class Tasksivate(MDApp):
                     self.root.get_screen("main").ids.total_task_count.text = str(self.todo_count)
                     # self.root.get_screen("main").ids.task_card_layout.add_widget(TC)
                     if given_date < todays_date:
-                        date_text = f"Expired"
+                        date_text = f"Expired {day}, {date} {month}"
                     else:
                         date_text = f"till {day}, {date} {month}"
 
@@ -3711,10 +3952,11 @@ class Tasksivate(MDApp):
                         "description": description,
                         "category": category,
                         "end_date": date_text,
+                        "task_time": task_time,
                         "md_bg_color": random.choice(self.bg_colors)
                     }
-                    task_card_body.append(task_dict)
-                    self.root.get_screen("main").ids.task_card_layout.data = task_card_body
+                    self.task_card_body.append(task_dict)
+                    self.root.get_screen("main").ids.task_card_layout.data = self.task_card_body
                 else:
                     completeness = completed_tasks_count / total_tasks_count
                     task_percent = round(completeness * 100)
@@ -3730,10 +3972,10 @@ class Tasksivate(MDApp):
                             "percent": f"{str(task_percent)}%",
                             "progress": task_percent
                         }
-                        completed_body.append(completed_dict)
+                        self.completed_body.append(completed_dict)
                         self.completed_count += 1
                         self.root.get_screen("main").ids.total_completed_task_count.text = str(self.completed_count)
-                        self.root.get_screen("main").ids.completed_card_layout.data = completed_body #add_widget(completeCard)
+                        self.root.get_screen("main").ids.completed_card_layout.data = self.completed_body #add_widget(completeCard)
                     else:
                         Todocard = ProgressCard()
                         Todocard.ids.title.text = title
@@ -3747,7 +3989,7 @@ class Tasksivate(MDApp):
                         # self.root.get_screen("main").ids.progress_card_layout.data = progress_card_body#add_widget(Todocard)
                         text_date = ""
                         if given_date < todays_date:
-                            text_date = f"Expired"
+                            text_date = f"Expired {day}, {date} {month}"
                         else:
                             text_date = f"till {day}, {date} {month}"
 
@@ -3759,8 +4001,8 @@ class Tasksivate(MDApp):
                             "percent": f"{str(task_percent)}%",
                             "progress": task_percent
                         }
-                        progress_card_body.append(progress_dict)
-                        self.root.get_screen("main").ids.progress_card_layout.data = progress_card_body
+                        self.progress_card_body.append(progress_dict)
+                        self.root.get_screen("main").ids.progress_card_layout.data = self.progress_card_body
         except:
             snackbar = CustomSnackbar(
                 text="you currently have no task",
@@ -3773,11 +4015,12 @@ class Tasksivate(MDApp):
         total_task_count = self.root.get_screen("main").ids.total_task_count.text
         total_task_progress_count = self.root.get_screen("main").ids.total_task_progress_count.text
         total_completed_task_count = self.root.get_screen("main").ids.total_completed_task_count.text
-        self.total_task = int(total_task_count) + int(total_task_progress_count)
+        self.total_task = int(total_task_count) + int(total_task_progress_count) + int(total_completed_task_count)
         self.root.get_screen("main").ids.pending_task.text = str(self.total_task)
         self.root.get_screen("main").ids.completed_task_text.text = total_completed_task_count
         self.root.get_screen("menu").ids.all_tasks.text = str(self.total_task)
-        self.root.get_screen("menu").ids.pending_tasks.text = str(total_task_progress_count)
+        self.root.get_screen("menu").ids.progress_tasks.text = str(total_task_progress_count)
+        self.root.get_screen("menu").ids.pending_tasks.text = str(total_task_count)
         self.root.get_screen("menu").ids.completed_tasks.text = str(total_completed_task_count)
         self.root.get_screen("main").ids.insight_pics.source = self.root.get_screen("main").ids.edit_profile_pics.source
         self.root.get_screen(
@@ -3828,6 +4071,7 @@ class Tasksivate(MDApp):
             with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp_file:
                 plt.savefig(temp_file, format='png')
                 temp_file.close()
+                plt.close()
                 file_path = temp_file.name
 
             # Assign the file path to the Image widget's source property
@@ -3872,6 +4116,7 @@ class Tasksivate(MDApp):
             with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp_file:
                 plt.savefig(temp_file, format='png')
                 temp_file.close()
+                plt.close()
                 file_path = temp_file.name
 
             # Assign the file path to the Image widget's source property
@@ -3911,6 +4156,7 @@ class Tasksivate(MDApp):
             with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp_file:
                 plt.savefig(temp_file, format='png')
                 temp_file.close()
+                plt.close()
                 file_path = temp_file.name
 
             # Assign the file path to the Image widget's source property
@@ -3980,6 +4226,7 @@ class Tasksivate(MDApp):
             with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp_file:
                 plt.savefig(temp_file, format='png')
                 temp_file.close()
+                plt.close()
                 file_path = temp_file.name
 
             # Assign the file path to the Image widget's source property
@@ -4001,7 +4248,6 @@ class Tasksivate(MDApp):
 
     def logout(self):
         self.close_logout_dialog()
-
         self.show_loading_dialog()
         Clock.schedule_once(self.close_loading_dialog, 9)
         Clock.schedule_once(self.logout_page, 10)
@@ -4070,6 +4316,38 @@ class Tasksivate(MDApp):
     def close_dialog(self, *args):
         self.show_cate_dialog.dismiss()
 
+    def add_category(self, label):
+        categories = {
+            "categories": label
+        }
+        cate_file_path = "categories-file.json"
+
+        if os.path.exists(cate_file_path) and os.path.getsize(cate_file_path) > 0:
+            with open(cate_file_path, "r") as cate_file:
+                note_data = json.load(cate_file)
+
+                if "categories" in note_data:
+                    # Check if the label is already in the list of categories
+                    # Use a list comprehension to extract the values of the dictionaries
+                    existing_categories = [cate["categories"] for cate in note_data["categories"]]
+                    if label in existing_categories:
+                        toast(f"{label} already exists, try something else")
+                        # Return from the function without updating the file
+                        return
+
+                    else:
+                        note_data["categories"].append(categories)
+                else:
+                    note_data["categories"] = [categories]
+        else:
+            note_data = {"categories": [categories]}
+
+        with open(cate_file_path, "w") as cate_file:
+            json.dump(note_data, cate_file, indent=4)
+        self.show_all_categories()
+        self.show_categories_dialog()
+
+    @mainthread
     def process_input(self, label):
         # print("Entered text:", label)
         categories = {
@@ -4101,9 +4379,12 @@ class Tasksivate(MDApp):
             json.dump(note_data, cate_file, indent=4)
 
         # self.root.get_screen("main").ids.category_manager.clear_widgets()
+        if self.confirmation_dialog:
+            self.confirmation_dialog.dismiss()
+        else:
+            pass
         self.show_all_categories()
-        self.confirmation_dialog.dismiss()
-        toast("Don't forget to pick a category")
+        self.show_categories_dialog()
         self.root.get_screen('main').ids.cat_layout.clear_widgets()
 
     def add_todo(self, label):
@@ -4123,64 +4404,72 @@ class Tasksivate(MDApp):
             self.root.get_screen("main").ids.todo_card_manager.add_widget(TDC)
             self.close_add_task_dialog()
 
+    @mainthread
     def show_add_task_dialog(self, *args):
-        content = MDTextField(
-            hint_text="Enter your Add Task",
-            helper_text="Required",
-            helper_text_mode="on_error"
-        )
-        if not self.confirmation_dialog:
-            self.add_task_dialog = MDDialog(
-                title="Category:",
-                type="custom",
-                content_cls=content,
-                buttons=[
-                    MDFlatButton(
-                        text="CANCEL",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=self.close_add_task_dialog
-                    ),
-                    MDFlatButton(
-                        text="OK",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=lambda x: self.add_todo(content.text)
-                    ),
-                ],
+        try:
+            content = MDTextField(
+                hint_text="Enter your Add Task",
+                helper_text="Required",
+                helper_text_mode="on_error"
             )
-        self.add_task_dialog.open()
+            if not self.confirmation_dialog:
+                self.add_task_dialog = MDDialog(
+                    title="Category:",
+                    type="custom",
+                    content_cls=content,
+                    buttons=[
+                        MDFlatButton(
+                            text="CANCEL",
+                            theme_text_color="Custom",
+                            text_color=self.theme_cls.primary_color,
+                            on_release=self.close_add_task_dialog
+                        ),
+                        MDFlatButton(
+                            text="OK",
+                            theme_text_color="Custom",
+                            text_color=self.theme_cls.primary_color,
+                            on_release=lambda x: self.add_todo(content.text)
+                        ),
+                    ],
+                )
+            self.add_task_dialog.open()
+        except Exception as error:
+            toast(f"{error}")
 
     def close_add_task_dialog(self, *args):
         self.add_task_dialog.dismiss()
 
+    @mainthread
     def show_edit_task_dialog(self, *args):
-        content = MDTextField(
-            hint_text="Enter your Task",
-            helper_text="Required",
-            helper_text_mode="on_error"
-        )
-        if not self.edit_task_dialog:
-            self.edit_task_dialog = MDDialog(
-                title="Tasks:",
-                type="custom",
-                content_cls=content,
-                buttons=[
-                    MDFlatButton(
-                        text="CANCEL",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=self.close_edit_task_dialog
-                    ),
-                    MDFlatButton(
-                        text="OK",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=lambda x: self.edit_todo(content.text)
-                    ),
-                ],
+        try:
+            content = MDTextField(
+                hint_text="Enter your Task",
+                helper_text="Required",
+                helper_text_mode="on_error"
             )
-        self.edit_task_dialog.open()
+            if not self.edit_task_dialog:
+                self.edit_task_dialog = MDDialog(
+                    title="Tasks:",
+                    type="custom",
+                    content_cls=content,
+                    buttons=[
+                        MDFlatButton(
+                            text="CANCEL",
+                            theme_text_color="Custom",
+                            text_color=self.theme_cls.primary_color,
+                            on_release=self.close_edit_task_dialog
+                        ),
+                        MDFlatButton(
+                            text="OK",
+                            theme_text_color="Custom",
+                            text_color=self.theme_cls.primary_color,
+                            on_release=lambda x: self.edit_todo(content.text)
+                        ),
+                    ],
+                )
+            self.edit_task_dialog.open()
+        except:
+            pass
 
     def close_edit_task_dialog(self, *args):
         self.edit_task_dialog.dismiss()
@@ -4251,7 +4540,7 @@ class Tasksivate(MDApp):
         # function to calculate the BMI
     def toast_coped(self):
         snackbar = CustomSnackbar(
-            text=f"Text Copied",
+            text=f"Text Copied Successfully",
             icon="check",
             pos_hint={"center_y": .95},
             buttons=[MDFlatButton(text="DONE", theme_text_color="Custom", text_color=(1, 1, 1, 1))]
@@ -4296,6 +4585,8 @@ class Tasksivate(MDApp):
     def change_screen(self, screen_name):
         self.nav_drawer_close()
         self.root.get_screen("main").ids.scrn_mgnr.current = screen_name
+        self.root.get_screen("main").ids.nav_icon1.icon_color = "#abb3ac"
+        self.root.get_screen("main").ids.nav_icon2.icon_color = self.main_primary_color
 
     def change_page(self, page_name):
         self.root.get_screen("page").ids.scrn_mgnr.current = page_name
@@ -5316,6 +5607,7 @@ class TaskCard(ElevatedWidget, MDCard):
     title = StringProperty()
     description = StringProperty()
     end_date = StringProperty()
+    task_time = StringProperty()
     category = StringProperty()
     md_bg_color = ColorProperty()
 
@@ -5342,6 +5634,7 @@ class AllTasksCard(ElevatedWidget, MDCard):
     title = StringProperty()
     description = StringProperty()
     end_date = StringProperty()
+    task_time = StringProperty()
     category = StringProperty()
 
 
@@ -5385,7 +5678,7 @@ class MyMagicButton(MagicBehavior, MDIconButton):
 class CustomSnackbar(BaseSnackbar):
     text = StringProperty(None)
     icon = StringProperty(None)
-    font_size = NumericProperty("15sp")
+    font_size = NumericProperty("13sp")
 
 
 class RV(RecycleView):
